@@ -49,7 +49,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Employee List</h1>
+            <h1>Patient List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -90,11 +90,11 @@
                     </thead>
                     <tbody>
                       <tr v-for="e in filtersearch"  :key="e.id">
-                        <td><a href="#">{{e.PatientName}}</a></td>
-                        <td>{{e.HospitalNo}}</td>
+                        <td><a href="#">{{e.patientname}}</a></td>
+                        <td>{{e.patientid}}</td>
                         <td>{{e.PK_psPatRegisters}}</td>
-                        <td><span class="badge badge-success">{{e.registrystatus}}</span></td>
-                        <td>{{e.gender}}</td>
+                        <td><span class="badge badge-success">{{e.regx}}</span></td>
+                        <td>{{e.sex}}</td>
                         <td>
                            <!--  <router-link :to="{name: 'edit-employee',params:{id:e.id}}" class="btn btn-sm btn-warning">Edit</router-link >
                             <a href="javascript:void(0)" @click="deleteRecord(e.id)" class="btn btn-sm btn-danger">Delete</a> -->
@@ -147,7 +147,7 @@
         computed:{
             filtersearch(){
                 return this.employees.filter(e => {
-                  return e.PatientName.match(this.searchTerm)
+                  return e.patientname.match(this.searchTerm)
                 })
             }
         },

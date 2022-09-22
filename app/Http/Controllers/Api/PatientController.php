@@ -16,14 +16,16 @@ class PatientController extends Controller
         $length = 10;
         $start = $request->start?$request->start:0;
         $val = $request->searchTerm2;
-        /* if($val!=''||$start>0){   
-            $data =  DB::connection('mysql')->select("select * from employee where name like '%".$val."%' LIMIT $length offset $start");
-            $count =  DB::connection('mysql')->select("select * from employee where name like '%".$val."%'");
-        }else{
-            $data =  DB::connection('mysql')->select("select * from employee where name like '%".$val."%' LIMIT $length");
-            $count =  DB::connection('mysql')->select("select * from employee where name like '%".$val."%'");
-        } */
         if($val!=''||$start>0){   
+            $data =  DB::connection('pgsql')->select("select * from patients_1 where patientname like '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
+            $count =  DB::connection('pgsql')->select("select * from patients_1 where patientname like '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+        }else{
+            $data =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
+        }
+        
+        $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
+        /* if($val!=''||$start>0){   
             $data = DB::connection('bizbox_uk')->select("SELECT PK_psPatRegisters,
             CAST(a.registrydate as varchar(30)) as registrydate,
             a.chiefcomplaint,
@@ -172,8 +174,8 @@ class PatientController extends Controller
             AND     dbo.udf_GetFullName(a.FK_emdPatients) like '%$val%'
             AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
             ORDER BY PatientName");
-        }
-        $datasets = array(["data"=>$data,"count"=>round(sizeof($count)/$length)]);
+        } */
+        $datasets = array(["data"=>$data,"count"=>round(sizeof($count)/$length)],"summary"=>($start+10)." of ".$count_all_record[0]->count);
         return response()->json($datasets);
     }
     

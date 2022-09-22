@@ -2687,7 +2687,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return this.employees.filter(function (e) {
-        return e.PatientName.match(_this.searchTerm);
+        return e.patientname.match(_this.searchTerm);
       });
     }
   },
@@ -47362,21 +47362,21 @@ var render = function () {
                         return _c("tr", { key: e.id }, [
                           _c("td", [
                             _c("a", { attrs: { href: "#" } }, [
-                              _vm._v(_vm._s(e.PatientName)),
+                              _vm._v(_vm._s(e.patientname)),
                             ]),
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(e.HospitalNo))]),
+                          _c("td", [_vm._v(_vm._s(e.patientid))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(e.PK_psPatRegisters))]),
                           _vm._v(" "),
                           _c("td", [
                             _c("span", { staticClass: "badge badge-success" }, [
-                              _vm._v(_vm._s(e.registrystatus)),
+                              _vm._v(_vm._s(e.regx)),
                             ]),
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(e.gender))]),
+                          _c("td", [_vm._v(_vm._s(e.sex))]),
                           _vm._v(" "),
                           _c("td"),
                         ])
@@ -47436,7 +47436,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row mb-2" }, [
           _c("div", { staticClass: "col-sm-6" }, [
-            _c("h1", [_vm._v("Employee List")]),
+            _c("h1", [_vm._v("Patient List")]),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-sm-6" }, [
