@@ -2607,6 +2607,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2617,8 +2673,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      form: {
+        searchTerm2: null,
+        start: 0
+      },
       employees: [],
-      searchTerm: ''
+      searchTerm: '',
+      countRecords: 0
     };
   },
   computed: {
@@ -2626,7 +2687,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return this.employees.filter(function (e) {
-        return e.name.match(_this.searchTerm);
+        return e.PatientName.match(_this.searchTerm);
       });
     }
   },
@@ -2634,9 +2695,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     allEmployee: function allEmployee() {
       var _this2 = this;
 
-      axios.get('/api/employee').then(function (_ref) {
+      //axios.get('/api/employee')
+      axios.get('/api/patientEmployee').then(function (_ref) {
         var data = _ref.data;
-        return _this2.employees = data;
+        return _this2.employees = data[0].data, _this2.countRecords = data[0].count;
       })["catch"]();
     },
     pdf: function pdf() {
@@ -2678,6 +2740,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
         }
+      });
+    },
+    filterEmployee: function filterEmployee() {
+      var _this4 = this;
+
+      this.employees = [];
+      this.countRecords = null;
+      this.form.start = 0; //axios.post('/api/filterEmployee',this.form)
+
+      axios.post('/api/patientEmployee', this.form).then(function (res) {
+        _this4.employees = res.data[0].data;
+        _this4.countRecords = res.data[0].count;
+        console.log(res.data.data);
+      })["catch"](function (error) {
+        return _this4.errors = error.response.data.errors;
+      });
+    },
+    getPageNo: function getPageNo(id) {
+      var _this5 = this;
+
+      this.form.start = (id - 1) * 10; //alert(a)
+
+      /* this.employees = []
+      this.countRecords = null */
+      //axios.post('/api/filterEmployee',this.form)
+
+      axios.post('/api/patientEmployee', this.form).then(function (res) {
+        _this5.employees = res.data[0].data;
+        _this5.countRecords = res.data[0].count;
+        console.log(res.data.data);
+      })["catch"](function (error) {
+        return _this5.errors = error.response.data.errors;
       });
     }
   }
@@ -7421,7 +7515,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n", ""]);
+exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n", ""]);
 
 // exports
 
@@ -47184,149 +47278,150 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticClass: "row" },
-      [
-        _c(
-          "router-link",
-          { staticClass: "btn btn-primary", attrs: { to: "/add_employee" } },
-          [_vm._v("Add Employee")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-sm btn-danger",
-            attrs: { href: "javascript:void(0)" },
-            on: {
-              click: function ($event) {
-                return _vm.pdf()
-              },
-            },
-          },
-          [_vm._v("PDF")]
-        ),
-      ],
-      1
-    ),
+    _vm._m(0),
     _vm._v(" "),
-    _c("br"),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.searchTerm,
-          expression: "searchTerm",
-        },
-      ],
-      staticClass: "form-control",
-      staticStyle: { width: "300px" },
-      attrs: { type: "text", placeholder: "Search here" },
-      domProps: { value: _vm.searchTerm },
-      on: {
-        input: function ($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.searchTerm = $event.target.value
-        },
-      },
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12 mb-4" }, [
-        _c("div", { staticClass: "card" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "table-responsive" }, [
-            _c(
-              "table",
-              { staticClass: "table align-items-center table-flush" },
-              [
-                _vm._m(1),
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c(
+                "div",
+                { staticClass: "card-header" },
+                [
+                  _c("h3", { staticClass: "card-title" }, [_vm._v(" ")]),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-sm",
+                      attrs: { to: "/add_employee" },
+                    },
+                    [_vm._v("Add Employee")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-danger btn-sm",
+                      attrs: { href: "javascript:void(0)" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.pdf()
+                        },
+                      },
+                    },
+                    [_vm._v("PDF")]
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.searchTerm2,
+                      expression: "form.searchTerm2",
+                    },
+                  ],
+                  staticClass: "form-control to-right",
+                  staticStyle: { width: "300px" },
+                  attrs: { type: "text", placeholder: "Search here" },
+                  domProps: { value: _vm.form.searchTerm2 },
+                  on: {
+                    change: function ($event) {
+                      return _vm.filterEmployee()
+                    },
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "searchTerm2", $event.target.value)
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("br"),
+                _c("br"),
                 _vm._v(" "),
                 _c(
-                  "tbody",
-                  _vm._l(_vm.filtersearch, function (e) {
-                    return _c("tr", { key: e.id }, [
-                      _c("td", [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v(_vm._s(e.name)),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("img", {
-                          staticClass: "em_photo",
-                          attrs: { src: e.photo, alt: "" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(e.phone))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("span", { staticClass: "badge badge-success" }, [
-                          _vm._v(_vm._s(e.salary)),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-sm btn-primary",
-                            attrs: { href: "#" },
-                          },
-                          [_vm._v(_vm._s(_vm.formatDate(e.joined_date)))]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "btn btn-sm btn-warning",
-                              attrs: {
-                                to: {
-                                  name: "edit-employee",
-                                  params: { id: e.id },
-                                },
-                              },
-                            },
-                            [_vm._v("Edit")]
-                          ),
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-hover",
+                    attrs: { id: "myTable" },
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.filtersearch, function (e) {
+                        return _c("tr", { key: e.id }, [
+                          _c("td", [
+                            _c("a", { attrs: { href: "#" } }, [
+                              _vm._v(_vm._s(e.PatientName)),
+                            ]),
+                          ]),
                           _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(e.HospitalNo))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(e.PK_psPatRegisters))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("span", { staticClass: "badge badge-success" }, [
+                              _vm._v(_vm._s(e.registrystatus)),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(e.gender))]),
+                          _vm._v(" "),
+                          _c("td"),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "nav",
+                  {
+                    staticClass: "to-right",
+                    attrs: { "aria-label": "Page navigation example" },
+                  },
+                  [
+                    _c(
+                      "ul",
+                      { staticClass: "pagination" },
+                      _vm._l(this.countRecords, function (e, index) {
+                        return _c("li", { staticClass: "page-item" }, [
                           _c(
                             "a",
                             {
-                              staticClass: "btn btn-sm btn-danger",
-                              attrs: { href: "javascript:void(0)" },
+                              staticClass: "page-link",
+                              attrs: { href: "#" },
                               on: {
                                 click: function ($event) {
-                                  return _vm.deleteRecord(e.id)
+                                  return _vm.getPageNo(index + 1)
                                 },
                               },
                             },
-                            [_vm._v("Delete")]
+                            [_vm._v(_vm._s(index + 1))]
                           ),
-                        ],
-                        1
-                      ),
-                    ])
-                  }),
-                  0
+                        ])
+                      }),
+                      0
+                    ),
+                  ]
                 ),
-              ]
-            ),
+              ]),
+            ]),
           ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-footer" }),
         ]),
       ]),
     ]),
@@ -47337,18 +47432,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "card-header py-3 d-flex flex-row align-items-center justify-content-between",
-      },
-      [
-        _c("h6", { staticClass: "m-0 font-weight-bold text-primary" }, [
-          _vm._v("Employee List"),
+    return _c("section", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("h1", [_vm._v("Employee List")]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")]),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Employee"),
+              ]),
+            ]),
+          ]),
         ]),
-      ]
-    )
+      ]),
+    ])
   },
   function () {
     var _vm = this
@@ -64853,8 +64957,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\pro6\inventory\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\pro6\inventory\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\EMR-UK\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\EMR-UK\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -77,6 +77,19 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        
+        
+        'bizbox_uk' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_SQLSRV', '192.168.7.2'),
+            'port' => env('DB_PORT_SQLSRV', '1433'),
+            'database' => env('DB_DATABASE_SQLSRV', 'Livedb_bizbox8'),
+            'username' => env('DB_USERNAME_SQLSRV', 'sa'),
+            'password' => env('DB_PASSWORD_SQLSRV', 's@password1'),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
