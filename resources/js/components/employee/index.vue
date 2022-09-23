@@ -81,21 +81,23 @@
                     <thead class="thead-light">
                       <tr>
                         <th>Name</th>
-                        <th>Photo</th>
-                        <th>Phone</th>
-                        <th>Salary</th>
-                        <th>Date Joined</th>
-                        <th>Action</th>
+                        <th>Patient ID</th>
+                        <th>Registry No.</th>
+                        <th>Gender</th>
+                        <th>Physician</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="e in filtersearch"  :key="e.id">
-                        <td><a href="#">{{e.patientname}}</a></td>
-                        <td>{{e.patientid}}</td>
-                        <td>{{e.PK_psPatRegisters}}</td>
-                        <td><span class="badge badge-success">{{e.regx}}</span></td>
-                        <td>{{e.sex}}</td>
+                      <tr v-for="e in filtersearch"  :key="e.id">                        
                         <td>
+                          <!-- <router-link :to="{name: 'diagnose_from',params:{id:e.patientid}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link > -->
+                            <router-link :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link >
+                        </td>
+                        <td>{{e.patientid}}</td>
+                        <td>{{e.pk_pspatregisters}}</td>
+                        <td width="10">{{e.sex}}</td>
+                        <td>
+                         {{e.attending_phy}}
                            <!--  <router-link :to="{name: 'edit-employee',params:{id:e.id}}" class="btn btn-sm btn-warning">Edit</router-link >
                             <a href="javascript:void(0)" @click="deleteRecord(e.id)" class="btn btn-sm btn-danger">Delete</a> -->
                         </td>
@@ -142,6 +144,7 @@
                 employees:[],
                 searchTerm:'',
                 countRecords: 0,
+                getdctr: '-'
             }
         },
         computed:{
@@ -166,6 +169,21 @@
                 .catch() */
                 window.open("/api/pdf", '_blank');
             },
+          async  check_doctors_detail(id) {   
+            return await axios.get( '/api/check_doctors_detail/'+id)
+              .then(response => {
+                setTimeout(function() {
+                  return response.data;
+                }, 3000);
+
+              })
+             /*  .then((response) => {  
+                return  Promise.resolve(response.data); }) */
+
+            },
+          /* async  check_doctors_detail(id) {   
+             return await axios.get( '/api/check_doctors_detail/'+id)
+            }, */
             formatDate(date) {
                 const options = { year: 'numeric', month: 'long', day: 'numeric' }
                 return new Date(date).toLocaleDateString('en', options)
@@ -227,8 +245,12 @@
                   console.log(res.data.data)
               })
               .catch(error => this.errors = error.response.data.errors)
-            }
+            },
         },
+        /* mounted () {
+          axios.get('/api/check_doctors_detail/'+id)
+              .then(response => (this.getdctr = response))
+        }, */
         created(){
             this.allEmployee();
         }

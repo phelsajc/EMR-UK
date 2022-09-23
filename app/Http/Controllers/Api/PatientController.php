@@ -25,6 +25,26 @@ class PatientController extends Controller
         }
         
         $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
+
+        $data_array = array();
+
+        foreach ($data as $key => $value) {
+            $arr = array();
+
+            $arr['patientname'] =  $value->patientname;
+            if($value->attending_phy){
+                $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->attending_phy) as d"); 
+                $arr['attending_phy'] =  $physicians[0]->d;
+            }else{
+                $arr['attending_phy'] =  "";
+            }
+            $arr['chiefcomplaint'] =  $value->chiefcomplaint;
+            $arr['pk_pspatregisters'] =  $value->pk_pspatregisters;
+            $arr['patientid'] =  $value->patientid;
+            $arr['sex'] =  $value->sex;
+
+            $data_array[] = $arr;
+        }
         /* if($val!=''||$start>0){   
             $data = DB::connection('bizbox_uk')->select("SELECT PK_psPatRegisters,
             CAST(a.registrydate as varchar(30)) as registrydate,
@@ -175,10 +195,15 @@ class PatientController extends Controller
             AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
             ORDER BY PatientName");
         } */
-        $datasets = array(["data"=>$data,"count"=>round(sizeof($count)/$length)],"summary"=>($start+10)." of ".$count_all_record[0]->count);
+        $datasets = array(["data"=>$data_array,"count"=>round(sizeof($count)/$length)],"summary"=>($start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array);
         return response()->json($datasets);
     }
     
+    public function check_doctors_detail($id)
+    { 
+        $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($id) as d"); 
+        return response()->json($physicians[0]->d);
+    }
 
    
 }
