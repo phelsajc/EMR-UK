@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Employee;
+use App\Model\Diagnosis;
+use App\Model\Patient;
+use App\User;
 use Intervention\Image\ImageManagerStatic as Image;
 use DB;
 
@@ -13,6 +16,7 @@ class PatientController extends Controller
     
     public function filterEmployee(Request $request)
     {
+        //date_default_timezone_set('Asia/Manila');
         $length = 10;
         $start = $request->start?$request->start:0;
         $val = $request->searchTerm2;
@@ -203,6 +207,31 @@ class PatientController extends Controller
     { 
         $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($id) as d"); 
         return response()->json($physicians[0]->d);
+    }
+
+    public function saveInitialData(Request $request)
+    {
+        $diagnosis = new Diagnosis;
+        $diagnosis->o2_stat = $request->o2;
+        $diagnosis->temp = $request->temp;
+        $diagnosis->bp = $request->bp;
+        $diagnosis->weight = $request->weight;
+        $diagnosis->height = $request->height;
+        $diagnosis->chiefcomplaints = $request->chief_complaints;
+        $diagnosis->pulse_rate = $request->pulse_rate;
+        $diagnosis->rr = $request->rr;
+        $diagnosis->ps_patregisgter = $request->pspat;
+        $diagnosis->inserted_initial_data_dt = date("Y-m-d H:i");
+        $diagnosis->inserted_initial_data_by = $request->user_id;   
+        $diagnosis->save();
+
+        return true;
+    }
+
+    public function getPxInfo($pspat)
+    {
+        $data = Patient::where(['pk_pspatregisters'=>$pspat])->first();
+        return response()->json($data);
     }
 
    

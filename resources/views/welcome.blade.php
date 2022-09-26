@@ -241,7 +241,7 @@
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <router-link to="/add_employee" class="collapse-item">Add Employee</router-link>
+                      <router-link to="/add_employee" class="collapse-item"><p>Add Employee</p></router-link>
                     </a>
                   </li>  
                 </ul>
@@ -857,7 +857,7 @@
                 </a> --}}
                 <a href="#" class="nav-link">
                   <i class="nav-icon far fa-circle text-info"></i>
-                  <router-link to="/logout" class="ml-2 d-none d-lg-inline text-white small">Logout</router-link>
+                  <router-link to="/logout" class="ml-2 d-none d-lg-inline text-white small"><p>Logout</p></router-link>
                 </a>
               </li>
             </ul>

@@ -2297,6 +2297,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
+    alert(User.loggedIn());
+
     if (!User.loggedIn()) {
       this.$router.push({
         name: '/'
@@ -2365,540 +2367,214 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var _created$data$created;
+/* harmony import */ var _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/AppStorage */ "./resources/js/Helpers/AppStorage.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = (_created$data$created = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
       this.$router.push({
         name: '/'
       });
     }
+
+    this.getPatientInformation();
   },
   data: function data() {
     return {
       form: {
-        name: '',
-        email: '',
-        salary: '',
-        address: '',
-        joined_date: '',
-        nid: '',
-        phone: '',
-        newphone: '',
-        photo: ''
+        o2: '',
+        pulse_rate: '',
+        rr: '',
+        temp: '',
+        bp: '',
+        weight: '',
+        height: '',
+        chief_complaints: '',
+        pspat: this.$route.params.id,
+        user_id: User.user_id()
+      },
+      user_info: {
+        patientname: '',
+        contactno: '',
+        pk_pspatregisters: ''
       },
       errors: {}
     };
-  }
-}, _defineProperty(_created$data$created, "created", function created() {
-  var _this = this;
-
-  var id = this.$route.params.id;
-  axios.get('/api/employee/' + id).then(function (_ref) {
-    var data = _ref.data;
-    return _this.form = data;
-  })["catch"](console.log('error'));
-}), _defineProperty(_created$data$created, "methods", {
-  onFileSelected: function onFileSelected(event) {
-    var _this2 = this;
-
-    var file = event.target.files[0];
-
-    if (file.size > 1048770) {
-      Notification.image_Validation();
-      console.log(1);
-    } else {
-      var reader = new FileReader();
-
-      reader.onload = function (event) {
-        _this2.form.newphoto = event.target.result;
-      };
-
-      reader.readAsDataURL(file);
-    }
   },
-  employeeUpdate: function employeeUpdate() {
-    var _this3 = this;
+  methods: {
+    onFileSelected: function onFileSelected(event) {
+      var _this = this;
 
-    var id = this.$route.params.id;
-    axios.patch('/api/employee/' + id, this.form).then(function (res) {
-      _this3.$router.push({
-        name: 'all_employee'
+      var file = event.target.files[0];
+
+      if (file.size > 1048770) {
+        Notification.image_Validation();
+        console.log(1);
+      } else {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          _this.form.newphoto = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
+    addInitialdata: function addInitialdata() {
+      var _this2 = this;
+
+      /* axios.post('/api/saveInitialData',this.form,{headers: {
+          header1: 'value',
+      }}) */
+      axios.post('/api/saveInitialData', this.form).then(function (res) {
+        _this2.$router.push({
+          name: 'all_employee'
+        });
+
+        Notification.success();
+      })["catch"](function (error) {
+        return _this2.errors = error.response.data.errors;
       });
+    },
+    getPatientInformation: function getPatientInformation() {
+      var _this3 = this;
 
-      Notification.success();
-    })["catch"](function (error) {
-      return _this3.errors = error.response.data.errors;
-    });
+      axios.get('/api/getPxInfo/' + this.$route.params.id).then(function (_ref) {
+        var data = _ref.data;
+        return _this3.user_info = data;
+      })["catch"]();
+    }
   }
-}), _created$data$created);
+});
 
 /***/ }),
 
@@ -3095,8 +2771,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3231,13 +2905,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
+/* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
       this.$router.push({
         name: '/'
       });
     }
+
+    this.allEmployee();
   },
   data: function data() {
     return {
@@ -3372,9 +3048,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     }
   }
-}, "created", function created() {
-  this.allEmployee();
-}));
+  /* mounted () {
+    axios.get('/api/check_doctors_detail/'+id)
+        .then(response => (this.getdctr = response))
+  }, */
+
+  /* created(){
+      this.allEmployee();
+  } */
+
+});
 
 /***/ }),
 
@@ -8096,6 +7779,25 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.pull-right{\n   float:right !important;\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -43228,6 +42930,36 @@ try {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./diagnose.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/index.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/employee/index.vue?vue&type=style&index=0&lang=css& ***!
@@ -48229,1844 +47961,431 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c("div", { staticClass: "card card-success" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        { staticClass: "control-label text-right col-md-3" },
+                        [_vm._v("Patient:")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("p", { staticClass: "form-control-static" }, [
+                          _vm._v(_vm._s(_vm.user_info.patientname)),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        { staticClass: "control-label text-right col-md-3" },
+                        [_vm._v("Mobile #:")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "p",
+                          {
+                            staticClass: "form-control-static",
+                            attrs: { id: "mobileno" },
+                          },
+                          [_vm._v(_vm._s(_vm.user_info.contactno))]
+                        ),
+                      ]),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        { staticClass: "control-label text-right col-md-3" },
+                        [_vm._v("Registry #:")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "p",
+                          {
+                            staticClass: "form-control-static",
+                            attrs: { id: "ack_date" },
+                          },
+                          [_vm._v(_vm._s(_vm.user_info.pk_pspatregisters))]
+                        ),
+                      ]),
+                    ]),
+                  ]),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card card-primary" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "user",
+                    attrs: { enctype: "multipart/form-data" },
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.addInitialdata.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [
+                    _c("h4", [_vm._v("O2 Saturation")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.o2,
+                            expression: "form.o2",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.o2 },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "o2", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("Pulse Rate")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.pulse_rate,
+                            expression: "form.pulse_rate",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.pulse_rate },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "pulse_rate",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("RR")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.rr,
+                            expression: "form.rr",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.rr },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "rr", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("Temperature")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.temp,
+                            expression: "form.temp",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.temp },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "temp", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("BP")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.bp,
+                            expression: "form.bp",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.bp },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "bp", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("Weight (Kg)")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.weight,
+                            expression: "form.weight",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.weight },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "weight", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("Height (Cm)")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.height,
+                            expression: "form.height",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.height },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "height", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", [_vm._v("Chief Complaints")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.chief_complaints,
+                            expression: "form.chief_complaints",
+                          },
+                        ],
+                        staticClass: "form-control form-control-border",
+                        attrs: {
+                          type: "text",
+                          id: "exampleInputBorder",
+                          placeholder: "Enter value here",
+                        },
+                        domProps: { value: _vm.form.chief_complaints },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "chief_complaints",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(3),
+                  ]
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("section", { staticClass: "content-header" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row mb-2" }, [
-            _c("div", { staticClass: "col-sm-6" }, [_c("h1", [_vm._v(" ")])]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
-                _c("li", { staticClass: "breadcrumb-item" }, [
-                  _c("a", { attrs: { href: "#" } }, [_vm._v("Home")]),
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "breadcrumb-item active" }, [
-                  _vm._v("Employee"),
-                ]),
+    return _c("section", { staticClass: "content-header" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row mb-2" }, [
+          _c("div", { staticClass: "col-sm-6" }, [_c("h1", [_vm._v(" ")])]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("ol", { staticClass: "breadcrumb float-sm-right" }, [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Home")]),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "breadcrumb-item active" }, [
+                _vm._v("Employee"),
               ]),
             ]),
           ]),
         ]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Patient Information")]),
       _vm._v(" "),
-      _c("section", { staticClass: "content" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-12" }, [
-              _c("div", { staticClass: "card card-primary" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _c("h3", { staticClass: "card-title" }, [
-                    _vm._v("Patient Information"),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-tools" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-tool",
-                        attrs: {
-                          type: "button",
-                          "data-card-widget": "collapse",
-                        },
-                      },
-                      [_c("i", { staticClass: "fas fa-minus" })]
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          { staticClass: "control-label text-right col-md-3" },
-                          [_vm._v("Patient:")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c("p", {
-                            staticClass: "form-control-static",
-                            attrs: { id: "patient_name" },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          { staticClass: "control-label text-right col-md-3" },
-                          [_vm._v("Mobile #:")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c("p", {
-                            staticClass: "form-control-static",
-                            attrs: { id: "mobileno" },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group row" }, [
-                        _c(
-                          "label",
-                          { staticClass: "control-label text-right col-md-3" },
-                          [_vm._v("Registry Date:")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-9" }, [
-                          _c("p", {
-                            staticClass: "form-control-static",
-                            attrs: { id: "ack_date" },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    { staticClass: "nav nav-tabs", attrs: { role: "tablist" } },
-                    [
-                      _c(
-                        "li",
-                        { staticClass: "nav-item", attrs: { id: "presTab" } },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link active",
-                              attrs: {
-                                "data-toggle": "tab",
-                                href: "#profile",
-                                role: "tab",
-                              },
-                            },
-                            [
-                              _c("span", { staticClass: "hidden-sm-up" }, [
-                                _c("i", { staticClass: "ti-user" }),
-                              ]),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "hidden-xs-down" }, [
-                                _vm._v("Prescription"),
-                              ]),
-                            ]
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "li",
-                        { staticClass: "nav-item", attrs: { id: "diagTab" } },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link",
-                              attrs: {
-                                "data-toggle": "tab",
-                                href: "#messages",
-                                role: "tab",
-                              },
-                            },
-                            [
-                              _c("span", { staticClass: "hidden-sm-up" }, [
-                                _c("i", { staticClass: "ti-email" }),
-                              ]),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "hidden-xs-down" }, [
-                                _vm._v("Diagnostic"),
-                              ]),
-                            ]
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "li",
-                        { staticClass: "nav-item", attrs: { id: "AddTab" } },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "nav-link",
-                              attrs: {
-                                "data-toggle": "tab",
-                                href: "#adds_tab",
-                                role: "tab",
-                              },
-                            },
-                            [
-                              _c("span", { staticClass: "hidden-sm-up" }, [
-                                _c("i", { staticClass: "ti-email" }),
-                              ]),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "hidden-xs-down" }, [
-                                _vm._v("Additional Instruction"),
-                              ]),
-                            ]
-                          ),
-                        ]
-                      ),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "tab-content tabcontent-border" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane active",
-                        attrs: { id: "profile", role: "tabpanel" },
-                      },
-                      [
-                        _c("div", { staticClass: "table-responsive" }, [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c("div", { staticClass: "col-md-10" }, [
-                                  _c("div", { staticClass: "input-group" }, [
-                                    _c("input", {
-                                      staticClass:
-                                        "form-control form-control-sm",
-                                      attrs: {
-                                        id: "tags",
-                                        type: "hidden",
-                                        autofocus: "",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass: "input-group-btn",
-                                        attrs: { id: "btn-addon2" },
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-outline btn-sm btn-warning d-none",
-                                            attrs: {
-                                              type: "button",
-                                              id: "sm_smbtn",
-                                              onclick: "searchmed()",
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-search",
-                                            }),
-                                            _vm._v(" Search "),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "col-md-12 text-center" },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-success btn-outline  csbtn pull-center",
-                                            attrs: {
-                                              id: "pbm",
-                                              onclick: "prescribe_by_meal()",
-                                              type: "button",
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fab fa-apple",
-                                            }),
-                                            _vm._v(" "),
-                                            _c("br"),
-                                            _vm._v(" MEAL "),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-primary btn-outline csbtn pull-center",
-                                            attrs: {
-                                              id: "pbf",
-                                              onclick: "prescribe_by_freq()",
-                                              type: "button",
-                                            },
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-clock",
-                                            }),
-                                            _vm._v(" "),
-                                            _c("br"),
-                                            _vm._v(" FREQUENCY "),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]),
-                                ]),
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-group row" }, [
-                                _c(
-                                  "label",
-                                  { staticClass: "col-md-2 col-form-label" },
-                                  [
-                                    _vm._v("Medicine "),
-                                    _c("span", { staticClass: "text-danger" }, [
-                                      _vm._v("*"),
-                                    ]),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-md-12" }, [
-                                  _c("select", {
-                                    staticClass: "contacts",
-                                    staticStyle: { width: "100%" },
-                                    attrs: {
-                                      id: "tags_s",
-                                      placeholder: "Choose medicine...",
-                                    },
-                                  }),
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-primary d-none",
-                                    attrs: {
-                                      type: "button",
-                                      id: "mncbr",
-                                      onclick: "not_carried()",
-                                    },
-                                  },
-                                  [_vm._v("Medicine Not Carried by RMCI")]
-                                ),
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "table-responsive d-none" },
-                                [
-                                  _c(
-                                    "table",
-                                    {
-                                      staticClass:
-                                        "table table-striped table-hover",
-                                      attrs: { id: "tbl2" },
-                                    },
-                                    [
-                                      _c("thead", {}, [
-                                        _c("tr", [
-                                          _c("th", [_vm._v("Brand Name")]),
-                                          _vm._v(" "),
-                                          _c("th", [_vm._v("Generic name")]),
-                                          _vm._v(" "),
-                                          _c("th", [_vm._v("Status")]),
-                                          _vm._v(" "),
-                                          _c("th", [_vm._v("Quantity")]),
-                                        ]),
-                                      ]),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("div", { staticClass: "form-group" }, [
-                                _c(
-                                  "form",
-                                  {
-                                    attrs: {
-                                      id: "formPrescription",
-                                      enctype: "multipart/form-data",
-                                      method: "POST",
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                           { csrf_field() }\n                           "
-                                    ),
-                                    _c("input", {
-                                      attrs: {
-                                        type: "hidden",
-                                        name: "created_by",
-                                        id: "created_by",
-                                        value: "{$userg->id}}",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      attrs: {
-                                        type: "hidden",
-                                        name: "created_at",
-                                        id: "created_at",
-                                        value: "date Y-m-d",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "medecine_id",
-                                        id: "medecine_id",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "generic_name",
-                                        id: "generic_name",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "medecine_desc",
-                                        id: "medecine_desc",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "number",
-                                        name: "medecine_qty",
-                                        id: "medecine_qty",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "prescription_id",
-                                        id: "prescription_id",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "price",
-                                        id: "price",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "dc_price",
-                                        id: "dc_price",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticStyle: { display: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        name: "sc_price",
-                                        id: "sc_price",
-                                      },
-                                    }),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "d-none" }, [
-                                      _c("div", {}, [
-                                        _c("h3", [_vm._v("SELECTED:")]),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", {}, [
-                                        _c("div", {}, [
-                                          _c("h3", {
-                                            staticStyle: { color: "#3c763d" },
-                                            attrs: { id: "methodSelected" },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("div", { staticClass: "col-sm" }, [
-                                            _c("input", {
-                                              staticClass:
-                                                "form-control form-control-sm",
-                                              staticStyle: { color: "red" },
-                                              attrs: {
-                                                type: "hidden",
-                                                readonly: "",
-                                                id: "selectedmed",
-                                              },
-                                            }),
-                                          ]),
-                                        ]),
-                                      ]),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c("div", { staticClass: "col-md-3" }, [
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass: " d-none",
-                                            attrs: {
-                                              for: "",
-                                              id: "custom_bn_lbl",
-                                            },
-                                          },
-                                          [_vm._v("Brand Name")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          staticClass: "form-control d-none",
-                                          attrs: {
-                                            type: "text",
-                                            name: "custom_bn",
-                                            id: "custom_bn",
-                                            placeholder: "E.G NAPREX AMP - PNF",
-                                          },
-                                        }),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "col-md-3" }, [
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass: " d-none",
-                                            attrs: {
-                                              for: "",
-                                              id: "custom_gn_lbl",
-                                            },
-                                          },
-                                          [_vm._v("Generic Name")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          staticClass: "form-control d-none",
-                                          attrs: {
-                                            type: "text",
-                                            name: "custom_gn",
-                                            id: "custom_gn",
-                                            placeholder: "E.G PARACETAMOL",
-                                          },
-                                        }),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "col-md-3" }, [
-                                        _c(
-                                          "h5",
-                                          {
-                                            staticClass: " d-none",
-                                            attrs: {
-                                              for: "",
-                                              id: "custom_dose_lbl",
-                                            },
-                                          },
-                                          [_vm._v("Dose")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("input", {
-                                          staticClass: "form-control d-none",
-                                          attrs: {
-                                            type: "text",
-                                            name: "custom_dose",
-                                            id: "custom_dose",
-                                            placeholder: "E.G 500MG",
-                                          },
-                                        }),
-                                      ]),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "form-group d-none",
-                                        attrs: { id: "mealDiv" },
-                                      },
-                                      [
-                                        _c("div", { staticClass: "row" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("h5", [_vm._v("Breakfast:")]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "form-group" },
-                                                [
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "text",
-                                                      min: "0",
-                                                      max: "2",
-                                                      name: "bf_time",
-                                                      id: "bf_time",
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("h5", [_vm._v("Lunch:")]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "form-group" },
-                                                [
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "text",
-                                                      min: "0",
-                                                      max: "2",
-                                                      name: "ln_time",
-                                                      id: "ln_time",
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("h5", [_vm._v("Supper:")]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "form-group" },
-                                                [
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "text",
-                                                      min: "0",
-                                                      max: "2",
-                                                      name: "sp_time",
-                                                      id: "sp_time",
-                                                    },
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("label", [
-                                                    _vm._v("Due Date "),
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "text",
-                                                      min: "0",
-                                                      name: "due_m",
-                                                      id: "due_m",
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c(
-                                                "div",
-                                                { staticClass: "form-group" },
-                                                [
-                                                  _c("h5", [
-                                                    _vm._v("Before Bed Time:"),
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "text",
-                                                      min: "0",
-                                                      max: "2",
-                                                      name: "bbt_time",
-                                                      id: "bbt_time",
-                                                    },
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "number",
-                                                      min: "0",
-                                                      name: "days_m",
-                                                      id: "days_m",
-                                                      onkeydown:
-                                                        "validateNumber(event);",
-                                                      onchange: "computeQty()",
-                                                    },
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("label", [_vm._v("Qty ")]),
-                                                  _vm._v(" "),
-                                                  _c("input", {
-                                                    staticClass:
-                                                      "form-control form-control-sm",
-                                                    attrs: {
-                                                      type: "number",
-                                                      min: "0",
-                                                      name: "qty_m",
-                                                      id: "qty_m",
-                                                      onkeydown:
-                                                        "validateNumber(event);",
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "form-group d-none",
-                                        attrs: { id: "freqDiv" },
-                                      },
-                                      [
-                                        _c("div", { staticClass: "row" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("label", [
-                                                _vm._v("Frequency "),
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass: "text-danger",
-                                                  },
-                                                  [_vm._v("*")]
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _c(
-                                                "select",
-                                                {
-                                                  staticClass:
-                                                    "form-control form-control-sm",
-                                                  attrs: {
-                                                    name: "frequency",
-                                                    id: "frequency",
-                                                    onchange:
-                                                      "selectFrequency()",
-                                                  },
-                                                },
-                                                [
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        selected: "",
-                                                        disabled: "",
-                                                      },
-                                                    },
-                                                    [_vm._v(" Choose")]
-                                                  ),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "col-md-3 d-none",
-                                              attrs: { id: "DescDiv" },
-                                            },
-                                            [
-                                              _c("label", [
-                                                _vm._v("Description "),
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass: "text-danger",
-                                                  },
-                                                  [_vm._v("*")]
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("input", {
-                                                staticClass:
-                                                  "form-control form-control-sm",
-                                                attrs: {
-                                                  type: "text",
-                                                  name: "desc",
-                                                  id: "desc",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("label", [
-                                                _vm._v("Day/s "),
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass: "text-danger",
-                                                  },
-                                                  [_vm._v("*")]
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("input", {
-                                                staticClass:
-                                                  "form-control form-control-sm",
-                                                attrs: {
-                                                  type: "number",
-                                                  name: "days",
-                                                  id: "days",
-                                                  onchange: "calcF()",
-                                                  onkeydown:
-                                                    "validateNumber(event);",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("label", [
-                                                _vm._v("Quantity "),
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass: "text-danger",
-                                                  },
-                                                  [_vm._v("*")]
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("input", {
-                                                staticClass:
-                                                  "form-control form-control-sm",
-                                                attrs: {
-                                                  type: "text",
-                                                  name: "quantity",
-                                                  id: "quantity",
-                                                  placeholder:
-                                                    "Please Enter Quantity",
-                                                  onkeydown:
-                                                    "validateNumber(event);",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-3" },
-                                            [
-                                              _c("label", [
-                                                _vm._v("Due Date "),
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass: "text-danger",
-                                                  },
-                                                  [_vm._v("*")]
-                                                ),
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("input", {
-                                                staticClass:
-                                                  "form-control form-control-sm",
-                                                attrs: {
-                                                  type: "text",
-                                                  name: "due_f",
-                                                  id: "due_f",
-                                                  placeholder:
-                                                    "Please Enter Due Date",
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                        ]),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "form-group d-none",
-                                        attrs: { id: "InsDiv" },
-                                      },
-                                      [
-                                        _c("label", [
-                                          _vm._v("Instruction "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "text-danger" },
-                                            [_vm._v("*")]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("textarea", {
-                                          staticClass: "form-control",
-                                          attrs: {
-                                            name: "instruction",
-                                            id: "instruction",
-                                            cols: "30",
-                                            rows: "5",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "m-t-20 text-right" },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-primary btn-outline btn-sm",
-                                                attrs: {
-                                                  id: "sm",
-                                                  type: "button",
-                                                  onclick: "save_medicine()",
-                                                },
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fa fa-save",
-                                                }),
-                                                _vm._v(" Save "),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
-                                  ]
-                                ),
-                              ]),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "table",
-                            {
-                              staticClass:
-                                "table table-bordered display compact d-none",
-                              attrs: { id: "tblMeds", width: "100%" },
-                            },
-                            [
-                              _c("thead", {}, [
-                                _c("tr", [
-                                  _c("th", [_vm._v("Generic")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Brand")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Dosage")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Frequency")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Days")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Quantity")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Instruction")]),
-                                  _vm._v(" "),
-                                  _c("th", [_vm._v("Action")]),
-                                ]),
-                              ]),
-                            ]
-                          ),
-                        ]),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane p-20",
-                        attrs: { id: "messages", role: "tabpanel" },
-                      },
-                      [
-                        _c("div", { staticClass: "form-group row" }, [
-                          _c(
-                            "label",
-                            { staticClass: "col-md-2 col-form-label" },
-                            [
-                              _vm._v("Diagnostic "),
-                              _c("span", { staticClass: "text-danger" }, [
-                                _vm._v("*"),
-                              ]),
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-12" }, [
-                            _c("select", {
-                              staticClass: "contacts",
-                              staticStyle: { width: "100%" },
-                              attrs: {
-                                id: "diagnostic_search_s",
-                                placeholder: "Choose examination...",
-                              },
-                            }),
-                          ]),
-                          _vm._v(" "),
-                          _c("ul", { attrs: { id: "pck_detail" } }),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("div", { staticClass: "col-md-10" }, [
-                            _c("div", { staticClass: "input-group" }, [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "input-group-btn",
-                                  attrs: { id: "btn-addon3" },
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline btn-sm btn-warning d-none",
-                                      attrs: {
-                                        type: "button",
-                                        id: "searchdiag",
-                                        onclick: "searchdiagnostic()",
-                                      },
-                                    },
-                                    [
-                                      _c("i", { staticClass: "fa fa-search" }),
-                                      _vm._v(" Search "),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "form",
-                            {
-                              attrs: {
-                                id: "formDiagnostic",
-                                enctype: "multipart/form-data",
-                                method: "POST",
-                              },
-                            },
-                            [
-                              _c("input", {
-                                attrs: {
-                                  type: "hidden",
-                                  name: "created_by",
-                                  id: "created_by",
-                                  value: "{$userd->id}}",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticStyle: { display: "none" },
-                                attrs: {
-                                  type: "text",
-                                  name: "diagnostic",
-                                  id: "diagnostic",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticStyle: { display: "none" },
-                                attrs: {
-                                  type: "text",
-                                  name: "diagnostic_code",
-                                  id: "diagnostic_code",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticStyle: { display: "none" },
-                                attrs: {
-                                  type: "text",
-                                  name: "diagnostic_id",
-                                  id: "diagnostic_id",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticStyle: { display: "none" },
-                                attrs: {
-                                  type: "text",
-                                  name: "price",
-                                  id: "diagnostic_price",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticStyle: { display: "none" },
-                                attrs: {
-                                  type: "text",
-                                  name: "sc_price",
-                                  id: "diagnostic_sc_price",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass:
-                                  "form-control form-control-sm form-control form-control-sm-sm",
-                                attrs: {
-                                  type: "hidden",
-                                  readonly: "",
-                                  id: "selecteddiagnostic",
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "form-group",
-                                  attrs: { id: "DiagnosticInsDiv" },
-                                },
-                                [
-                                  _c("label", [_vm._v("Instruction ")]),
-                                  _vm._v(" "),
-                                  _c("textarea", {
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      name: "instructions",
-                                      id: "instruction_d",
-                                      cols: "30",
-                                      rows: "5",
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "m-t-20 text-right" },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-outline btn-primary btn-sm",
-                                          attrs: {
-                                            id: "sm",
-                                            type: "button",
-                                            onclick: "save_diagnostic()",
-                                          },
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-save",
-                                          }),
-                                          _vm._v(" Save "),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "table",
-                          {
-                            staticClass:
-                              "table  table-bordered display compact",
-                            attrs: { id: "tblDiagnosticResult", width: "100%" },
-                          },
-                          [
-                            _c("thead", {}, [
-                              _c("tr", [
-                                _c("th", [_vm._v("Diagnostic")]),
-                                _vm._v(" "),
-                                _c("th", [_vm._v("Instruction")]),
-                                _vm._v(" "),
-                                _c("th", [_vm._v("Action")]),
-                              ]),
-                            ]),
-                          ]
-                        ),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane p-20 ",
-                        attrs: { id: "adds_tab", role: "tabpanel" },
-                      },
-                      [
-                        _c(
-                          "form",
-                          {
-                            attrs: {
-                              id: "homeInsForm",
-                              enctype: "multipart/form-data",
-                              method: "POST",
-                            },
-                          },
-                          [
-                            _vm._v(
-                              "\n                   { csrf_field() }\n                   "
-                            ),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("div", { staticClass: "card" }, [
-                                _c("div", { staticClass: "card-body" }, [
-                                  _c("h4", { staticClass: "card-title" }, [
-                                    _vm._v("Diet/Nutrition"),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("hr"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "diet_ful",
-                                              value: "diet_full",
-                                              name: "diet",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "diet_ful" },
-                                            },
-                                            [_vm._v("Regular/Full")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "diet_soft",
-                                              value: "diet_soft",
-                                              name: "diet",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "diet_soft" },
-                                            },
-                                            [_vm._v("Soft")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "diet_salt",
-                                              value: "diet_salt",
-                                              name: "diet",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "diet_salt" },
-                                            },
-                                            [_vm._v("Low Salt")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "diet_fat",
-                                              value: "diet_fat",
-                                              name: "diet",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "diet_fat" },
-                                            },
-                                            [_vm._v("Low Fat")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "diet_other",
-                                              value: "diet_other",
-                                              name: "diet",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "diet_other" },
-                                            },
-                                            [_vm._v("Other")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
-                                      _c("label", [_vm._v("Specifications")]),
-                                      _vm._v(" "),
-                                      _c("textarea", {
-                                        staticClass: "form-control",
-                                        attrs: {
-                                          name: "diet_specs",
-                                          id: "diet_specs",
-                                          cols: "3",
-                                          rows: "3",
-                                        },
-                                      }),
-                                    ]),
-                                  ]),
-                                ]),
-                              ]),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("div", { staticClass: "card" }, [
-                                _c("div", { staticClass: "card-body" }, [
-                                  _c("h4", { staticClass: "card-title" }, [
-                                    _vm._v("Activity/Exercise"),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("hr"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "act_no_res",
-                                              value: "act_no_res",
-                                              name: "act",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "act_no_res" },
-                                            },
-                                            [_vm._v("No Restriction")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "act_w_res",
-                                              value: "act_w_res",
-                                              name: "act",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "act_w_res" },
-                                            },
-                                            [_vm._v("With Restriction")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _vm._v("(  "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "act_ass",
-                                              value: "act_ass",
-                                              name: "act_opt",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "act_ass" },
-                                            },
-                                            [_vm._v(" Assisted")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "form-check form-check-inline",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "custom-control custom-radio",
-                                        },
-                                        [
-                                          _c("input", {
-                                            staticClass: "custom-control-input",
-                                            attrs: {
-                                              type: "radio",
-                                              id: "act_ind",
-                                              value: "act_ind",
-                                              name: "act_opt",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "custom-control-label",
-                                              attrs: { for: "act_ind" },
-                                            },
-                                            [_vm._v("Independent )")]
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
-                                      _c("label", [_vm._v("Specifications")]),
-                                      _vm._v(" "),
-                                      _c("textarea", {
-                                        staticClass: "form-control",
-                                        attrs: {
-                                          name: "act_specs",
-                                          id: "act_specs",
-                                          cols: "3",
-                                          rows: "3",
-                                        },
-                                      }),
-                                    ]),
-                                  ]),
-                                ]),
-                              ]),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("div", { staticClass: "card" }, [
-                                _c("div", { staticClass: "card-body" }, [
-                                  _c("h4", { staticClass: "card-title" }, [
-                                    _vm._v("Additional Discharge Instructions"),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("hr"),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
-                                      _c("label", [_vm._v("Specifications")]),
-                                      _vm._v(" "),
-                                      _c("textarea", {
-                                        staticClass: "form-control",
-                                        attrs: {
-                                          name: "additional_discharge_ins",
-                                          id: "additional_discharge_ins",
-                                          cols: "3",
-                                          rows: "3",
-                                        },
-                                      }),
-                                    ]),
-                                  ]),
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "card-body",
-                                    attrs: { id: "followupdivMain" },
-                                  },
-                                  [
-                                    _c("h4", { staticClass: "card-title" }),
-                                    _vm._v(" "),
-                                    _c("hr"),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c("div", { staticClass: "col-md-3" }, [
-                                        _c("label", [
-                                          _vm._v("Follow-up Place"),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "input-group date",
-                                            attrs: { id: "followupDiv" },
-                                          },
-                                          [
-                                            _c("input", {
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "text",
-                                                name: "followup_place",
-                                                id: "followup_place",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c("div", { staticClass: "col-md-3" }, [
-                                        _c("label", [
-                                          _vm._v("Follow-up Check-up Date"),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "input-group date",
-                                            attrs: { id: "followupDiv" },
-                                          },
-                                          [
-                                            _c("input", {
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "text",
-                                                name: "followup",
-                                                id: "followup",
-                                                onkeydown: "return false",
-                                              },
-                                            }),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "input-group-append input-group-addon",
-                                              },
-                                              [
-                                                _c(
-                                                  "span",
-                                                  {
-                                                    staticClass:
-                                                      "input-group-text badge-success",
-                                                    attrs: {
-                                                      onclick: "clearDate()",
-                                                    },
-                                                  },
-                                                  [_vm._v("Clear Date")]
-                                                ),
-                                              ]
-                                            ),
-                                          ]
-                                        ),
-                                      ]),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c("div", { staticClass: "col-md-12" }, [
-                                        _c("label", [
-                                          _vm._v("Nurse's Instruction"),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("textarea", {
-                                          staticClass: "form-control",
-                                          attrs: {
-                                            name: "nurses_instructions",
-                                            id: "nurses_instructions",
-                                            cols: "3",
-                                            rows: "3",
-                                            maxlength: "250",
-                                          },
-                                        }),
-                                      ]),
-                                    ]),
-                                  ]
-                                ),
-                              ]),
-                            ]),
-                            _vm._v(" "),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "form-group m-b-0 text-right" },
-                              [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-primary waves-effect waves-light",
-                                    attrs: {
-                                      type: "button",
-                                      id: "done",
-                                      onclick: "setDone()",
-                                    },
-                                  },
-                                  [_vm._v("Set As Done")]
-                                ),
-                              ]
-                            ),
-                          ]
-                        ),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "btn btn-primary waves-effect waves-light d-none",
-                      attrs: {
-                        type: "button",
-                        id: "pedsBtn",
-                        onclick: "done3()",
-                      },
-                    },
-                    [_vm._v("Final Save")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "btn btn-success waves-effect waves-light d-none",
-                      attrs: {
-                        type: "button",
-                        id: "printHIBtn",
-                        onclick: "viewHI()",
-                      },
-                    },
-                    [_vm._v("Preview Home Instruction")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "btn btn-info waves-effect waves-light d-none",
-                      attrs: {
-                        type: "button",
-                        id: "btnPrintF",
-                        onclick: "print_prescription()",
-                      },
-                    },
-                    [_vm._v("Print Prescription")]
-                  ),
-                ]),
-              ]),
-            ]),
-          ]),
-        ]),
+      _c("div", { staticClass: "card-tools" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-tool",
+            attrs: { type: "button", "data-card-widget": "collapse" },
+          },
+          [_c("i", { staticClass: "fas fa-minus" })]
+        ),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Initial Data")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-tools" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-tool",
+            attrs: { type: "button", "data-card-widget": "collapse" },
+          },
+          [_c("i", { staticClass: "fas fa-minus" })]
+        ),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary pull-right",
+          attrs: { type: "submit" },
+        },
+        [_vm._v("Submit")]
+      ),
     ])
   },
 ]
@@ -67195,16 +65514,23 @@ var AppStorage = /*#__PURE__*/function () {
       localStorage.setItem('user', user);
     }
   }, {
+    key: "storeUserId",
+    value: function storeUserId(user_id) {
+      localStorage.setItem('user_id', user_id);
+    }
+  }, {
     key: "store",
-    value: function store(token, user) {
+    value: function store(token, user, user_id) {
       this.storeToken(token);
       this.storeUser(user);
+      this.storeUserId(user_id);
     }
   }, {
     key: "clear",
     value: function clear() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('user_id');
     }
   }, {
     key: "getToken",
@@ -67215,6 +65541,11 @@ var AppStorage = /*#__PURE__*/function () {
     key: "getUser",
     value: function getUser() {
       localStorage.getItem(user);
+    }
+  }, {
+    key: "getUserId",
+    value: function getUserId() {
+      localStorage.getItem(user_id);
     }
   }]);
 
@@ -67385,9 +65716,10 @@ var User = /*#__PURE__*/function () {
     value: function responseAfterLogin(res) {
       var access_token = res.data.access_token;
       var username = res.data.name;
+      var userid = res.data.user_id;
 
       if (_Token__WEBPACK_IMPORTED_MODULE_0__["default"].isValid(access_token)) {
-        _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].store(access_token, username);
+        _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].store(access_token, username, userid);
       }
     }
   }, {
@@ -67411,6 +65743,13 @@ var User = /*#__PURE__*/function () {
     value: function name() {
       if (this.loggedIn()) {
         return localStorage.getItem('user');
+      }
+    }
+  }, {
+    key: "user_id",
+    value: function user_id() {
+      if (this.loggedIn()) {
+        return localStorage.getItem('user_id');
       }
     }
   }, {
@@ -67894,7 +66233,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _diagnose_vue_vue_type_template_id_e068dc78___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./diagnose.vue?vue&type=template&id=e068dc78& */ "./resources/js/components/employee/diagnose.vue?vue&type=template&id=e068dc78&");
 /* harmony import */ var _diagnose_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./diagnose.vue?vue&type=script&lang=js& */ "./resources/js/components/employee/diagnose.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./diagnose.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -67902,7 +66243,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _diagnose_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _diagnose_vue_vue_type_template_id_e068dc78___WEBPACK_IMPORTED_MODULE_0__["render"],
   _diagnose_vue_vue_type_template_id_e068dc78___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -67931,6 +66272,22 @@ component.options.__file = "resources/js/components/employee/diagnose.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./diagnose.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/diagnose.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./diagnose.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/employee/diagnose.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 

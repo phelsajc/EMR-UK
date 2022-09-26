@@ -102,6 +102,7 @@
 
     export default {
         created(){
+          alert(User.loggedIn())
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})
             }

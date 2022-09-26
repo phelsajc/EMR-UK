@@ -133,6 +133,8 @@
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})
             }
+            
+            this.allEmployee();
         }, 
         data(){
             
@@ -251,9 +253,9 @@
           axios.get('/api/check_doctors_detail/'+id)
               .then(response => (this.getdctr = response))
         }, */
-        created(){
+        /* created(){
             this.allEmployee();
-        }
+        } */
     }
     
 </script>
