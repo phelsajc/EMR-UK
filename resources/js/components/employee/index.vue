@@ -75,6 +75,9 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <div :class="{ spin_center: hasError }">
+                  <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                </div>
                 <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
                 <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search here"> <br><br>
                 <table id="myTable" class="table table-bordered table-hover">
@@ -139,6 +142,7 @@
         data(){
             
             return {
+                hasError: false,
                 form: {
                   searchTerm2: null,
                   start: 0
@@ -146,7 +150,7 @@
                 employees:[],
                 searchTerm:'',
                 countRecords: 0,
-                getdctr: '-'
+                getdctr: '-',
             }
         },
         computed:{
@@ -154,7 +158,8 @@
                 return this.employees.filter(e => {
                   return e.patientname.match(this.searchTerm)
                 })
-            }
+            },
+            
         },
         methods: {
             allEmployee(){
@@ -268,5 +273,14 @@
 
     .to-right{
       float: right;
+    }
+
+    .spin_center{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      text-align:center;
+      transform: translateX(-50%);
     }
 </style>

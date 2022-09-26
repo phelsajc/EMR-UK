@@ -74,7 +74,8 @@
                         icon: 'success',
                         title: 'Signed in successfully'
                     })
-                    this.$router.push({name: 'home'})
+                    //this.$router.push({name: 'home'})
+                    this.$router.push({name: 'all_employee'})
                 })
                 .catch(error => this.errors = error.response.data.errors)
                 .catch(

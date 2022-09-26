@@ -32,7 +32,7 @@
   <div class="wrapper">
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center" >
-      <img class="animation__shake" src="{{ asset('backend2/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+      <img class="animation__shake" src="{{ asset('backend2/uk_logo.jpg') }}" alt="AdminLTELogo" height="60" width="60">
     </div>
 
     <!-- Navbar -->
@@ -84,7 +84,7 @@
             <a href="#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="{{ asset('backend2/dist/img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                <img src="{{ asset('backend2/uk_logo.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     Brad Diesel
@@ -100,7 +100,7 @@
             <a href="#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="{{ asset('backend2/dist/img/user8-128x128.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <img src="{{ asset('backend2/uk_logo.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     John Pierce
@@ -116,7 +116,7 @@
             <a href="#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="{{ asset('backend2/dist/img/user3-128x128.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <img src="{{ asset('backend2/uk_logo.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     Nora Silvester
@@ -178,7 +178,7 @@
       <!-- Brand Logo -->
       <div v-show="$route.path === '/' || $route.path ==='/register' || $route.path ==='/forget' ? false : true " style="display: none">
         <a href="index3.html" class="brand-link">
-          <img src="{{ asset('backend2/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+          <img src="{{ asset('backend2/uk_logo.jpg') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
           <span class="brand-text font-weight-light">UNAKonsulta</span>
         </a>
   
@@ -187,10 +187,10 @@
           <!-- Sidebar user panel (optional) -->
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-              <img src="{{ asset('backend2/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+              <img src="{{ asset('backend2/uk_logo.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block">Alexander Pierce</a>
+              <a href="#" class="d-block" id="user_name"></a>
             </div>
           </div>
   
@@ -1005,6 +1005,7 @@
       $("#sidebar").css("display","");
       $("#topbar").css("display","");
       $("#footer_div").css("display","");
+      $("#user_name").prop('text',User.name())
   }
 </script>
 </body>

@@ -2042,10 +2042,10 @@ __webpack_require__.r(__webpack_exports__);
         Toast.fire({
           icon: 'success',
           title: 'Signed in successfully'
-        });
+        }); //this.$router.push({name: 'home'})
 
         _this.$router.push({
-          name: 'home'
+          name: 'all_employee'
         });
       })["catch"](function (error) {
         return _this.errors = error.response.data.errors;
@@ -2905,6 +2905,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2917,6 +2920,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      hasError: false,
       form: {
         searchTerm2: null,
         start: 0
@@ -7814,7 +7818,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n", ""]);
+exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n.spin_center{\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 300px;\n  text-align:center;\n  transform: translateX(-50%);\n}\n", ""]);
 
 // exports
 
@@ -48861,6 +48865,10 @@ var render = function () {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
+                _c("div", { class: { spin_center: _vm.hasError } }, [
+                  _vm._m(1),
+                ]),
+                _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
@@ -48897,7 +48905,7 @@ var render = function () {
                     attrs: { id: "myTable" },
                   },
                   [
-                    _vm._m(1),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -49011,6 +49019,15 @@ var staticRenderFns = [
           ]),
         ]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "overlay" }, [
+      _c("i", { staticClass: "fas fa-3x fa-sync-alt fa-spin" }),
+      _c("div", { staticClass: "text-bold pt-2" }, [_vm._v("Loading...")]),
     ])
   },
   function () {
