@@ -26,6 +26,7 @@ Route::match(['get','post'],'/check_doctors_detail/{id}','Api\PatientController@
 
 Route::match(['get','post'],'saveInitialData','Api\PatientController@saveInitialData');
 Route::match(['get','post'],'getPxInfo/{pspat}','Api\PatientController@getPxInfo');
+Route::match(['get','post'],'getFormDetail/{id}','Api\PatientController@EditInitialData');
 
 
 

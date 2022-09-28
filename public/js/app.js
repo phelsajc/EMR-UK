@@ -2507,18 +2507,19 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.getPatientInformation();
+    this.editForm();
   },
   data: function data() {
     return {
       form: {
-        o2: '',
+        o2_stat: '',
         pulse_rate: '',
         rr: '',
         temp: '',
         bp: '',
         weight: '',
         height: '',
-        chief_complaints: '',
+        chiefcomplaints: '',
         pspat: this.$route.params.id,
         user_id: User.user_id()
       },
@@ -2572,6 +2573,15 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         return _this3.user_info = data;
       })["catch"]();
+    },
+    editForm: function editForm() {
+      var _this4 = this;
+
+      var id = this.$route.params.id;
+      axios.get('/api/getFormDetail/' + id).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this4.form = data;
+      })["catch"](console.log('error'));
     }
   }
 });
@@ -2908,6 +2918,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     if (!User.loggedIn()) {
@@ -2921,6 +2932,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       hasError: false,
+      isHidden: true,
       form: {
         searchTerm2: null,
         start: 0
@@ -2944,10 +2956,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     allEmployee: function allEmployee() {
       var _this2 = this;
 
-      //axios.get('/api/employee')
+      this.isHidden = false; //axios.get('/api/employee')
+
       axios.get('/api/patientEmployee').then(function (_ref) {
         var data = _ref.data;
-        return _this2.employees = data[0].data, _this2.countRecords = data[0].count;
+        return _this2.employees = data[0].data, _this2.countRecords = data[0].count, _this2.isHidden = true;
       })["catch"]();
     },
     pdf: function pdf() {
@@ -3024,12 +3037,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.employees = [];
       this.countRecords = null;
-      this.form.start = 0; //axios.post('/api/filterEmployee',this.form)
+      this.form.start = 0;
+      this.isHidden = false; //axios.post('/api/filterEmployee',this.form)
 
       axios.post('/api/patientEmployee', this.form).then(function (res) {
         _this4.employees = res.data[0].data;
         _this4.countRecords = res.data[0].count;
         console.log(res.data.data);
+        _this4.isHidden = true;
       })["catch"](function (error) {
         return _this4.errors = error.response.data.errors;
       });
@@ -3037,6 +3052,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getPageNo: function getPageNo(id) {
       var _this5 = this;
 
+      this.isHidden = false;
       this.form.start = (id - 1) * 10; //alert(a)
 
       /* this.employees = []
@@ -3047,6 +3063,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this5.employees = res.data[0].data;
         _this5.countRecords = res.data[0].count;
         console.log(res.data.data);
+        _this5.isHidden = true;
       })["catch"](function (error) {
         return _this5.errors = error.response.data.errors;
       });
@@ -7818,7 +7835,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n.spin_center{\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 300px;\n  text-align:center;\n  transform: translateX(-50%);\n}\n", ""]);
+exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n.spin_center{\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 300px;\n  text-align:center;\n  transform: translateX(-50%);\n  /*display: none;*/\n}\n", ""]);
 
 // exports
 
@@ -48063,8 +48080,8 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.o2,
-                            expression: "form.o2",
+                            value: _vm.form.o2_stat,
+                            expression: "form.o2_stat",
                           },
                         ],
                         staticClass: "form-control form-control-border",
@@ -48073,13 +48090,13 @@ var render = function () {
                           id: "exampleInputBorder",
                           placeholder: "Enter value here",
                         },
-                        domProps: { value: _vm.form.o2 },
+                        domProps: { value: _vm.form.o2_stat },
                         on: {
                           input: function ($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.form, "o2", $event.target.value)
+                            _vm.$set(_vm.form, "o2_stat", $event.target.value)
                           },
                         },
                       }),
@@ -48277,8 +48294,8 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.chief_complaints,
-                            expression: "form.chief_complaints",
+                            value: _vm.form.chiefcomplaints,
+                            expression: "form.chiefcomplaints",
                           },
                         ],
                         staticClass: "form-control form-control-border",
@@ -48287,7 +48304,7 @@ var render = function () {
                           id: "exampleInputBorder",
                           placeholder: "Enter value here",
                         },
-                        domProps: { value: _vm.form.chief_complaints },
+                        domProps: { value: _vm.form.chiefcomplaints },
                         on: {
                           input: function ($event) {
                             if ($event.target.composing) {
@@ -48295,7 +48312,7 @@ var render = function () {
                             }
                             _vm.$set(
                               _vm.form,
-                              "chief_complaints",
+                              "chiefcomplaints",
                               $event.target.value
                             )
                           },
@@ -48832,42 +48849,17 @@ var render = function () {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-12" }, [
             _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                { staticClass: "card-header" },
-                [
-                  _c("h3", { staticClass: "card-title" }, [_vm._v(" ")]),
-                  _vm._v(" "),
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-primary btn-sm",
-                      attrs: { to: "/add_employee" },
-                    },
-                    [_vm._v("Add Employee")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-sm btn-danger btn-sm",
-                      attrs: { href: "javascript:void(0)" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.pdf()
-                        },
-                      },
-                    },
-                    [_vm._v("PDF")]
-                  ),
-                ],
-                1
-              ),
+              _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { class: { spin_center: _vm.hasError } }, [
-                  _vm._m(1),
-                ]),
+                _c(
+                  "div",
+                  {
+                    staticClass: "spin_center",
+                    class: { "d-none": _vm.isHidden },
+                  },
+                  [_vm._m(2)]
+                ),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -48880,7 +48872,7 @@ var render = function () {
                   ],
                   staticClass: "form-control to-right",
                   staticStyle: { width: "300px" },
-                  attrs: { type: "text", placeholder: "Search here" },
+                  attrs: { type: "text", placeholder: "Search patient here" },
                   domProps: { value: _vm.form.searchTerm2 },
                   on: {
                     change: function ($event) {
@@ -48905,7 +48897,7 @@ var render = function () {
                     attrs: { id: "myTable" },
                   },
                   [
-                    _vm._m(2),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -49019,6 +49011,14 @@ var staticRenderFns = [
           ]),
         ]),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v(" ")]),
     ])
   },
   function () {

@@ -70,16 +70,17 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">&nbsp;</h3>                
-                <router-link to="/add_employee" class="btn btn-primary btn-sm">Add Employee</router-link>
-                <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger btn-sm">PDF</a>
+                <!-- <router-link to="/add_employee" class="btn btn-primary btn-sm">Add Employee</router-link>
+                <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger btn-sm">PDF</a> -->
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div :class="{ spin_center: hasError }">
+                <div class="spin_center" :class="{'d-none': isHidden }">
+                <!-- <div class="spin_center"> -->
                   <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
                 </div>
                 <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
-                <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search here"> <br><br>
+                <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
                 <table id="myTable" class="table table-bordered table-hover">
                     <thead class="thead-light">
                       <tr>
@@ -143,6 +144,7 @@
             
             return {
                 hasError: false,
+                isHidden: true,
                 form: {
                   searchTerm2: null,
                   start: 0
@@ -163,9 +165,11 @@
         },
         methods: {
             allEmployee(){
+              this.isHidden =  false        
                 //axios.get('/api/employee')
                 axios.get('/api/patientEmployee')
-                .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count ))
+                .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count,
+              this.isHidden =  true  ))
                 .catch()
             },
             pdf(){
@@ -225,10 +229,11 @@
                     }
                 })
             },
-            filterEmployee(){                              
+            filterEmployee(){                   
                 this.employees = []
                 this.countRecords = null
               this.form.start = 0
+              this.isHidden =  false
                 //axios.post('/api/filterEmployee',this.form)
                 axios.post('/api/patientEmployee',this.form)
                 
@@ -236,10 +241,12 @@
                   this.employees = res.data[0].data
                   this.countRecords =res.data[0].count 
                   console.log(res.data.data)
+                  this.isHidden =  true
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },
             getPageNo(id){
+              this.isHidden =  false
               this.form.start = (id-1) * 10
               //alert(a)
               /* this.employees = []
@@ -250,6 +257,7 @@
                   this.employees = res.data[0].data
                   this.countRecords =res.data[0].count 
                   console.log(res.data.data)
+                  this.isHidden =  true
               })
               .catch(error => this.errors = error.response.data.errors)
             },
@@ -282,5 +290,6 @@
       width: 300px;
       text-align:center;
       transform: translateX(-50%);
+      /*display: none;*/
     }
 </style>

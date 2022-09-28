@@ -21,8 +21,8 @@ class PatientController extends Controller
         $start = $request->start?$request->start:0;
         $val = $request->searchTerm2;
         if($val!=''||$start>0){   
-            $data =  DB::connection('pgsql')->select("select * from patients_1 where patientname like '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
-            $count =  DB::connection('pgsql')->select("select * from patients_1 where patientname like '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+            $data =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
+            $count =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
         }else{
             $data =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
             $count =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
@@ -211,20 +211,25 @@ class PatientController extends Controller
 
     public function saveInitialData(Request $request)
     {
-        $diagnosis = new Diagnosis;
-        $diagnosis->o2_stat = $request->o2;
-        $diagnosis->temp = $request->temp;
-        $diagnosis->bp = $request->bp;
-        $diagnosis->weight = $request->weight;
-        $diagnosis->height = $request->height;
-        $diagnosis->chiefcomplaints = $request->chief_complaints;
-        $diagnosis->pulse_rate = $request->pulse_rate;
-        $diagnosis->rr = $request->rr;
-        $diagnosis->ps_patregisgter = $request->pspat;
-        $diagnosis->inserted_initial_data_dt = date("Y-m-d H:i");
-        $diagnosis->inserted_initial_data_by = $request->user_id;   
-        $diagnosis->save();
+        $checkDetails = Diagnosis::where(['ps_patregisgter'=>$request->pspat])->first();
+        if(!$checkDetails){
+            $diagnosis = new Diagnosis;
+            $diagnosis->o2_stat = $request->o2_stat;
+            $diagnosis->temp = $request->temp;
+            $diagnosis->bp = $request->bp;
+            $diagnosis->weight = $request->weight;
+            $diagnosis->height = $request->height;
+            $diagnosis->chiefcomplaints = $request->chiefcomplaints;
+            $diagnosis->pulse_rate = $request->pulse_rate;
+            $diagnosis->rr = $request->rr;
+            $diagnosis->ps_patregisgter = $request->pspat;
+            $diagnosis->inserted_initial_data_dt = date("Y-m-d H:i");
+            $diagnosis->inserted_initial_data_by = $request->user_id;   
+            $diagnosis->save();    
+        }else{
 
+        }
+        
         return true;
     }
 
@@ -234,5 +239,10 @@ class PatientController extends Controller
         return response()->json($data);
     }
 
+    public function EditInitialData($id)
+    {
+        $data = Diagnosis::where(['ps_patregisgter'=>$id])->first();
+        return response()->json($data);
+    }
    
 }

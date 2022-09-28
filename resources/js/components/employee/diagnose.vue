@@ -75,7 +75,7 @@
                     <h4>O2 Saturation</h4>
                     <div class="form-group">
                         <!-- <label for="exampleInputBorder">Bottom Border only <code>.form-control-border</code></label> -->
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.o2">
+                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.o2_stat">
                     </div>
                     
                     <h4>Pulse Rate</h4>
@@ -110,7 +110,7 @@
                     
                     <h4>Chief Complaints</h4>
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.chief_complaints">
+                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.chiefcomplaints">
                     </div>
 
                     <div class="card-footer">
@@ -137,19 +137,20 @@ import AppStorage from '../../Helpers/AppStorage';
                 this.$router.push({name: '/'})
             }
             this.getPatientInformation()
+            this.editForm()
         },
 
         data() {
             return {
                 form: {
-                    o2: '',
+                    o2_stat: '',
                     pulse_rate: '',
                     rr: '',
                     temp: '',
                     bp: '',
                     weight: '',
                     height: '',
-                    chief_complaints: '',
+                    chiefcomplaints: '',
                     pspat: this.$route.params.id,
                     user_id: User.user_id()
                 },
@@ -189,10 +190,17 @@ import AppStorage from '../../Helpers/AppStorage';
                 .catch(error => this.errors = error.response.data.errors)
             },
             getPatientInformation(){
-            axios.get('/api/getPxInfo/'+this.$route.params.id)
+                axios.get('/api/getPxInfo/'+this.$route.params.id)
                 .then(({data}) => ( this.user_info = data))
                 .catch()
+            },
+            editForm(){                
+                let id = this.$route.params.id
+                axios.get('/api/getFormDetail/'+id)
+                .then(({data}) => (this.form = data))
+                .catch(console.log('error'))
             }
+            
         }
     }
     
