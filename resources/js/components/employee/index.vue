@@ -1,50 +1,5 @@
 <template>
-    <div>
-        <!-- <div class="row">
-            <router-link to="/add_employee" class="btn btn-primary">Add Employee</router-link>
-            <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger">PDF</a>
-        </div>
-        <br><br>
-        <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here">
-        <div class="row">
-            <div class="col-lg-12 mb-4">
-              <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Employee List</h6>
-                </div>
-                <div class="table-responsive">
-                  <table class="table align-items-center table-flush">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Photo</th>
-                        <th>Phone</th>
-                        <th>Salary</th>
-                        <th>Date Joined</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="e in filtersearch"  :key="e.id">
-                        <td><a href="#">{{e.name}}</a></td>
-                        <td><img :src="e.photo" alt="" class="em_photo"></td>
-                        <td>{{e.phone}}</td>
-                        <td><span class="badge badge-success">{{e.salary}}</span></td>
-                        <td><a href="#" class="btn btn-sm btn-primary">{{ formatDate(e.joined_date) }}</a></td>
-                        <td>
-                            <router-link :to="{name: 'edit-employee',params:{id:e.id}}" class="btn btn-sm btn-warning">Edit</router-link >
-                            <a href="javascript:void(0)" @click="deleteRecord(e.id)" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="card-footer"></div>
-              </div>
-            </div>
-        </div> -->
-
-        
+    <div>        
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -93,9 +48,13 @@
                     </thead>
                     <tbody>
                       <tr v-for="e in filtersearch"  :key="e.id">                        
-                        <td>
+                        <td v-if="utype=='Staff'" >
                           <!-- <router-link :to="{name: 'diagnose_from',params:{id:e.patientid}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link > -->
                             <router-link :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link >
+                        </td>                      
+                        <td v-if="utype=='Administrator'||utype=='Doctor'" >
+                          <!-- <router-link :to="{name: 'diagnose_from',params:{id:e.patientid}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link > -->
+                            <router-link :to="{name: 'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}" class="btn btn-sm btn-success">{{e.patientname}}</router-link >
                         </td>
                         <td>{{e.patientid}}</td>
                         <td>{{e.pk_pspatregisters}}</td>
@@ -133,12 +92,14 @@
 <script type="text/javascript">
 
     export default {
-        created(){
+  created() {
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})
             }
             
+            Notification.success()
             this.allEmployee();
+            this.me();
         }, 
         data(){
             
@@ -153,6 +114,8 @@
                 searchTerm:'',
                 countRecords: 0,
                 getdctr: '-',
+                utype: User.user_type(),
+                token: localStorage.getItem('token'),
             }
         },
         computed:{
@@ -171,6 +134,20 @@
                 .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count,
               this.isHidden =  true  ))
                 .catch()
+            },
+            me(){                
+                axios.post('/api/auth/me','',{
+                    headers: {
+                      //"Content-Type": "application/x-www-form-urlencoded",
+                      Authorization: "Bearer ".concat(this.token),
+                      Accept: "application/jsons",
+                    }
+                  })
+                  .then(res => {
+                    console.log(res)
+                })
+              .catch(error => this.errors = error.response.data.errors)
+
             },
             pdf(){
                 /* axios.get('/pdf')

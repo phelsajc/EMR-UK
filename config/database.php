@@ -78,6 +78,16 @@ return [
         ],
 
         
+        'peds' => array(
+            'driver'   => 'pgsql',
+            'host'     => '192.168.70.99',
+            'database' => 'peds',
+            'username' => 'postgres',
+            'password' => 'pgadmin888!?',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ),
         
         'bizbox_uk' => [
             'driver' => 'sqlsrv',

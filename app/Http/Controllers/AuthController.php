@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function __construct()
     {
         //$this->middleware('auth:api');
-        $this->middleware('JWT', ['except' => ['login','signup']]);
+        $this->middleware('JWT', ['except' => ['login','signup','me']]);
     }
     //, ['except' => ['login','signup']]
     /**
@@ -51,6 +51,7 @@ class AuthController extends Controller
     {
         return response()->json(auth()->user());
     }
+    
 
     /**
      * Log the user out (Invalidate the token).
@@ -90,6 +91,7 @@ class AuthController extends Controller
             'name' => auth()->user()->name,
             'user_id' => auth()->user()->id,
             'email' => auth()->user()->email,
+            'type' => auth()->user()->type,
         ]);
     }
 

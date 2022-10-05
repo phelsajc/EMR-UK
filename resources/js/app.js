@@ -19,6 +19,11 @@ window.Notification = Notification
 import Swal from 'sweetalert2';
 window.Swal = Swal;
 
+/* Vue.component('Autocomplete',require('./components/Autocomplete.vue')); */
+/* require('./components/Autocomplete.vue').default */
+
+Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
+Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',

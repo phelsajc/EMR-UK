@@ -1005,7 +1005,8 @@
       $("#sidebar").css("display","");
       $("#topbar").css("display","");
       $("#footer_div").css("display","");
-      $("#user_name").prop('text',User.name())
+      $("#user_name").prop('text',localStorage.getItem('user_type'))
+      //alert(User.user_type())
   }
 </script>
 </body>

@@ -16,11 +16,13 @@ class PatientController extends Controller
     
     public function filterEmployee(Request $request)
     {
-        //date_default_timezone_set('Asia/Manila');
+        date_default_timezone_set('Asia/Manila');
         $length = 10;
         $start = $request->start?$request->start:0;
         $val = $request->searchTerm2;
+        $dd=1;
         if($val!=''||$start>0){   
+            $dd =  "select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start";
             $data =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
             $count =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
         }else{
@@ -199,7 +201,15 @@ class PatientController extends Controller
             AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
             ORDER BY PatientName");
         } */
-        $datasets = array(["data"=>$data_array,"count"=>round(sizeof($count)/$length)],"summary"=>($start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array);
+        $page = sizeof($count)/$length;
+        $getDecimal =  explode(".",$page);
+        $page_count = round(sizeof($count)/$length);
+        if(sizeof($getDecimal)==2){            
+            if($getDecimal[1]<5){
+                $page_count = $getDecimal[0] + 1;
+            }
+        }
+        $datasets = array(["data"=>$data_array,"count"=>$page_count,"summary"=>($start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array]);
         return response()->json($datasets);
     }
     
@@ -211,6 +221,7 @@ class PatientController extends Controller
 
     public function saveInitialData(Request $request)
     {
+        date_default_timezone_set('Asia/Manila');
         $checkDetails = Diagnosis::where(['ps_patregisgter'=>$request->pspat])->first();
         if(!$checkDetails){
             $diagnosis = new Diagnosis;
@@ -227,7 +238,16 @@ class PatientController extends Controller
             $diagnosis->inserted_initial_data_by = $request->user_id;   
             $diagnosis->save();    
         }else{
-
+            Diagnosis::where(['ps_patregisgter'=>$request->pspat])->update([
+                'o2_stat'=> $request->o2_stat,
+                'temp'=> $request->temp,
+                'bp'=> $request->bp,
+                'weight'=>  $request->weight,
+                'height'=> $request->height,
+                'chiefcomplaints'=> $request->chiefcomplaints,
+                'pulse_rate'=> $request->pulse_rate,
+                'rr'=> $request->rr,
+            ]);
         }
         
         return true;
@@ -244,5 +264,20 @@ class PatientController extends Controller
         $data = Diagnosis::where(['ps_patregisgter'=>$id])->first();
         return response()->json($data);
     }
+    
+    public function upDateHPE(Request $request)
+    {
+        Diagnosis::where(['ps_patregisgter'=>$request->pspat])->update([
+            'history'=> $request->historyPe,
+        ]);
+        return $request->pspat;
+    }
+
+    public function getDiagnosisInfo($pspat)
+    {
+        $data = Diagnosis::where(['ps_patregisgter'=>$pspat])->first();
+        return response()->json($data);
+    }
+
    
 }

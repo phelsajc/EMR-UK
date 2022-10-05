@@ -1,11 +1,11 @@
 class Notification{
 
-   success(){
+    success() {
         new Noty({
             type: 'success',
             layout: 'topRight',
             text: 'Successfully Done!',
-            timeout: 1000,
+            timeout: 5000,
         }).show();
    }
 

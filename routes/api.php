@@ -25,8 +25,15 @@ Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmpl
 Route::match(['get','post'],'/check_doctors_detail/{id}','Api\PatientController@check_doctors_detail');
 
 Route::match(['get','post'],'saveInitialData','Api\PatientController@saveInitialData');
+Route::match(['get','post'],'searchMedicine','MedicineController@searchMedicine');
+Route::match(['get','post'],'searchDiagnostic','MedicineController@searchDiagnostic');
 Route::match(['get','post'],'getPxInfo/{pspat}','Api\PatientController@getPxInfo');
 Route::match(['get','post'],'getFormDetail/{id}','Api\PatientController@EditInitialData');
+Route::match(['get','post'],'upDateHPE','Api\PatientController@upDateHPE');
+Route::match(['get','post'],'getDiagnosisInfo/{pspat}','Api\PatientController@getDiagnosisInfo');
+
+
+
 
 
 

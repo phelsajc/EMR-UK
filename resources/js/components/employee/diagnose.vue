@@ -136,8 +136,8 @@ import AppStorage from '../../Helpers/AppStorage';
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})
             }
-            this.getPatientInformation()
-            this.editForm()
+            this.getPatientInformation();
+            this.editForm();
         },
 
         data() {
@@ -179,13 +179,14 @@ import AppStorage from '../../Helpers/AppStorage';
 
             },
             addInitialdata(){
-                /* axios.post('/api/saveInitialData',this.form,{headers: {
-                    header1: 'value',
-                }}) */
                 axios.post('/api/saveInitialData',this.form)
                 .then(res => {
-                    this.$router.push({name: 'all_employee'});
                     Notification.success()
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Saved successfully'
+                    })
+                    this.$router.push({name: 'all_employee'});
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },
@@ -197,7 +198,16 @@ import AppStorage from '../../Helpers/AppStorage';
             editForm(){                
                 let id = this.$route.params.id
                 axios.get('/api/getFormDetail/'+id)
-                .then(({data}) => (this.form = data))
+                    .then(({ data }) => (
+                    console.log("l "+data?data:0),
+                        this.form.o2_stat = !Object.keys(data).length === 0 ? this.form.o2_stat : data.o2_stat,  
+                        this.form.temp = !Object.keys(data).length === 0 ? this.form.temp : data.temp,             
+                        this.form.rr = !Object.keys(data).length === 0 ? this.form.rr : data.rr,             
+                        this.form.bp = !Object.keys(data).length === 0 ? this.form.bp : data.bp,             
+                        this.form.weight = !Object.keys(data).length === 0 ? this.form.weight : data.weight,             
+                        this.form.height = !Object.keys(data).length === 0 ? this.form.height : data.height,             
+                        this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints                                 
+                ))
                 .catch(console.log('error'))
             }
             
