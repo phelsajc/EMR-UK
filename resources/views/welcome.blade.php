@@ -190,7 +190,10 @@
               <img src="{{ asset('backend2/uk_logo.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block" id="user_name"></a>
+              <user-info></user-info>
+              @{{ bladeValue }}
+              {{-- <p id="user_name"></p> --}}
+
             </div>
           </div>
   
@@ -1000,14 +1003,15 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 {{-- <script src="{{ asset('backend2/dist/js/pages/dashboard.js') }}"></script> --}}
 <script type="text/javascript">
-  let token = localStorage.getItem('token');
-  if(token) {
-      $("#sidebar").css("display","");
-      $("#topbar").css("display","");
-      $("#footer_div").css("display","");
-      $("#user_name").prop('text',localStorage.getItem('user_type'))
-      //alert(User.user_type())
-  }
+  $( document ).ready(function() {
+    let token = localStorage.getItem('token');
+    if(token) {
+        $("#sidebar").css("display","");
+        $("#topbar").css("display","");
+        $("#footer_div").css("display","");
+        //  $("#user_name").text(localStorage.getItem('user_type'))
+    }
+  });
 </script>
 </body>
 </html>

@@ -24,6 +24,7 @@ window.Swal = Swal;
 
 Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
 Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);
+Vue.component('user-info', require('./components/User.vue').default);
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -47,5 +48,10 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data() {
+        return {
+            bladeValue: '',
+        }
+    }
 });

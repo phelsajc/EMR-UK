@@ -30,20 +30,7 @@
      },
      methods: {
       autoComplete(){
-       this.results = [];
-      /*   axios.get('/api/search',{params: {query: this.query}}).then(response => {
-         this.results = response.data;
-        });
- */
-        
-                /* axios.get('/api/patientEmployee')
-                .then(({data}) => ( this.results =  data[0].data   ))
-                .catch()
-
-                console.log(this.results) */
-
-
-                
+       this.results = [];                
                 axios.post('/api/searchMedicine',this.form)
                 .then(res => {
                     this.results = res.data  

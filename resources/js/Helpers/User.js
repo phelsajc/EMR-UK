@@ -51,7 +51,11 @@ class User{
 
 	user_type(){
 		if (this.loggedIn()) {
+			/* this.setState({
+				user_type: localStorage.getItem('user_type'),
+			  }); */
 			return localStorage.getItem('user_type');
+			
 		}
 	}
 	

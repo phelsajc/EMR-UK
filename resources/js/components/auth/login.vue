@@ -66,16 +66,19 @@
             }
         },
         methods: {
-            login() {
-                axios.post('/api/auth/login',this.form)
-                .then(res => {
+            async login() {
+                await axios.post('/api/auth/login',this.form)
+                    .then(res => {
+                    
                     User.responseAfterLogin(res)
                     Toast.fire({
                         icon: 'success',
                         title: 'Signed in successfully'
                     })
                     //this.$router.push({name: 'home'})
-                    this.$router.push({name: 'all_employee'})
+                    
+                    //this.$router.push({ name: 'all_employee' })
+                    location = "/all_employee"
                 })
                 .catch(error => this.errors = error.response.data.errors)
                 .catch(
