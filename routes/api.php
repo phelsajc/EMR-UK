@@ -31,6 +31,9 @@ Route::match(['get','post'],'getPxInfo/{pspat}','Api\PatientController@getPxInfo
 Route::match(['get','post'],'getFormDetail/{id}','Api\PatientController@EditInitialData');
 Route::match(['get','post'],'upDateHPE','Api\PatientController@upDateHPE');
 Route::match(['get','post'],'getDiagnosisInfo/{pspat}','Api\PatientController@getDiagnosisInfo');
+Route::match(['get','post'],'addMedicine/{method}/{pspat}/{diagnosis_id}','PrescriptionController@store');
+
+
 
 
 

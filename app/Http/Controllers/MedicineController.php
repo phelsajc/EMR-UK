@@ -29,8 +29,7 @@ class MedicineController extends Controller
         }
         $output = array("data" => $data,"peds"=>true); 
         return response()->json($data);
-    }    
-
+    }
     
     public function searchDiagnostic(Request $request){
         $query = DB::connection('peds')->select("select * from bf_items_lab where itemdesc ILIKE '%$request->val%' or shortname ILIKE '%$request->val%'");
@@ -67,6 +66,5 @@ class MedicineController extends Controller
         $output = array("data" => $data);
         return response()->json($data);
     }
-
     
 }

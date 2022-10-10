@@ -269,6 +269,7 @@ class PatientController extends Controller
     {
         Diagnosis::where(['ps_patregisgter'=>$request->pspat])->update([
             'history'=> $request->historyPe,
+            'diagosis'=> $request->diagnosis,
         ]);
         return $request->pspat;
     }

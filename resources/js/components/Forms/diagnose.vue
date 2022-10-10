@@ -113,7 +113,7 @@
                     </li>
                   <li class="nav-item">
                     <a class="nav-link" :class="{'disabled': isDoneDetails }" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
-                        Prescription
+                        Prescription 
                     </a>
                   </li>
                   <li class="nav-item">
@@ -135,6 +135,10 @@
                         <h4>History & PE</h4>
                         <div class="form-group">
                             <textarea class="form-control" rows="3" placeholder="Enter ..." v-model="form.historyPe"></textarea>
+                        </div>                    
+                        <h4>Diagnosis</h4>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." v-model="form.diagnosis"></textarea>
                         </div>
 
                         <div class="card-footer">
@@ -160,123 +164,124 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body">           
-                        <div class="form-group">
-                            <div class="custom-control">
-                            <label for="" class="">Medicine</label>
-                                <button id="pbf" onclick="prescribe_by_freq()" class="btn btn-primary btn-xs btn-outline csbtn pull-center" type="button">
-                                    Medicine Not Carried
-                                </button>
-                            </div>
-                        </div>
-                        <autocomplete @handle-form-data="clickedShowDetailModal"></autocomplete>
-                        <br>
-                        <div class="row"  v-if="chosenMethod==1">
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Breakfast:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
+                    <div class="panel-body">       
+                        <div v-if="chosenMethod!=null">    
+                            <div class="form-group">
+                                <div class="custom-control">
+                                <label for="" class="">Medicine</label>
+                                    <button id="pbf" onclick="prescribe_by_freq()" class="btn btn-primary btn-xs btn-outline csbtn pull-center" type="button">
+                                        Medicine Not Carried
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Lunch:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
+                            <autocomplete @handle-form-data="clickedShowDetailModal"></autocomplete>
+                            <br>
+                            <div class="row"  v-if="chosenMethod==1">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Breakfast:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.breakFast" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Lunch:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.lunch" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Supper:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Supper:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.supper" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-6">Before Bed Time:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.bbt"  class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-6">Before Bed Time:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
+                            </div> 
+                            <div class="row"  v-if="chosenMethod==1">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Due Date:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.dueDate" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Days:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.days" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> 
-                        <div class="row"  v-if="chosenMethod==1">
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Due Date:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Qty:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.qty" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Days:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Qty:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                                </div>
-                            </div>
-                        </div> 
+                            </div> 
 
-                        <div class="row"  v-if="chosenMethod==2">
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Frequency:</label>
-                                <div class="col-md-6">
-                                    <select type="text" class="form-control">
-                                        <option value="OD">OD</option>
-                                        <option value="BID">BID</option>
-                                        <option value="TID">TID</option>
-                                    </select>
+                            <div class="row"  v-if="chosenMethod==2">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Frequency:</label>
+                                    <div class="col-md-6">
+                                        <select type="text" v-model="prescription.frequency" class="form-control">
+                                            <option value="OD">OD</option>
+                                            <option value="BID">BID</option>
+                                            <option value="TID">TID</option>
+                                        </select>
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Day/s:</label>
+                                    <div class="col-md-6">
+                                        <input type="number" v-model="prescription.daysF" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Day/s:</label>
-                                <div class="col-md-6">
-                                    <input type="number" class="form-control">
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Qty:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.qtyF" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group row">
+                                    <label class="control-label text-left col-md-3">Due Date:</label>
+                                    <div class="col-md-6">
+                                        <input type="text" v-model="prescription.dueDateF" class="form-control">
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Qty:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group row">
-                                <label class="control-label text-left col-md-3">Due Date:</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                                </div>
-                            </div>
-                        </div> 
+                            </div> 
                         
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
                                 <label class="control-label text-left col-md-4">Instruction :</label>
                                 <div class="col-md-12">
-                                    <textarea class="form-control"></textarea>
+                                    <textarea class="form-control" v-model="prescription.instruction"></textarea>
                                 </div>
                                 </div>
                             </div>
@@ -284,8 +289,10 @@
                         
 
                         <div class="">
-                            <button type="submit" class="btn btn-primary pull-right">Add</button><br>
+                            <button type="button" @click="AddMedicine()" class="btn btn-primary pull-right">Add</button><br>
                         </div> 
+                        </div>
+                        
                         <table id="myTable" class="table table-bordered table-hover">
                             <thead class="thead-light">
                             <tr>
@@ -532,6 +539,37 @@ import AppStorage from '../../Helpers/AppStorage';
                     pspat: this.$route.params.id,
                     user_id: User.user_id(),
                     historyPe: '',
+                    diagnosis: '',
+                },
+                prescription: {
+                    breakFast: null,
+                    lunch: null,
+                    supper: null,
+                    bbt: null,
+                    dueDate: null,
+                    days: null,
+                    qty: null,
+                    dueDateF: null,
+                    daysF: null,
+                    qtyF: null,
+                    instruction:'',
+                    medcine_desc: '',
+                    medecine_id: 0,
+                    dosage:0,
+                    generic_name: '',
+                    frequency:'',
+                    reg_p: 0,
+                    dsc_p: 0,
+                    src_p: 0,
+                    pspat: '',
+                    bf_time: null,
+                    sp_time: null,
+                    ln_time: null,
+                    bbt_time: null,
+                    pk_iwitems: 0,
+                    frequency: '',
+                    iscustome: false,
+                    dctr: User.user_id(),
                 },
                 user_info:{
                     patientname: '',
@@ -539,15 +577,16 @@ import AppStorage from '../../Helpers/AppStorage';
                     pk_pspatregisters: '',
                 },
                 errors: {},
-                getSelectedMedicine: '',
+                getSelectedMedicine: {},
                 chosenMethod: null,
                 isDoneDetails: true,
+                diagnosisId: null,
             }
         },
         props: ['results'],
         methods:{
             addInitialdata(){
-                axios.post('/api/saveInitialData',this.form)
+                axios.post('/api/saveInitialData', )
                 .then(res => {
                     Notification.success()
                     Toast.fire({
@@ -566,29 +605,37 @@ import AppStorage from '../../Helpers/AppStorage';
             editForm(){                
                 let id = this.$route.params.id
                 axios.get('/api/getFormDetail/'+id)
-                    .then(({ data }) => (                  
+                    .then(({ data }) => (            
+                        //alert(this.form.history),      
+                        this.form.diagnosis = data.diagosis,
                         this.form.historyPe = data.history,
                         this.form.pulse_rate = data.pulse_rate,
-                        this.isDoneDetails = false,
+                        this.isDoneDetails = data.history? false: true,
                         this.form.o2_stat = !Object.keys(data).length === 0 ? this.form.o2_stat : data.o2_stat,  
                         this.form.temp = !Object.keys(data).length === 0 ? this.form.temp : data.temp,             
                         this.form.rr = !Object.keys(data).length === 0 ? this.form.rr : data.rr,             
                         this.form.bp = !Object.keys(data).length === 0 ? this.form.bp : data.bp,             
                         this.form.weight = !Object.keys(data).length === 0 ? this.form.weight : data.weight,             
                         this.form.height = !Object.keys(data).length === 0 ? this.form.height : data.height,             
-                        this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints                                 
+                        this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints,
+                        this.diagnosisId = data.id     
                 ))
                 .catch(console.log('error'))
             },
             clickedShowDetailModal: function (value) {
-                console.log('value');
-                this.getSelectedMedicine = value;
-                console.log(this.getSelectedMedicine);
+                this.getSelectedMedicine = value;                
+                this.prescription.reg_p = this.getSelectedMedicine.price
+                this.prescription.dsc_p = this.getSelectedMedicine.discounted_price
+                this.prescription.src_p = this.getSelectedMedicine.sc_price
+                this.prescription.pk_iwitems = this.getSelectedMedicine.pk_iwitems
+                this.prescription.medecine_id = this.getSelectedMedicine.pk_iwitems
+                this.prescription.item_description = this.getSelectedMedicine.itemdesc
+                this.prescription.item_generic_name = this.getSelectedMedicine.genericname                
             },
             clickedShowDetailModal2: function (value) {
-                console.log('value');
+                /* console.log('value');
                 this.getSelectedMedicine = value;
-                console.log(this.getSelectedMedicine);
+                console.log(this.getSelectedMedicine); */
             },
             type_of_prescription(type){
                 this.chosenMethod = type
@@ -596,6 +643,7 @@ import AppStorage from '../../Helpers/AppStorage';
             saveHPE() {
                 axios.post('/api/upDateHPE', this.form)
                 .then(res => {
+                        this.isDoneDetails = false,
                     Toast.fire({
                         icon: 'success',
                         title: 'Saved successfully'
@@ -611,6 +659,16 @@ import AppStorage from '../../Helpers/AppStorage';
                     ))
                 .catch()                
             } */
+            AddMedicine(){
+                axios.post('/api/addMedicine/'+this.chosenMethod+"/"+this.$route.params.id+"/"+this.diagnosisId, this.prescription)
+                .then(res => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Medicine added successfully'
+                    })
+                })
+                .catch(error => this.errors = error.response.data.errors)
+            },
         }
     }
     
