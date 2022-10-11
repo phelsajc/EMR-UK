@@ -36,7 +36,7 @@ class PatientController extends Controller
 
         foreach ($data as $key => $value) {
             $arr = array();
-
+            $checkDetails = Diagnosis::where(['ps_patregisgter'=>$value->pk_pspatregisters])->first();
             $arr['patientname'] =  $value->patientname;
             if($value->attending_phy){
                 $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->attending_phy) as d"); 
@@ -48,6 +48,7 @@ class PatientController extends Controller
             $arr['pk_pspatregisters'] =  $value->pk_pspatregisters;
             $arr['patientid'] =  $value->patientid;
             $arr['sex'] =  $value->sex;
+            $arr['hasdetails'] =  $checkDetails?true:false;
 
             $data_array[] = $arr;
         }

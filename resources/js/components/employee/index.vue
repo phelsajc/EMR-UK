@@ -49,12 +49,14 @@
                     <tbody>
                       <tr v-for="e in filtersearch"  :key="e.id">                        
                         <td v-if="utype=='Staff'" >
-                          <!-- <router-link :to="{name: 'diagnose_from',params:{id:e.patientid}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link > -->
-                            <router-link :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link >
+                           <router-link  :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-warning">   
+                              {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
+                            </router-link >
                         </td>                      
                         <td v-if="utype=='Administrator'||utype=='Doctor'" >
-                          <!-- <router-link :to="{name: 'diagnose_from',params:{id:e.patientid}}" class="btn btn-sm btn-warning">{{e.patientname}}</router-link > -->
-                            <router-link :to="{name: 'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}" class="btn btn-sm btn-success">{{e.patientname}}</router-link >
+                          <router-link :to="{name: 'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-primary">
+                            {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
+                          </router-link >
                         </td>
                         <td>{{e.patientid}}</td>
                         <td>{{e.pk_pspatregisters}}</td>
@@ -269,4 +271,9 @@
       transform: translateX(-50%);
       /*display: none;*/
     }
+
+    .btn-app {
+      height: unset !important;
+      padding: 0 1.5em 0 1.5em;
+  }
 </style>

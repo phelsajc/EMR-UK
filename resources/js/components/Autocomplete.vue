@@ -15,7 +15,7 @@
      data(){
       return {
                 form: {
-                    val: '',
+                    val: this.meds ,
                 },
        results: [],
         results2: {
@@ -52,8 +52,15 @@
              this.results = []
                     this.$emit( 'handle-form-data', this.results2 );
          },
+        setValue(value) {
+          this.form.val = value
+        }
          
-     },
+    },
+     
+  created() {
+    this.$parent.$on('update', this.setValue);
+  },
         props: ['products'],
     }
    </script>

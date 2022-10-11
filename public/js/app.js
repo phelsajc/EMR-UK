@@ -1936,7 +1936,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
-        val: ''
+        val: this.meds
       },
       results: [],
       results2: {
@@ -1972,7 +1972,13 @@ __webpack_require__.r(__webpack_exports__);
       this.form.val = id.genericname;
       this.results = [];
       this.$emit('handle-form-data', this.results2);
+    },
+    setValue: function setValue(value) {
+      this.form.val = value;
     }
+  },
+  created: function created() {
+    this.$parent.$on('update', this.setValue);
   },
   props: ['products']
 });
@@ -2058,13 +2064,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/AppStorage */ "./resources/js/Helpers/AppStorage.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2584,10 +2583,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.getPatientInformation();
     this.editForm(); //this.getDiagnosisInfo()
+
+    this.getFrequency();
+    this.getMedicine();
   },
   data: function data() {
-    var _prescription;
-
     return {
       form: {
         o2_stat: '',
@@ -2603,18 +2603,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         historyPe: '',
         diagnosis: ''
       },
-      prescription: (_prescription = {
-        breakFast: null,
-        lunch: null,
-        supper: null,
+      editedMeds: false,
+      prescription: {
+        breakFast: '8am',
+        lunch: '11:30am',
+        supper: '8pm',
         bbt: null,
-        dueDate: null,
-        days: null,
-        qty: null,
+        dueDate: '2022-10-22',
+        days: 5,
+        qty: 10,
         dueDateF: null,
         daysF: null,
         qtyF: null,
-        instruction: '',
+        instruction: 'Taken with meal',
         medcine_desc: '',
         medecine_id: 0,
         dosage: 0,
@@ -2624,12 +2625,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         dsc_p: 0,
         src_p: 0,
         pspat: '',
-        bf_time: null,
-        sp_time: null,
-        ln_time: null,
-        bbt_time: null,
-        pk_iwitems: 0
-      }, _defineProperty(_prescription, "frequency", ''), _defineProperty(_prescription, "iscustome", false), _defineProperty(_prescription, "dctr", User.user_id()), _prescription),
+        pk_iwitems: 0,
+        iscustome: false,
+        dctr: User.user_id()
+      },
       user_info: {
         patientname: '',
         contactno: '',
@@ -2639,7 +2638,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       getSelectedMedicine: {},
       chosenMethod: null,
       isDoneDetails: true,
-      diagnosisId: null
+      diagnosisId: null,
+      frequencies: [],
+      medicineList: [],
+      isUpdate: false,
+      prescription_id: null
     };
   },
   props: ['results'],
@@ -2682,8 +2685,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     clickedShowDetailModal: function clickedShowDetailModal(value) {
       this.getSelectedMedicine = value;
-      this.prescription.reg_p = this.getSelectedMedicine.price;
-      this.prescription.dsc_p = this.getSelectedMedicine.discounted_price;
+      this.prescription.reg_p = this.getSelectedMedicine.reg_price;
+      this.prescription.dsc_p = this.getSelectedMedicine.dc_price;
       this.prescription.src_p = this.getSelectedMedicine.sc_price;
       this.prescription.pk_iwitems = this.getSelectedMedicine.pk_iwitems;
       this.prescription.medecine_id = this.getSelectedMedicine.pk_iwitems;
@@ -2697,6 +2700,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     type_of_prescription: function type_of_prescription(type) {
       this.chosenMethod = type;
+      this.isUpdate = false;
     },
     saveHPE: function saveHPE() {
       var _this4 = this;
@@ -2710,26 +2714,81 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return _this4.errors = error.response.data.errors;
       });
     },
-
-    /* getDiagnosisInfo() {
-        axios.get('/api/getDiagnosisInfo/'+this.$route.params.id)
-            .then(({ data }) => (
-                this.historyPe = data.history,
-                this.isDoneDetails = false
-            ))
-        .catch()                
-    } */
-    AddMedicine: function AddMedicine() {
+    AddMedicine: function AddMedicine(event) {
       var _this5 = this;
 
-      axios.post('/api/addMedicine/' + this.chosenMethod + "/" + this.$route.params.id + "/" + this.diagnosisId, this.prescription).then(function (res) {
+      if (this.chosenMethod == 1) {
+        this.prescription.frequency = null;
+        this.prescription.daysF = null;
+        this.prescription.qtyF = null;
+        this.prescription.dueDateF = null;
+      } else if (this.chosenMethod == 2) {
+        this.prescription.breakFast = null;
+        this.prescription.lunch = null;
+        this.prescription.supper = null;
+        this.prescription.bbt = null;
+        this.prescription.dueDate = null;
+        this.prescription.days = null;
+        this.prescription.qty = null;
+      }
+
+      var query = '';
+
+      if (this.isUpdate) {
+        query = axios.post('/api/updateMedicine/' + this.chosenMethod + "/" + this.prescription_id, this.prescription);
+      } else {
+        query = axios.post('/api/addMedicine/' + this.chosenMethod + "/" + this.$route.params.id + "/" + this.diagnosisId, this.prescription);
+      }
+
+      query.then(function (res) {
+        _this5.medicineList = [];
         Toast.fire({
           icon: 'success',
           title: 'Medicine added successfully'
         });
+
+        _this5.getMedicine();
+
+        _this5.isUpdate = false;
+        _this5.editedMeds = false;
+        _this5.prescription = Object.assign({}, _this5.prescription);
       })["catch"](function (error) {
         return _this5.errors = error.response.data.errors;
       });
+    },
+    getFrequency: function getFrequency() {
+      var _this6 = this;
+
+      axios.get('/api/getrequency').then(function (_ref3) {
+        var data = _ref3.data;
+        return _this6.frequencies = data;
+      })["catch"]();
+    },
+    getMedicine: function getMedicine() {
+      var _this7 = this;
+
+      axios.get('/api/getPrescribeMedicine/' + this.$route.params.id).then(function (_ref4) {
+        var data = _ref4.data;
+        return _this7.medicineList = data;
+      })["catch"]();
+    },
+    editMeds: function editMeds(method, id) {
+      var _this8 = this;
+
+      this.isUpdate = true;
+      this.chosenMethod = method;
+      this.editedMeds = true;
+      axios.get('/api/getPrecriptionDetail/' + id).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this8.prescription.breakFast = method == 1 ? data.bf_time : null, _this8.prescription.lunch = method == 1 ? data.ln_time : null, _this8.prescription.supper = method == 1 ? data.sp_time : null, _this8.prescription.bbt = method == 1 ? data.bbt_time : null, _this8.prescription.dueDate = method == 1 ? data.due : null, _this8.prescription.days = method == 1 ? data.days : null, _this8.prescription.qty = method == 1 ? data.quantity : null, _this8.prescription.frequency = method == 2 ? data.frequency : null, _this8.prescription.daysF = method == 2 ? data.days : null, _this8.prescription.qtyF = method == 2 ? data.quantity : null, _this8.prescription.dueDateF = method == 2 ? data.due : null, _this8.prescription_id = data.prescription_id, _this8.prescription.instruction = data.instruction, _this8.prescription.pk_iwitems = data.medecine_id, _this8.prescription.medecine_id = data.medecine_id, _this8.prescription.item_description = data.medecine_desc, _this8.prescription.item_generic_name = data.generic_name, _this8.$emit('update', data.generic_name);
+      })["catch"]();
+    },
+    removeMeds: function removeMeds(id) {
+      this.chosenMethod = id;
+      this.$emit('update', 7);
+      /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
+      .then(({data}) => ( this.medicineList = data))
+      .catch() */
     }
   }
 });
@@ -3674,6 +3733,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -8719,7 +8780,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.em_photo{\n    height: 40px;\n    width: 40px;\n}\n.to-right{\n  float: right;\n}\n.spin_center{\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 300px;\n  text-align:center;\n  transform: translateX(-50%);\n  /*display: none;*/\n}\n", ""]);
+exports.push([module.i, "\n.em_photo{\n      height: 40px;\n      width: 40px;\n}\n.to-right{\n    float: right;\n}\n.spin_center{\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 300px;\n    text-align:center;\n    transform: translateX(-50%);\n    /*display: none;*/\n}\n.btn-app {\n    height: unset !important;\n    padding: 0 1.5em 0 1.5em;\n}\n", ""]);
 
 // exports
 
@@ -48092,7 +48153,13 @@ var render = function () {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-12" }, [
             _c("div", { staticClass: "card card-success" }, [
-              _vm._m(1),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.user_info.patientname)),
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "row" }, [
@@ -48435,7 +48502,11 @@ var render = function () {
                                     {
                                       staticClass:
                                         "btn btn-success btn-outline  csbtn pull-center",
-                                      attrs: { id: "pbm", type: "button" },
+                                      attrs: {
+                                        disabled: _vm.editedMeds,
+                                        id: "pbm",
+                                        type: "button",
+                                      },
                                       on: {
                                         click: function ($event) {
                                           return _vm.type_of_prescription(1)
@@ -48457,7 +48528,11 @@ var render = function () {
                                     {
                                       staticClass:
                                         "btn btn-primary btn-outline csbtn pull-center",
-                                      attrs: { id: "pbf", type: "button" },
+                                      attrs: {
+                                        disabled: _vm.editedMeds,
+                                        id: "pbf",
+                                        type: "button",
+                                      },
                                       on: {
                                         click: function ($event) {
                                           return _vm.type_of_prescription(2)
@@ -48487,6 +48562,10 @@ var render = function () {
                                   _vm._m(5),
                                   _vm._v(" "),
                                   _c("autocomplete", {
+                                    ref: "medicineVal",
+                                    attrs: {
+                                      meds: this.prescription.generic_name,
+                                    },
                                     on: {
                                       "handle-form-data":
                                         _vm.clickedShowDetailModal,
@@ -48978,37 +49057,25 @@ var render = function () {
                                                         },
                                                       },
                                                     },
-                                                    [
-                                                      _c(
-                                                        "option",
-                                                        {
-                                                          attrs: {
-                                                            value: "OD",
+                                                    _vm._l(
+                                                      _vm.frequencies,
+                                                      function (e) {
+                                                        return _c(
+                                                          "option",
+                                                          {
+                                                            domProps: {
+                                                              value: e.id,
+                                                            },
                                                           },
-                                                        },
-                                                        [_vm._v("OD")]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "option",
-                                                        {
-                                                          attrs: {
-                                                            value: "BID",
-                                                          },
-                                                        },
-                                                        [_vm._v("BID")]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "option",
-                                                        {
-                                                          attrs: {
-                                                            value: "TID",
-                                                          },
-                                                        },
-                                                        [_vm._v("TID")]
-                                                      ),
-                                                    ]
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(e.desc)
+                                                            ),
+                                                          ]
+                                                        )
+                                                      }
+                                                    ),
+                                                    0
                                                   ),
                                                 ]
                                               ),
@@ -49273,7 +49340,75 @@ var render = function () {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm._m(6),
+                          _c(
+                            "table",
+                            {
+                              staticClass: "table table-bordered table-hover",
+                              attrs: { id: "myTable" },
+                            },
+                            [
+                              _vm._m(6),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                _vm._l(_vm.medicineList, function (e) {
+                                  return _c("tr", { key: e.id }, [
+                                    _c("td", [_vm._v(_vm._s(e.med_gen_name))]),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(e.med_desc))]),
+                                    _vm._v(" "),
+                                    e.dosage > 0
+                                      ? _c("td", [_vm._v(_vm._s(e.dosage))])
+                                      : _c("td"),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(e.quantity))]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-warning",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.editMeds(
+                                                e.method,
+                                                e.id
+                                              )
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fas fa-edit",
+                                          }),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function ($event) {
+                                              return _vm.removeMeds(e.id)
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fas fa-trash",
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
+                                  ])
+                                }),
+                                0
+                              ),
+                            ]
+                          ),
                         ]),
                       ]
                     ),
@@ -49349,19 +49484,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Patient Information")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-tools" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-tool",
-            attrs: { type: "button", "data-card-widget": "collapse" },
-          },
-          [_c("i", { staticClass: "fas fa-minus" })]
-        ),
-      ]),
+    return _c("div", { staticClass: "card-tools" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-tool",
+          attrs: { type: "button", "data-card-widget": "collapse" },
+        },
+        [_c("i", { staticClass: "fas fa-minus" })]
+      ),
     ])
   },
   function () {
@@ -49469,30 +49600,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "table",
-      {
-        staticClass: "table table-bordered table-hover",
-        attrs: { id: "myTable" },
-      },
-      [
-        _c("thead", { staticClass: "thead-light" }, [
-          _c("tr", [
-            _c("th", [_vm._v("Generic")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Brand")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Dosage")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Qty")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Action")]),
-          ]),
-        ]),
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", [_vm._v("Generic")]),
         _vm._v(" "),
-        _c("tbody"),
-      ]
-    )
+        _c("th", [_vm._v("Brand")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Dosage")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")]),
+      ]),
+    ])
   },
   function () {
     var _vm = this
@@ -51919,7 +52039,7 @@ var render = function () {
                                   _c(
                                     "router-link",
                                     {
-                                      staticClass: "btn btn-sm btn-warning",
+                                      staticClass: "btn btn-app bg-warning",
                                       attrs: {
                                         to: {
                                           name: "diagnose-from",
@@ -51927,7 +52047,24 @@ var render = function () {
                                         },
                                       },
                                     },
-                                    [_vm._v(_vm._s(e.patientname))]
+                                    [
+                                      _vm._v(
+                                        "   \n                          " +
+                                          _vm._s(e.patientname) +
+                                          " "
+                                      ),
+                                      e.hasdetails
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "badge bg-success" },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-check",
+                                              }),
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                    ]
                                   ),
                                 ],
                                 1
@@ -51941,7 +52078,7 @@ var render = function () {
                                   _c(
                                     "router-link",
                                     {
-                                      staticClass: "btn btn-sm btn-success",
+                                      staticClass: "btn btn-app bg-primary",
                                       attrs: {
                                         to: {
                                           name: "diagnose-from-dctr",
@@ -51949,7 +52086,24 @@ var render = function () {
                                         },
                                       },
                                     },
-                                    [_vm._v(_vm._s(e.patientname))]
+                                    [
+                                      _vm._v(
+                                        "\n                        " +
+                                          _vm._s(e.patientname) +
+                                          " "
+                                      ),
+                                      e.hasdetails
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "badge bg-success" },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-check",
+                                              }),
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                    ]
                                   ),
                                 ],
                                 1

@@ -23,7 +23,7 @@
        <div class="col-12">
          <div class="card card-success">
            <div class="card-header">
-             <h3 class="card-title">Patient Information</h3>
+             <h3 class="card-title">{{user_info.patientname}}</h3>
              <div class="card-tools">
                <button type="button" class="btn btn-tool" data-card-widget="collapse">
                  <i class="fas fa-minus"></i>
@@ -152,11 +152,11 @@
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div class="col-md-12 text-center">
-                                    <button id="pbm" @click="type_of_prescription(1)" class="btn btn-success btn-outline  csbtn pull-center" type="button">
+                                    <button :disabled="editedMeds" id="pbm" @click="type_of_prescription(1)" class="btn btn-success btn-outline  csbtn pull-center" type="button">
                                         <i class="fab fa-apple"></i> <br />
                                         MEAL
                                     </button>
-                                    <button id="pbf" @click="type_of_prescription(2)" class="btn btn-primary btn-outline csbtn pull-center" type="button">
+                                    <button :disabled="editedMeds" id="pbf" @click="type_of_prescription(2)" class="btn btn-primary btn-outline csbtn pull-center" type="button">
                                         <i class="fa fa-clock"></i> <br />
                                         FREQUENCY
                                     </button>             
@@ -174,7 +174,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <autocomplete @handle-form-data="clickedShowDetailModal"></autocomplete>
+                            <autocomplete :meds="this.prescription.generic_name" ref="medicineVal" @handle-form-data="clickedShowDetailModal"></autocomplete>
                             <br>
                             <div class="row"  v-if="chosenMethod==1">
                                 <div class="col-md-3">
@@ -243,9 +243,7 @@
                                     <label class="control-label text-left col-md-3">Frequency:</label>
                                     <div class="col-md-6">
                                         <select type="text" v-model="prescription.frequency" class="form-control">
-                                            <option value="OD">OD</option>
-                                            <option value="BID">BID</option>
-                                            <option value="TID">TID</option>
+                                            <option  v-for="e in frequencies" v-bind:value="e.id">{{e.desc}}</option>
                                         </select>
                                     </div>
                                     </div>
@@ -304,20 +302,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- <tr v-for="e in filtersearch"  :key="e.id">                        
-                                <td v-if="utype=='Staff'" >
-                                
-                                </td>                      
-                                <td v-if="utype=='Administrator'||utype=='Doctor'" >
-                                
+                            <tr v-for="e in medicineList"  :key="e.id">                        
+                                <td>{{e.med_gen_name}}</td>                      
+                                <td>{{e.med_desc}}</td>
+                                <td v-if="e.dosage>0">{{e.dosage}}</td>
+                                <td v-else="e.dosage>0"></td>
+                                <td>{{e.quantity}}</td>
+                                <td >
+                                    <button type="button" class="btn btn-warning" @click="editMeds(e.method,e.id)"> <i class="fas fa-edit"></i> </button>
+                                    <button type="button"class="btn btn-danger" @click="removeMeds(e.id)"> <i class="fas fa-trash"></i>  </button>
                                 </td>
-                                <td>{{e.patientid}}</td>
-                                <td>{{e.pk_pspatregisters}}</td>
-                                <td width="10">{{e.sex}}</td>
-                                <td>
-                                {{e.attending_phy}}
-                                </td>
-                            </tr> -->
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -520,9 +515,11 @@ import AppStorage from '../../Helpers/AppStorage';
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})
             }
-            this.getPatientInformation();
-            this.editForm();
+            this.getPatientInformation()
+            this.editForm()
             //this.getDiagnosisInfo()
+            this.getFrequency()
+            this.getMedicine()
         },
 
         data() {
@@ -541,18 +538,19 @@ import AppStorage from '../../Helpers/AppStorage';
                     historyPe: '',
                     diagnosis: '',
                 },
+                    editedMeds: false,
                 prescription: {
-                    breakFast: null,
-                    lunch: null,
-                    supper: null,
+                    breakFast: '8am',
+                    lunch: '11:30am',
+                    supper: '8pm',
                     bbt: null,
-                    dueDate: null,
-                    days: null,
-                    qty: null,
+                    dueDate: '2022-10-22',
+                    days: 5,
+                    qty: 10,
                     dueDateF: null,
                     daysF: null,
                     qtyF: null,
-                    instruction:'',
+                    instruction:'Taken with meal',
                     medcine_desc: '',
                     medecine_id: 0,
                     dosage:0,
@@ -562,12 +560,7 @@ import AppStorage from '../../Helpers/AppStorage';
                     dsc_p: 0,
                     src_p: 0,
                     pspat: '',
-                    bf_time: null,
-                    sp_time: null,
-                    ln_time: null,
-                    bbt_time: null,
                     pk_iwitems: 0,
-                    frequency: '',
                     iscustome: false,
                     dctr: User.user_id(),
                 },
@@ -581,6 +574,10 @@ import AppStorage from '../../Helpers/AppStorage';
                 chosenMethod: null,
                 isDoneDetails: true,
                 diagnosisId: null,
+                frequencies:[],
+                medicineList: [],
+                isUpdate: false,
+                prescription_id:null,
             }
         },
         props: ['results'],
@@ -623,9 +620,9 @@ import AppStorage from '../../Helpers/AppStorage';
                 .catch(console.log('error'))
             },
             clickedShowDetailModal: function (value) {
-                this.getSelectedMedicine = value;                
-                this.prescription.reg_p = this.getSelectedMedicine.price
-                this.prescription.dsc_p = this.getSelectedMedicine.discounted_price
+                this.getSelectedMedicine = value;            
+                this.prescription.reg_p = this.getSelectedMedicine.reg_price
+                this.prescription.dsc_p = this.getSelectedMedicine.dc_price
                 this.prescription.src_p = this.getSelectedMedicine.sc_price
                 this.prescription.pk_iwitems = this.getSelectedMedicine.pk_iwitems
                 this.prescription.medecine_id = this.getSelectedMedicine.pk_iwitems
@@ -639,6 +636,7 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             type_of_prescription(type){
                 this.chosenMethod = type
+                this.isUpdate = false
             },
             saveHPE() {
                 axios.post('/api/upDateHPE', this.form)
@@ -651,24 +649,89 @@ import AppStorage from '../../Helpers/AppStorage';
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },
-            /* getDiagnosisInfo() {
-                axios.get('/api/getDiagnosisInfo/'+this.$route.params.id)
-                    .then(({ data }) => (
-                        this.historyPe = data.history,
-                        this.isDoneDetails = false
-                    ))
-                .catch()                
-            } */
-            AddMedicine(){
-                axios.post('/api/addMedicine/'+this.chosenMethod+"/"+this.$route.params.id+"/"+this.diagnosisId, this.prescription)
-                .then(res => {
+            AddMedicine(event){
+                    if(this.chosenMethod==1){
+                        this.prescription.frequency = null
+                        this.prescription.daysF = null
+                        this.prescription.qtyF = null
+                        this.prescription.dueDateF = null
+                    }else if(this.chosenMethod==2){
+                        this.prescription.breakFast = null
+                        this.prescription.lunch = null
+                        this.prescription.supper = null
+                        this.prescription.bbt = null
+                        this.prescription.dueDate = null
+                        this.prescription.days = null
+                        this.prescription.qty = null
+                }         
+                let query  = ''    
+                if (this.isUpdate) {
+                    query = axios.post('/api/updateMedicine/'+this.chosenMethod+"/"+this.prescription_id,this.prescription)
+                } else {
+                    query = axios.post('/api/addMedicine/'+this.chosenMethod+"/"+this.$route.params.id+"/"+this.diagnosisId, this.prescription)
+                }
+                query.then(res => {
+                    this.medicineList = []
                     Toast.fire({
                         icon: 'success',
                         title: 'Medicine added successfully'
                     })
+                        this.getMedicine();
+                    this.isUpdate = false     
+                    this.editedMeds = false    
+                    this.prescription = Object.assign({}, this.prescription);
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },
+            getFrequency(){                
+                axios.get('/api/getrequency')
+                .then(({data}) => ( this.frequencies = data))
+                .catch()
+            },
+            getMedicine(){                
+                axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
+                .then(({data}) => ( this.medicineList = data))
+                .catch()
+            },
+            editMeds(method, id) { 
+                this.isUpdate = true
+                this.chosenMethod = method       
+                this.editedMeds = true    
+                axios.get('/api/getPrecriptionDetail/'+id)
+                    .then(({ data }) => (   
+                        this.prescription.breakFast = method==1?data.bf_time:null,
+                        this.prescription.lunch = method==1?data.ln_time:null,
+                        this.prescription.supper = method==1?data.sp_time:null,
+                        this.prescription.bbt = method==1?data.bbt_time:null,
+                        this.prescription.dueDate = method==1?data.due:null,
+                        this.prescription.days = method==1?data.days:null,
+                        this.prescription.qty = method == 1 ? data.quantity : null,
+                        
+                        this.prescription.frequency = method == 2 ? data.frequency : null,
+                        this.prescription.daysF = method == 2 ? data.days : null,
+                        this.prescription.qtyF = method == 2 ? data.quantity : null,
+                        this.prescription.dueDateF = method == 2 ? data.due : null,
+                        this.prescription_id = data.prescription_id,
+                        this.prescription.instruction = data.instruction ,        
+                        
+                        this.prescription.pk_iwitems = data.medecine_id,
+                        this.prescription.medecine_id = data.medecine_id,
+                        this.prescription.item_description = data.medecine_desc,
+                        this.prescription.item_generic_name = data.generic_name   , 
+
+                        this.$emit('update', data.generic_name)  
+                    ))
+                .catch()
+            },
+            removeMeds(id) {  
+                this.chosenMethod = id 
+                this.$emit('update', 7);  
+                
+                /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
+                .then(({data}) => ( this.medicineList = data))
+                .catch() */
+            },
+
         }
     }
     
