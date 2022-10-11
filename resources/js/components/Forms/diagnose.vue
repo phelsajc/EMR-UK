@@ -571,13 +571,15 @@ import AppStorage from '../../Helpers/AppStorage';
                 },
                 errors: {},
                 getSelectedMedicine: {},
+                getSelectedDiagnostic: {},
                 chosenMethod: null,
                 isDoneDetails: true,
                 diagnosisId: null,
                 frequencies:[],
                 medicineList: [],
                 isUpdate: false,
-                prescription_id:null,
+                prescription_id: null,
+                selectdD: []
             }
         },
         props: ['results'],
@@ -630,9 +632,11 @@ import AppStorage from '../../Helpers/AppStorage';
                 this.prescription.item_generic_name = this.getSelectedMedicine.genericname                
             },
             clickedShowDetailModal2: function (value) {
-                /* console.log('value');
-                this.getSelectedMedicine = value;
-                console.log(this.getSelectedMedicine); */
+                this.getSelectedDiagnostic = value;
+                console.log(this.getSelectedDiagnostic);
+            this.selectdD.push({'d': value.itemdesc,'id': value.pk_iwitems});
+                console.log(value)
+                        this.$emit('update', this.getSelectedDiagnostic)  
             },
             type_of_prescription(type){
                 this.chosenMethod = type
@@ -725,7 +729,6 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             removeMeds(id) {  
                 this.chosenMethod = id 
-                this.$emit('update', 7);  
                 
                 /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
                 .then(({data}) => ( this.medicineList = data))

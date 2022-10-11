@@ -2007,6 +2007,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2014,6 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
         val: ''
       },
       results: [],
+      results3: [],
       results2: {
         pk_iwitems: '',
         itemdesc: '',
@@ -2044,10 +2054,20 @@ __webpack_require__.r(__webpack_exports__);
       this.results2.dc_price = id.discounted_price;
       this.results2.sc_price = id.sc_price;
       this.results2.reg_price = id.price;
-      this.form.val = id.genericname;
+      this.form.val = id.itemdesc;
       this.results = [];
       this.$emit('get-diagnostics-data', this.results2);
+    },
+    setValue: function setValue(value) {
+      this.results3.push({
+        'd': value.itemdesc,
+        'e': 123
+      });
+      this.form.val = null;
     }
+  },
+  created: function created() {
+    this.$parent.$on('update', this.setValue);
   },
   props: ['products']
 });
@@ -2636,13 +2656,15 @@ __webpack_require__.r(__webpack_exports__);
       },
       errors: {},
       getSelectedMedicine: {},
+      getSelectedDiagnostic: {},
       chosenMethod: null,
       isDoneDetails: true,
       diagnosisId: null,
       frequencies: [],
       medicineList: [],
       isUpdate: false,
-      prescription_id: null
+      prescription_id: null,
+      selectdD: []
     };
   },
   props: ['results'],
@@ -2694,9 +2716,14 @@ __webpack_require__.r(__webpack_exports__);
       this.prescription.item_generic_name = this.getSelectedMedicine.genericname;
     },
     clickedShowDetailModal2: function clickedShowDetailModal2(value) {
-      /* console.log('value');
-      this.getSelectedMedicine = value;
-      console.log(this.getSelectedMedicine); */
+      this.getSelectedDiagnostic = value;
+      console.log(this.getSelectedDiagnostic);
+      this.selectdD.push({
+        'd': value.itemdesc,
+        'id': value.pk_iwitems
+      });
+      console.log(value);
+      this.$emit('update', this.getSelectedDiagnostic);
     },
     type_of_prescription: function type_of_prescription(type) {
       this.chosenMethod = type;
@@ -2785,7 +2812,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeMeds: function removeMeds(id) {
       this.chosenMethod = id;
-      this.$emit('update', 7);
       /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
       .then(({data}) => ( this.medicineList = data))
       .catch() */
@@ -48108,14 +48134,31 @@ var render = function () {
                 },
                 [
                   _vm._v(
-                    "\n            " +
+                    "\n                " +
                       _vm._s(result.genericname) +
                       " (" +
                       _vm._s(result.itemdesc) +
-                      ")\n        "
+                      ")\n            "
                   ),
                 ]
               )
+            }),
+            0
+          ),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.results3.length
+      ? _c("div", { staticClass: "panel-footer" }, [
+          _c(
+            "ul",
+            { staticClass: "list-group" },
+            _vm._l(_vm.results3, function (resultx) {
+              return _c("li", { staticClass: "list-group-item" }, [
+                _vm._v(
+                  "\n                " + _vm._s(resultx.d) + "\n            "
+                ),
+              ])
             }),
             0
           ),
