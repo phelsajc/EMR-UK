@@ -121,11 +121,11 @@
                         Diagnostic
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">
                         Additional Instruction 
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
            </div>
            <div class="card-body"> 
@@ -320,7 +320,7 @@
                   <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                   
                     <div class="panel-body"> 
-                        <diagnostic @get-diagnostics-data="clickedShowDetailModal2"></diagnostic>
+                        <diagnostic @get-diagnostics-data="clickedShowDetailModal2" ref="getd"></diagnostic>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
@@ -358,6 +358,7 @@
                             </tbody>
                         </table>    
                   </div>
+                    <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button>
                   <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
 
                         <form id="homeInsForm" enctype="multipart/form-data" method="POST">                            
@@ -564,6 +565,7 @@ import AppStorage from '../../Helpers/AppStorage';
                     iscustome: false,
                     dctr: User.user_id(),
                 },
+                diagnostics: [],
                 user_info:{
                     patientname: '',
                     contactno: '',
@@ -633,10 +635,13 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             clickedShowDetailModal2: function (value) {
                 this.getSelectedDiagnostic = value;
-                console.log(this.getSelectedDiagnostic);
+              //  console.log(this.getSelectedDiagnostic);
             this.selectdD.push({'d': value.itemdesc,'id': value.pk_iwitems});
-                console.log(value)
+              //  console.log(this.selectdD)
                         this.$emit('update', this.getSelectedDiagnostic)  
+            },
+            clickedShowDetailModal3: function (value) {
+               console.log(value)
             },
             type_of_prescription(type){
                 this.chosenMethod = type
@@ -683,7 +688,7 @@ import AppStorage from '../../Helpers/AppStorage';
                         this.getMedicine();
                     this.isUpdate = false     
                     this.editedMeds = false    
-                    this.prescription = Object.assign({}, this.prescription);
+                    //this.prescription = Object.assign({}, this.prescription);
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },
@@ -729,12 +734,28 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             removeMeds(id) {  
                 this.chosenMethod = id 
-                
-                /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
-                .then(({data}) => ( this.medicineList = data))
-                .catch() */
+           
             },
-
+            saveDiagnostics() {
+                     
+                console.log(this.$refs.getd.results3)
+                this.$refs.getd.results3.forEach((element) => {
+                    alert(element.item_description);
+                });
+                /* {
+                    instructions:'Taken with meal',
+                    medcine_desc: '',
+                    medecine_id: 0,
+                    diagnosis_id: this.diagnosisId,
+                    generic_name: '',
+                    reg_p: 0,
+                    src_p: 0,
+                    pspat: '',
+                    pk_iwitems: this.$route.params.id,
+                    iscustome: false,
+                    dctr: User.user_id(),
+                } */
+            }
         }
     }
     

@@ -2034,6 +2034,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  watch: {
+    testProp: function testProp(newVal, oldVal) {
+      this.sayHello();
+    }
+  },
   methods: {
     autoComplete: function autoComplete() {
       var _this = this;
@@ -2060,10 +2065,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     setValue: function setValue(value) {
       this.results3.push({
-        'd': value.itemdesc,
-        'e': 123
+        'diagnostic': value.itemdesc,
+        'item_description': value.itemdesc,
+        'pk_iwitems': value.pk_iwitems,
+        'item_generic_name': null,
+        'item_reg_price': value.price,
+        'item_sc_price': value.sc_price
       });
       this.form.val = null;
+    },
+    remove: function remove(index) {
+      this.results3.splice(index, 1);
+    },
+    finalD: function finalD() {
+      this.$emit('get-diagnostics-fdata', this.results3);
     }
   },
   created: function created() {
@@ -2084,6 +2099,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Helpers/AppStorage */ "./resources/js/Helpers/AppStorage.js");
+//
 //
 //
 //
@@ -2649,6 +2665,7 @@ __webpack_require__.r(__webpack_exports__);
         iscustome: false,
         dctr: User.user_id()
       },
+      diagnostics: [],
       user_info: {
         patientname: '',
         contactno: '',
@@ -2716,14 +2733,17 @@ __webpack_require__.r(__webpack_exports__);
       this.prescription.item_generic_name = this.getSelectedMedicine.genericname;
     },
     clickedShowDetailModal2: function clickedShowDetailModal2(value) {
-      this.getSelectedDiagnostic = value;
-      console.log(this.getSelectedDiagnostic);
+      this.getSelectedDiagnostic = value; //  console.log(this.getSelectedDiagnostic);
+
       this.selectdD.push({
         'd': value.itemdesc,
         'id': value.pk_iwitems
-      });
-      console.log(value);
+      }); //  console.log(this.selectdD)
+
       this.$emit('update', this.getSelectedDiagnostic);
+    },
+    clickedShowDetailModal3: function clickedShowDetailModal3(value) {
+      console.log(value);
     },
     type_of_prescription: function type_of_prescription(type) {
       this.chosenMethod = type;
@@ -2777,8 +2797,7 @@ __webpack_require__.r(__webpack_exports__);
         _this5.getMedicine();
 
         _this5.isUpdate = false;
-        _this5.editedMeds = false;
-        _this5.prescription = Object.assign({}, _this5.prescription);
+        _this5.editedMeds = false; //this.prescription = Object.assign({}, this.prescription);
       })["catch"](function (error) {
         return _this5.errors = error.response.data.errors;
       });
@@ -2812,9 +2831,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeMeds: function removeMeds(id) {
       this.chosenMethod = id;
-      /* axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
-      .then(({data}) => ( this.medicineList = data))
-      .catch() */
+    },
+    saveDiagnostics: function saveDiagnostics() {
+      console.log(this.$refs.getd.results3);
+      this.$refs.getd.results3.forEach(function (element) {
+        alert(element.item_description);
+      });
+      /* {
+          instructions:'Taken with meal',
+          medcine_desc: '',
+          medecine_id: 0,
+          diagnosis_id: this.diagnosisId,
+          generic_name: '',
+          reg_p: 0,
+          src_p: 0,
+          pspat: '',
+          pk_iwitems: this.$route.params.id,
+          iscustome: false,
+          dctr: User.user_id(),
+      } */
     }
   }
 });
@@ -48122,26 +48157,30 @@ var render = function () {
             "ul",
             { staticClass: "list-group" },
             _vm._l(_vm.results, function (result) {
-              return _c(
-                "li",
-                {
-                  staticClass: "list-group-item",
-                  on: {
-                    click: function ($event) {
-                      return _vm.getMedicine(result)
+              return !_vm.results3.find(function (e) {
+                return e.item_description === result.itemdesc
+              })
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      on: {
+                        click: function ($event) {
+                          return _vm.getMedicine(result)
+                        },
+                      },
                     },
-                  },
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(result.genericname) +
-                      " (" +
-                      _vm._s(result.itemdesc) +
-                      ")\n            "
-                  ),
-                ]
-              )
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(result.genericname) +
+                          " (" +
+                          _vm._s(result.itemdesc) +
+                          ")\n            "
+                      ),
+                    ]
+                  )
+                : _vm._e()
             }),
             0
           ),
@@ -48153,10 +48192,22 @@ var render = function () {
           _c(
             "ul",
             { staticClass: "list-group" },
-            _vm._l(_vm.results3, function (resultx) {
+            _vm._l(_vm.results3, function (resultx, index) {
               return _c("li", { staticClass: "list-group-item" }, [
                 _vm._v(
-                  "\n                " + _vm._s(resultx.d) + "\n            "
+                  "\n             " + _vm._s(resultx.item_description) + "  "
+                ),
+                _c(
+                  "span",
+                  {
+                    staticClass: "badge bg-danger",
+                    on: {
+                      click: function ($event) {
+                        return _vm.remove(index)
+                      },
+                    },
+                  },
+                  [_c("i", { staticClass: "fa fa-times" })]
                 ),
               ])
             }),
@@ -48404,8 +48455,6 @@ var render = function () {
                     ]),
                     _vm._v(" "),
                     _vm._m(3),
-                    _vm._v(" "),
-                    _vm._m(4),
                   ]
                 ),
               ]),
@@ -48602,7 +48651,7 @@ var render = function () {
                             ? _c(
                                 "div",
                                 [
-                                  _vm._m(5),
+                                  _vm._m(4),
                                   _vm._v(" "),
                                   _c("autocomplete", {
                                     ref: "medicineVal",
@@ -49390,7 +49439,7 @@ var render = function () {
                               attrs: { id: "myTable" },
                             },
                             [
-                              _vm._m(6),
+                              _vm._m(5),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -49472,22 +49521,37 @@ var render = function () {
                           { staticClass: "panel-body" },
                           [
                             _c("diagnostic", {
+                              ref: "getd",
                               on: {
                                 "get-diagnostics-data":
                                   _vm.clickedShowDetailModal2,
                               },
                             }),
                             _vm._v(" "),
-                            _vm._m(7),
+                            _vm._m(6),
                           ],
                           1
                         ),
                         _vm._v(" "),
-                        _vm._m(8),
+                        _vm._m(7),
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(9),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.saveDiagnostics()
+                          },
+                        },
+                      },
+                      [_vm._v("Add")]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(8),
                   ]
                 ),
               ]),
@@ -49583,32 +49647,6 @@ var staticRenderFns = [
           },
         },
         [_vm._v("\n                        Diagnostic\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link",
-          attrs: {
-            id: "custom-tabs-one-settings-tab",
-            "data-toggle": "pill",
-            href: "#custom-tabs-one-settings",
-            role: "tab",
-            "aria-controls": "custom-tabs-one-settings",
-            "aria-selected": "false",
-          },
-        },
-        [
-          _vm._v(
-            "\n                        Additional Instruction \n                    "
-          ),
-        ]
       ),
     ])
   },

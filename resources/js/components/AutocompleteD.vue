@@ -4,7 +4,7 @@
         <input type="text" placeholder="what are you looking for?" v-model="form.val" v-on:keyup="autoComplete" class="form-control">
         <div class="panel-footer" v-if="results.length">
             <ul class="list-group">
-                <li class="list-group-item" v-for="result in results" @click="getMedicine(result)">
+                <li class="list-group-item" v-for="result in results" @click="getMedicine(result)" v-if="!results3.find(e => e.item_description  === result.itemdesc)">
                     {{ result.genericname }} ({{ result.itemdesc }})
                 </li>
             </ul>
@@ -13,8 +13,8 @@
         
         <div class="panel-footer" v-if="results3.length">
             <ul class="list-group">
-                <li class="list-group-item" v-for="resultx in results3">
-                    {{ resultx.d }}
+                <li class="list-group-item" v-for="(resultx,index) in results3">
+                 {{ resultx.item_description }}  <span class="badge bg-danger" @click="remove(index)"><i class="fa fa-times"></i></span>
                 </li>
             </ul>
         </div>
@@ -38,7 +38,11 @@
             reg_price: 0,         
        }
       }
-     },
+     },watch: {
+    testProp(newVal, oldVal) {
+      this.sayHello();
+    },
+  },
      methods: {
       autoComplete(){
        this.results = [];                
@@ -64,8 +68,22 @@
                     this.$emit( 'get-diagnostics-data', this.results2 );
          },
         setValue(value) {
-            this.results3.push({'d': value.itemdesc,'e':123});
+            this.results3.push({
+                'diagnostic': value.itemdesc,
+                'item_description': value.itemdesc,
+                'pk_iwitems': value.pk_iwitems,
+                'item_generic_name': null,
+                'item_reg_price': value.price,
+                'item_sc_price': value.sc_price,
+            });
              this.form.val = null;
+         },
+         remove(index) {
+            this.results3.splice(index, 1);
+         },
+         finalD() {
+            
+                    this.$emit( 'get-diagnostics-fdata', this.results3 );
         }
          
      },

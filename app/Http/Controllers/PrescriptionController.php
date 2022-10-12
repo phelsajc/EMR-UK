@@ -171,4 +171,40 @@ class PrescriptionController extends Controller
 		return true;
     }
     
+    public function store_diagnostic(Request $request){
+        date_default_timezone_set('Asia/Manila');
+        $data = Diagnostic_m::create($request->except('_token'));
+        $Inquiry = new Inquiry;
+        $reg_p = $request->price;
+        $dsc_p = $request->dc_price;//floatval($request->price) * floatval(0.80);
+        $sc_p = $request->sc_price;//floatval($dsc_p) / floatval(1.12);
+        if($request->selectedMethod == 'byMeal'){
+            $qty = (floatval($request->bf_b) + floatval($request->bf_a) + floatval($request->ln_b) + floatval($request->ln_a) + floatval($request->sp_b) + floatval($request->sp_a) + floatval($request->bbt)) * floatval($request->days);
+        }else if($request->selectedMethod == 'byfrequency'){
+            $qty = floatval($request->quantity);// * floatval($request->days);//SUBJECT TO CHANGE DUE TO NOT APPLICABLE TO SOME CASES
+        }
+
+        $Inquiry->pk_iwitems = $request->diagnostic_code;//medecine_id;
+        $Inquiry->item_description = $request->diagnostic;//medecine_desc;
+        $Inquiry->item_generic_name = '';//generic_name;
+        $Inquiry->item_reg_price = $reg_p;
+        $Inquiry->item_discounted_price = 0.00;//$dsc_p;
+        $Inquiry->item_sc_price = $sc_p;
+        $Inquiry->doctor = trim($request->doctor);
+        $Inquiry->item_qty = 1;// floatval($request->quantity);
+        $total_amt_reg = $request->price;//number_format((float)$reg_p, 2, '.', '') * floatval($qty);//floatval($reg_p) * floatval($qty);
+        $total_amt_dsc = 0.00;//number_format((float)$dsc_p, 2, '.', '') * floatval($qty);//floatval($total_amt_reg) * floatval(0.80);
+        $total_amt_sc = $request->sc_price;//number_format((float)$sc_p, 2, '.', '') * floatval($qty);//floatval($total_amt_dsc) / floatval(1.12);
+        $Inquiry->item_total_amt_reg = $total_amt_reg;
+        $Inquiry->item_total_amt_disc = $total_amt_dsc;
+        $Inquiry->item_total_amt_sc_disc = $total_amt_sc;
+        $Inquiry->transaction_id = $request->diagnosis_id;
+        $Inquiry->prescription_id = $data->diagnostic_id;
+        $Inquiry->batch = $data->batch;
+        $Inquiry->ancillary_location = 2;
+        $Inquiry->pspat = $request->pspat;
+        $Inquiry->save();
+        echo $data;
+    }
+    
 }
