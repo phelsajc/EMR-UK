@@ -16,9 +16,9 @@ Route::group([
     
 });
 
+Route::get('pdf','PDFController@pdf');
 Route::apiResource('/employee','Api\EmployeeController');
 
-Route::get('/pdf','PDFController@pdf');
 
 Route::match(['get','post'],'/filterEmployee','Api\EmployeeController@filterEmployee');
 Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmployee');

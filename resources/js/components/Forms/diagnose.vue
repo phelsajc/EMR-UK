@@ -310,7 +310,7 @@
                                 <td>{{e.quantity}}</td>
                                 <td >
                                     <button type="button" class="btn btn-warning" @click="editMeds(e.method,e.id)"> <i class="fas fa-edit"></i> </button>
-                                    <button type="button"class="btn btn-danger" @click="removeMeds(e.id)"> <i class="fas fa-trash"></i>  </button>
+                                    <button type="button" class="btn btn-danger" @click="removeMeds(e.id)"> <i class="fas fa-trash"></i>  </button>
                                 </td>
                             </tr>
                             </tbody>
@@ -358,7 +358,7 @@
                             </tbody>
                         </table>    
                   </div>
-                    <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button>
+                    <!-- <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button> -->
                   <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
 
                         <form id="homeInsForm" enctype="multipart/form-data" method="POST">                            
@@ -497,21 +497,20 @@
                         </form> 
                   </div>
                 </div>
-            </div>
-            
+            </div>            
             <button id="show-modal" @click="showModal = true" class="btn btn-info pull-right">Print Prescription</button><br>
          </div>
        </div>
      </div>
    </div>
-
-   <Px v-if="showModal" @close="showModal = false">
+  <!-- use the modal component, pass in the prop -->
+  <pxmodal v-if="showModal" @close="showModal = false" :name="user_info.patientname" >
     <!--
       you can use custom content here to overwrite
       default content
     -->
-    <h3 slot="header">custom header</h3>
-  </Px>
+   <!--  <h3 slot="header">custom header</h3> -->
+  </pxmodal>
 
 </section>   
    
@@ -519,7 +518,6 @@
 </template>
 
 <script type="text/javascript">
-import AppStorage from '../../Helpers/AppStorage';
 
 
     export default {
@@ -535,7 +533,9 @@ import AppStorage from '../../Helpers/AppStorage';
         },
 
         data() {
-            return {
+            return {                
+                activeModal: 0,
+                showModal: false,
                 form: {
                     o2_stat: '',
                     pulse_rate: '',
@@ -544,7 +544,6 @@ import AppStorage from '../../Helpers/AppStorage';
                     bp: '',
                     weight: '',
                     height: '',
-                    showModal: false,
                     chiefcomplaints: '',
                     pspat: this.$route.params.id,
                     user_id: User.user_id(),
