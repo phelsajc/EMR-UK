@@ -42,7 +42,7 @@ class MedicineController extends Controller
             $arr['genericname'] = '';
             $arr['discounted_price'] = 0;
             $arr['sc_price'] = $value->sc_price;
-            $arr['price'] = $value->reg_price;
+            $arr['reg_price'] = number_format(floatval($value->reg_price),2,'.','');
             $arr['itemgroup'] = 'EXM';
             $arr['isactive'] = 1;
             $arr['inserted_dt'] = '';
@@ -51,6 +51,7 @@ class MedicineController extends Controller
             $arr['warehousebalance'] = 0;
             $arr['shortname'] = $value->shortname;
             $arr['is_pckg'] = $value->is_package;
+            $arr['rp'] = number_format(floatval($value->reg_price),2,'.','');
             $data_package = array();
             if($value->is_package==1){
                 $query_package = DB::connection('peds')->select("select * from package_detail where under_to_pk_iwitems = '$value->itemdesc'");                

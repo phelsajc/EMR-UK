@@ -45,13 +45,15 @@
   },
      methods: {
       autoComplete(){
-       this.results = [];                
+            this.results = [];  
+            if(this.form.val.length > 2){              
                 axios.post('/api/searchDiagnostic',this.form)
                 .then(res => {
                     this.results = res.data  
                     console.log(res) 
                 })
                 .catch(error => this.errors = error.response.data.errors)
+            }
        
          },
          getMedicine(id) {
@@ -72,11 +74,11 @@
                 'diagnostic': value.itemdesc,
                 'item_description': value.itemdesc,
                 'pk_iwitems': value.pk_iwitems,
-                'item_generic_name': null,
-                'item_reg_price': value.price,
+                'item_reg_price': value.reg_price,
                 'item_sc_price': value.sc_price,
             });
              this.form.val = null;
+             console.log(this.results3)
          },
          remove(index) {
             this.results3.splice(index, 1);

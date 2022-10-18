@@ -2044,12 +2044,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.results = [];
-      axios.post('/api/searchDiagnostic', this.form).then(function (res) {
-        _this.results = res.data;
-        console.log(res);
-      })["catch"](function (error) {
-        return _this.errors = error.response.data.errors;
-      });
+
+      if (this.form.val.length > 2) {
+        axios.post('/api/searchDiagnostic', this.form).then(function (res) {
+          _this.results = res.data;
+          console.log(res);
+        })["catch"](function (error) {
+          return _this.errors = error.response.data.errors;
+        });
+      }
     },
     getMedicine: function getMedicine(id) {
       this.getValue = id;
@@ -2068,11 +2071,11 @@ __webpack_require__.r(__webpack_exports__);
         'diagnostic': value.itemdesc,
         'item_description': value.itemdesc,
         'pk_iwitems': value.pk_iwitems,
-        'item_generic_name': null,
-        'item_reg_price': value.price,
+        'item_reg_price': value.reg_price,
         'item_sc_price': value.sc_price
       });
       this.form.val = null;
+      console.log(this.results3);
     },
     remove: function remove(index) {
       this.results3.splice(index, 1);
@@ -2608,6 +2611,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -2633,6 +2647,7 @@ __webpack_require__.r(__webpack_exports__);
         bp: '',
         weight: '',
         height: '',
+        showModal: false,
         chiefcomplaints: '',
         pspat: this.$route.params.id,
         user_id: User.user_id(),
@@ -2681,7 +2696,8 @@ __webpack_require__.r(__webpack_exports__);
       medicineList: [],
       isUpdate: false,
       prescription_id: null,
-      selectdD: []
+      selectdD: [],
+      instructionD: null
     };
   },
   props: ['results'],
@@ -2738,8 +2754,8 @@ __webpack_require__.r(__webpack_exports__);
       this.selectdD.push({
         'd': value.itemdesc,
         'id': value.pk_iwitems
-      }); //  console.log(this.selectdD)
-
+      });
+      console.log(value);
       this.$emit('update', this.getSelectedDiagnostic);
     },
     clickedShowDetailModal3: function clickedShowDetailModal3(value) {
@@ -2833,10 +2849,13 @@ __webpack_require__.r(__webpack_exports__);
       this.chosenMethod = id;
     },
     saveDiagnostics: function saveDiagnostics() {
-      console.log(this.$refs.getd.results3);
-      this.$refs.getd.results3.forEach(function (element) {
-        alert(element.item_description);
-      });
+      var _this9 = this;
+
+      /* console.log(this.$refs.getd.results3)
+      this.$refs.getd.results3.forEach((element) => {
+          alert(element.pk_iwitems);
+      }); */
+
       /* {
           instructions:'Taken with meal',
           medcine_desc: '',
@@ -2850,9 +2869,67 @@ __webpack_require__.r(__webpack_exports__);
           iscustome: false,
           dctr: User.user_id(),
       } */
+      axios.post('/api/addDiagnostics', {
+        q: this.$refs.getd.results3,
+        r: this.instructionD,
+        dctr: User.user_id(),
+        diagnosisId: this.diagnosisId,
+        pspat: this.$route.params.id
+      }).then(function (res) {
+        _this9.isDoneDetails = false, Toast.fire({
+          icon: 'success',
+          title: 'Saved successfully'
+        });
+      })["catch"](function (error) {
+        return _this9.errors = error.response.data.errors;
+      });
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Prescription.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Prescription.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -48242,1324 +48319,1561 @@ var render = function () {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-12" }, [
-            _c("div", { staticClass: "card card-success" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h3", { staticClass: "card-title" }, [
-                  _vm._v(_vm._s(_vm.user_info.patientname)),
+    _c(
+      "section",
+      { staticClass: "content" },
+      [
+        _c("div", { staticClass: "container-fluid" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card card-success" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h3", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.user_info.patientname)),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1),
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("O2 Saturtion:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("p", { staticClass: "form-control-static" }, [
-                          _vm._v(_vm._s(_vm.form.o2_stat)),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("O2 Saturtion:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("p", { staticClass: "form-control-static" }, [
+                            _vm._v(_vm._s(_vm.form.o2_stat)),
+                          ]),
                         ]),
                       ]),
                     ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("Pulse Rate:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "mobileno" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.pulse_rate))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("RR:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "ack_date" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.rr))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("Temperature:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "ack_date" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.temp))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("BP:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("p", { staticClass: "form-control-static" }, [
-                          _vm._v(_vm._s(_vm.form.bp)),
-                        ]),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("Wegith:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "mobileno" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.weight))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("Height:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "ack_date" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.height))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-3" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        { staticClass: "control-label text-right col-md-6" },
-                        [_vm._v("Chief Complaints:")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "p",
-                          {
-                            staticClass: "form-control-static",
-                            attrs: { id: "ack_date" },
-                          },
-                          [_vm._v(_vm._s(_vm.form.chiefcomplaints))]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card card-primary" }, [
-              _c("div", { staticClass: "card-header p-0 pt-1" }, [
-                _c(
-                  "ul",
-                  {
-                    staticClass: "nav nav-tabs",
-                    attrs: { id: "custom-tabs-one-tab", role: "tablist" },
-                  },
-                  [
-                    _vm._m(2),
                     _vm._v(" "),
-                    _c("li", { staticClass: "nav-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "nav-link",
-                          class: { disabled: _vm.isDoneDetails },
-                          attrs: {
-                            id: "custom-tabs-one-profile-tab",
-                            "data-toggle": "pill",
-                            href: "#custom-tabs-one-profile",
-                            role: "tab",
-                            "aria-controls": "custom-tabs-one-profile",
-                            "aria-selected": "false",
-                          },
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Prescription \n                    "
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("Pulse Rate:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "mobileno" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.pulse_rate))]
                           ),
-                        ]
-                      ),
+                        ]),
+                      ]),
                     ]),
                     _vm._v(" "),
-                    _vm._m(3),
-                  ]
-                ),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("RR:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "ack_date" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.rr))]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("Temperature:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "ack_date" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.temp))]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("BP:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("p", { staticClass: "form-control-static" }, [
+                            _vm._v(_vm._s(_vm.form.bp)),
+                          ]),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("Wegith:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "mobileno" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.weight))]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("Height:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "ack_date" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.height))]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "control-label text-right col-md-6" },
+                          [_vm._v("Chief Complaints:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "form-control-static",
+                              attrs: { id: "ack_date" },
+                            },
+                            [_vm._v(_vm._s(_vm.form.chiefcomplaints))]
+                          ),
+                        ]),
+                      ]),
+                    ]),
+                  ]),
+                ]),
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-content",
-                    attrs: { id: "custom-tabs-one-tabContent" },
-                  },
-                  [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane fade show active",
-                        attrs: {
-                          id: "custom-tabs-one-home",
-                          role: "tabpanel",
-                          "aria-labelledby": "custom-tabs-one-home-tab",
-                        },
-                      },
-                      [
+              _c("div", { staticClass: "card card-primary" }, [
+                _c("div", { staticClass: "card-header p-0 pt-1" }, [
+                  _c(
+                    "ul",
+                    {
+                      staticClass: "nav nav-tabs",
+                      attrs: { id: "custom-tabs-one-tab", role: "tablist" },
+                    },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item" }, [
                         _c(
-                          "form",
+                          "a",
                           {
-                            staticClass: "user",
-                            attrs: { enctype: "multipart/form-data" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.addInitialdata.apply(null, arguments)
-                              },
+                            staticClass: "nav-link",
+                            class: { disabled: _vm.isDoneDetails },
+                            attrs: {
+                              id: "custom-tabs-one-profile-tab",
+                              "data-toggle": "pill",
+                              href: "#custom-tabs-one-profile",
+                              role: "tab",
+                              "aria-controls": "custom-tabs-one-profile",
+                              "aria-selected": "false",
                             },
                           },
                           [
-                            _c("h4", [_vm._v("History & PE")]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("textarea", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.historyPe,
-                                    expression: "form.historyPe",
-                                  },
-                                ],
-                                staticClass: "form-control",
-                                attrs: { rows: "3", placeholder: "Enter ..." },
-                                domProps: { value: _vm.form.historyPe },
-                                on: {
-                                  input: function ($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.form,
-                                      "historyPe",
-                                      $event.target.value
-                                    )
-                                  },
-                                },
-                              }),
-                            ]),
-                            _vm._v(" "),
-                            _c("h4", [_vm._v("Diagnosis")]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("textarea", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.form.diagnosis,
-                                    expression: "form.diagnosis",
-                                  },
-                                ],
-                                staticClass: "form-control",
-                                attrs: { rows: "3", placeholder: "Enter ..." },
-                                domProps: { value: _vm.form.diagnosis },
-                                on: {
-                                  input: function ($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.form,
-                                      "diagnosis",
-                                      $event.target.value
-                                    )
-                                  },
-                                },
-                              }),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "card-footer" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-primary pull-right",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.saveHPE()
-                                    },
-                                  },
-                                },
-                                [_vm._v("Submit")]
-                              ),
-                            ]),
+                            _vm._v(
+                              "\n                        Prescription \n                    "
+                            ),
                           ]
                         ),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane fade",
-                        attrs: {
-                          id: "custom-tabs-one-profile",
-                          role: "tabpanel",
-                          "aria-labelledby": "custom-tabs-one-profile-tab",
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            class: { disabled: _vm.isDoneDetails },
+                            attrs: {
+                              id: "custom-tabs-one-messages-tab",
+                              "data-toggle": "pill",
+                              href: "#custom-tabs-one-messages",
+                              role: "tab",
+                              "aria-controls": "custom-tabs-one-messages",
+                              "aria-selected": "false",
+                            },
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Diagnostic\n                    "
+                            ),
+                          ]
+                        ),
+                      ]),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tab-content",
+                      attrs: { id: "custom-tabs-one-tabContent" },
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "tab-pane fade show active",
+                          attrs: {
+                            id: "custom-tabs-one-home",
+                            role: "tabpanel",
+                            "aria-labelledby": "custom-tabs-one-home-tab",
+                          },
                         },
-                      },
-                      [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("div", { staticClass: "col-md-12" }, [
-                            _c("div", { staticClass: "input-group" }, [
-                              _c(
-                                "div",
-                                { staticClass: "col-md-12 text-center" },
-                                [
-                                  _c(
-                                    "button",
+                        [
+                          _c(
+                            "form",
+                            {
+                              staticClass: "user",
+                              attrs: { enctype: "multipart/form-data" },
+                              on: {
+                                submit: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.addInitialdata.apply(
+                                    null,
+                                    arguments
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _c("h4", [_vm._v("History & PE")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("textarea", {
+                                  directives: [
                                     {
-                                      staticClass:
-                                        "btn btn-success btn-outline  csbtn pull-center",
-                                      attrs: {
-                                        disabled: _vm.editedMeds,
-                                        id: "pbm",
-                                        type: "button",
-                                      },
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.type_of_prescription(1)
-                                        },
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.historyPe,
+                                      expression: "form.historyPe",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    rows: "3",
+                                    placeholder: "Enter ...",
+                                  },
+                                  domProps: { value: _vm.form.historyPe },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "historyPe",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]),
+                              _vm._v(" "),
+                              _c("h4", [_vm._v("Diagnosis")]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.diagnosis,
+                                      expression: "form.diagnosis",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    rows: "3",
+                                    placeholder: "Enter ...",
+                                  },
+                                  domProps: { value: _vm.form.diagnosis },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "diagnosis",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "card-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary pull-right",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.saveHPE()
                                       },
                                     },
-                                    [
-                                      _c("i", { staticClass: "fab fa-apple" }),
-                                      _vm._v(" "),
-                                      _c("br"),
-                                      _vm._v(
-                                        "\n                                        MEAL\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-primary btn-outline csbtn pull-center",
-                                      attrs: {
-                                        disabled: _vm.editedMeds,
-                                        id: "pbf",
-                                        type: "button",
-                                      },
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.type_of_prescription(2)
+                                  },
+                                  [_vm._v("Submit")]
+                                ),
+                              ]),
+                            ]
+                          ),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "tab-pane fade",
+                          attrs: {
+                            id: "custom-tabs-one-profile",
+                            role: "tabpanel",
+                            "aria-labelledby": "custom-tabs-one-profile-tab",
+                          },
+                        },
+                        [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("div", { staticClass: "input-group" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-12 text-center" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-outline  csbtn pull-center",
+                                        attrs: {
+                                          disabled: _vm.editedMeds,
+                                          id: "pbm",
+                                          type: "button",
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.type_of_prescription(1)
+                                          },
                                         },
                                       },
-                                    },
-                                    [
-                                      _c("i", { staticClass: "fa fa-clock" }),
-                                      _vm._v(" "),
-                                      _c("br"),
-                                      _vm._v(
-                                        "\n                                        FREQUENCY\n                                    "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
+                                      [
+                                        _c("i", {
+                                          staticClass: "fab fa-apple",
+                                        }),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        MEAL\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary btn-outline csbtn pull-center",
+                                        attrs: {
+                                          disabled: _vm.editedMeds,
+                                          id: "pbf",
+                                          type: "button",
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.type_of_prescription(2)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("i", { staticClass: "fa fa-clock" }),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(
+                                          "\n                                        FREQUENCY\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]),
                             ]),
                           ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "panel-body" }, [
-                          _vm.chosenMethod != null
-                            ? _c(
-                                "div",
-                                [
-                                  _vm._m(4),
-                                  _vm._v(" "),
-                                  _c("autocomplete", {
-                                    ref: "medicineVal",
-                                    attrs: {
-                                      meds: this.prescription.generic_name,
-                                    },
-                                    on: {
-                                      "handle-form-data":
-                                        _vm.clickedShowDetailModal,
-                                    },
-                                  }),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _vm.chosenMethod == 1
-                                    ? _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-3" }, [
+                          _vm._v(" "),
+                          _c("div", { staticClass: "panel-body" }, [
+                            _vm.chosenMethod != null
+                              ? _c(
+                                  "div",
+                                  [
+                                    _vm._m(3),
+                                    _vm._v(" "),
+                                    _c("autocomplete", {
+                                      ref: "medicineVal",
+                                      attrs: {
+                                        meds: this.prescription.generic_name,
+                                      },
+                                      on: {
+                                        "handle-form-data":
+                                          _vm.clickedShowDetailModal,
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _vm.chosenMethod == 1
+                                      ? _c("div", { staticClass: "row" }, [
                                           _c(
                                             "div",
-                                            { staticClass: "form-group row" },
+                                            { staticClass: "col-md-3" },
                                             [
                                               _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Breakfast:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
                                                 "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .breakFast,
-                                                        expression:
-                                                          "prescription.breakFast",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription
-                                                          .breakFast,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "breakFast",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
                                                 {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
+                                                  staticClass: "form-group row",
                                                 },
-                                                [_vm._v("Lunch:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .lunch,
-                                                        expression:
-                                                          "prescription.lunch",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.lunch,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "lunch",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Supper:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .supper,
-                                                        expression:
-                                                          "prescription.supper",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.supper,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "supper",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-6",
-                                                },
-                                                [_vm._v("Before Bed Time:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription.bbt,
-                                                        expression:
-                                                          "prescription.bbt",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.bbt,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "bbt",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.chosenMethod == 1
-                                    ? _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Due Date:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .dueDate,
-                                                        expression:
-                                                          "prescription.dueDate",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription
-                                                          .dueDate,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "dueDate",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Days:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription.days,
-                                                        expression:
-                                                          "prescription.days",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.days,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "days",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Qty:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription.qty,
-                                                        expression:
-                                                          "prescription.qty",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.qty,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "qty",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.chosenMethod == 2
-                                    ? _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Frequency:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
                                                 [
                                                   _c(
-                                                    "select",
+                                                    "label",
                                                     {
-                                                      directives: [
-                                                        {
-                                                          name: "model",
-                                                          rawName: "v-model",
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Breakfast:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .breakFast,
+                                                            expression:
+                                                              "prescription.breakFast",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
                                                           value:
                                                             _vm.prescription
-                                                              .frequency,
-                                                          expression:
-                                                            "prescription.frequency",
+                                                              .breakFast,
                                                         },
-                                                      ],
-                                                      staticClass:
-                                                        "form-control",
-                                                      attrs: { type: "text" },
-                                                      on: {
-                                                        change: function (
-                                                          $event
-                                                        ) {
-                                                          var $$selectedVal =
-                                                            Array.prototype.filter
-                                                              .call(
-                                                                $event.target
-                                                                  .options,
-                                                                function (o) {
-                                                                  return o.selected
-                                                                }
-                                                              )
-                                                              .map(function (
-                                                                o
-                                                              ) {
-                                                                var val =
-                                                                  "_value" in o
-                                                                    ? o._value
-                                                                    : o.value
-                                                                return val
-                                                              })
-                                                          _vm.$set(
-                                                            _vm.prescription,
-                                                            "frequency",
-                                                            $event.target
-                                                              .multiple
-                                                              ? $$selectedVal
-                                                              : $$selectedVal[0]
-                                                          )
-                                                        },
-                                                      },
-                                                    },
-                                                    _vm._l(
-                                                      _vm.frequencies,
-                                                      function (e) {
-                                                        return _c(
-                                                          "option",
-                                                          {
-                                                            domProps: {
-                                                              value: e.id,
-                                                            },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "breakFast",
+                                                              $event.target
+                                                                .value
+                                                            )
                                                           },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(e.desc)
-                                                            ),
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
+                                                        },
+                                                      }),
+                                                    ]
                                                   ),
                                                 ]
                                               ),
                                             ]
                                           ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
+                                          _vm._v(" "),
                                           _c(
                                             "div",
-                                            { staticClass: "form-group row" },
+                                            { staticClass: "col-md-3" },
                                             [
                                               _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Day/s:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
                                                 "div",
-                                                { staticClass: "col-md-6" },
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
                                                 [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .daysF,
-                                                        expression:
-                                                          "prescription.daysF",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "number" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.daysF,
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
                                                     },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "daysF",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
+                                                    [_vm._v("Lunch:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .lunch,
+                                                            expression:
+                                                              "prescription.lunch",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .lunch,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "lunch",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
                                                 ]
                                               ),
                                             ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Qty:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription.qtyF,
-                                                        expression:
-                                                          "prescription.qtyF",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription.qtyF,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "qtyF",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "form-group row" },
-                                            [
-                                              _c(
-                                                "label",
-                                                {
-                                                  staticClass:
-                                                    "control-label text-left col-md-3",
-                                                },
-                                                [_vm._v("Due Date:")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "col-md-6" },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          _vm.prescription
-                                                            .dueDateF,
-                                                        expression:
-                                                          "prescription.dueDateF",
-                                                      },
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value:
-                                                        _vm.prescription
-                                                          .dueDateF,
-                                                    },
-                                                    on: {
-                                                      input: function ($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          _vm.prescription,
-                                                          "dueDateF",
-                                                          $event.target.value
-                                                        )
-                                                      },
-                                                    },
-                                                  }),
-                                                ]
-                                              ),
-                                            ]
-                                          ),
-                                        ]),
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "form-group row" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "control-label text-left col-md-4",
-                                            },
-                                            [_vm._v("Instruction :")]
                                           ),
                                           _vm._v(" "),
                                           _c(
                                             "div",
-                                            { staticClass: "col-md-12" },
+                                            { staticClass: "col-md-3" },
                                             [
-                                              _c("textarea", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Supper:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .supper,
+                                                            expression:
+                                                              "prescription.supper",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .supper,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "supper",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-6",
+                                                    },
+                                                    [_vm._v("Before Bed Time:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .bbt,
+                                                            expression:
+                                                              "prescription.bbt",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .bbt,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "bbt",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.chosenMethod == 1
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Due Date:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .dueDate,
+                                                            expression:
+                                                              "prescription.dueDate",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .dueDate,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "dueDate",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Days:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .days,
+                                                            expression:
+                                                              "prescription.days",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .days,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "days",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Qty:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .qty,
+                                                            expression:
+                                                              "prescription.qty",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .qty,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "qty",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.chosenMethod == 2
+                                      ? _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Frequency:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c(
+                                                        "select",
+                                                        {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm.prescription
+                                                                  .frequency,
+                                                              expression:
+                                                                "prescription.frequency",
+                                                            },
+                                                          ],
+                                                          staticClass:
+                                                            "form-control",
+                                                          attrs: {
+                                                            type: "text",
+                                                          },
+                                                          on: {
+                                                            change: function (
+                                                              $event
+                                                            ) {
+                                                              var $$selectedVal =
+                                                                Array.prototype.filter
+                                                                  .call(
+                                                                    $event
+                                                                      .target
+                                                                      .options,
+                                                                    function (
+                                                                      o
+                                                                    ) {
+                                                                      return o.selected
+                                                                    }
+                                                                  )
+                                                                  .map(
+                                                                    function (
+                                                                      o
+                                                                    ) {
+                                                                      var val =
+                                                                        "_value" in
+                                                                        o
+                                                                          ? o._value
+                                                                          : o.value
+                                                                      return val
+                                                                    }
+                                                                  )
+                                                              _vm.$set(
+                                                                _vm.prescription,
+                                                                "frequency",
+                                                                $event.target
+                                                                  .multiple
+                                                                  ? $$selectedVal
+                                                                  : $$selectedVal[0]
+                                                              )
+                                                            },
+                                                          },
+                                                        },
+                                                        _vm._l(
+                                                          _vm.frequencies,
+                                                          function (e) {
+                                                            return _c(
+                                                              "option",
+                                                              {
+                                                                domProps: {
+                                                                  value: e.id,
+                                                                },
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(e.desc)
+                                                                ),
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Day/s:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .daysF,
+                                                            expression:
+                                                              "prescription.daysF",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: {
+                                                          type: "number",
+                                                        },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .daysF,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "daysF",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Qty:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .qtyF,
+                                                            expression:
+                                                              "prescription.qtyF",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .qtyF,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "qtyF",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group row",
+                                                },
+                                                [
+                                                  _c(
+                                                    "label",
+                                                    {
+                                                      staticClass:
+                                                        "control-label text-left col-md-3",
+                                                    },
+                                                    [_vm._v("Due Date:")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-6" },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value:
+                                                              _vm.prescription
+                                                                .dueDateF,
+                                                            expression:
+                                                              "prescription.dueDateF",
+                                                          },
+                                                        ],
+                                                        staticClass:
+                                                          "form-control",
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value:
+                                                            _vm.prescription
+                                                              .dueDateF,
+                                                        },
+                                                        on: {
+                                                          input: function (
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.$set(
+                                                              _vm.prescription,
+                                                              "dueDateF",
+                                                              $event.target
+                                                                .value
+                                                            )
+                                                          },
+                                                        },
+                                                      }),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "row" }, [
+                                      _c("div", { staticClass: "col-md-12" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group row" },
+                                          [
+                                            _c(
+                                              "label",
+                                              {
+                                                staticClass:
+                                                  "control-label text-left col-md-4",
+                                              },
+                                              [_vm._v("Instruction :")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "col-md-12" },
+                                              [
+                                                _c("textarea", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.prescription
+                                                          .instruction,
+                                                      expression:
+                                                        "prescription.instruction",
+                                                    },
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  domProps: {
                                                     value:
                                                       _vm.prescription
                                                         .instruction,
-                                                    expression:
-                                                      "prescription.instruction",
                                                   },
-                                                ],
-                                                staticClass: "form-control",
-                                                domProps: {
-                                                  value:
-                                                    _vm.prescription
-                                                      .instruction,
-                                                },
-                                                on: {
-                                                  input: function ($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      _vm.prescription,
-                                                      "instruction",
-                                                      $event.target.value
-                                                    )
+                                                  on: {
+                                                    input: function ($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.$set(
+                                                        _vm.prescription,
+                                                        "instruction",
+                                                        $event.target.value
+                                                      )
+                                                    },
                                                   },
-                                                },
-                                              }),
-                                            ]
-                                          ),
-                                        ]
-                                      ),
+                                                }),
+                                              ]
+                                            ),
+                                          ]
+                                        ),
+                                      ]),
                                     ]),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", {}, [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-primary pull-right",
-                                        attrs: { type: "button" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.AddMedicine()
-                                          },
-                                        },
-                                      },
-                                      [_vm._v("Add")]
-                                    ),
-                                    _c("br"),
-                                  ]),
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "table",
-                            {
-                              staticClass: "table table-bordered table-hover",
-                              attrs: { id: "myTable" },
-                            },
-                            [
-                              _vm._m(5),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                _vm._l(_vm.medicineList, function (e) {
-                                  return _c("tr", { key: e.id }, [
-                                    _c("td", [_vm._v(_vm._s(e.med_gen_name))]),
                                     _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(e.med_desc))]),
-                                    _vm._v(" "),
-                                    e.dosage > 0
-                                      ? _c("td", [_vm._v(_vm._s(e.dosage))])
-                                      : _c("td"),
-                                    _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(e.quantity))]),
-                                    _vm._v(" "),
-                                    _c("td", [
+                                    _c("div", {}, [
                                       _c(
                                         "button",
                                         {
-                                          staticClass: "btn btn-warning",
+                                          staticClass:
+                                            "btn btn-primary pull-right",
                                           attrs: { type: "button" },
                                           on: {
                                             click: function ($event) {
-                                              return _vm.editMeds(
-                                                e.method,
-                                                e.id
-                                              )
+                                              return _vm.AddMedicine()
                                             },
                                           },
                                         },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fas fa-edit",
-                                          }),
-                                        ]
+                                        [_vm._v("Add")]
                                       ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-danger",
-                                          attrs: { type: "button" },
-                                          on: {
-                                            click: function ($event) {
-                                              return _vm.removeMeds(e.id)
-                                            },
-                                          },
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fas fa-trash",
-                                          }),
-                                        ]
-                                      ),
+                                      _c("br"),
                                     ]),
-                                  ])
-                                }),
-                                0
-                              ),
-                            ]
-                          ),
-                        ]),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "tab-pane fade",
-                        attrs: {
-                          id: "custom-tabs-one-messages",
-                          role: "tabpanel",
-                          "aria-labelledby": "custom-tabs-one-messages-tab",
-                        },
-                      },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "panel-body" },
-                          [
-                            _c("diagnostic", {
-                              ref: "getd",
-                              on: {
-                                "get-diagnostics-data":
-                                  _vm.clickedShowDetailModal2,
-                              },
-                            }),
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
-                            _vm._m(6),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _vm._m(7),
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function ($event) {
-                            return _vm.saveDiagnostics()
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table table-bordered table-hover",
+                                attrs: { id: "myTable" },
+                              },
+                              [
+                                _vm._m(4),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  _vm._l(_vm.medicineList, function (e) {
+                                    return _c("tr", { key: e.id }, [
+                                      _c("td", [
+                                        _vm._v(_vm._s(e.med_gen_name)),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(e.med_desc))]),
+                                      _vm._v(" "),
+                                      e.dosage > 0
+                                        ? _c("td", [_vm._v(_vm._s(e.dosage))])
+                                        : _c("td"),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(e.quantity))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-warning",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.editMeds(
+                                                  e.method,
+                                                  e.id
+                                                )
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-edit",
+                                            }),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-danger",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.removeMeds(e.id)
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-trash",
+                                            }),
+                                          ]
+                                        ),
+                                      ]),
+                                    ])
+                                  }),
+                                  0
+                                ),
+                              ]
+                            ),
+                          ]),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "tab-pane fade",
+                          attrs: {
+                            id: "custom-tabs-one-messages",
+                            role: "tabpanel",
+                            "aria-labelledby": "custom-tabs-one-messages-tab",
                           },
                         },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "panel-body" },
+                            [
+                              _c("diagnostic", {
+                                ref: "getd",
+                                on: {
+                                  "get-diagnostics-data":
+                                    _vm.clickedShowDetailModal2,
+                                },
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col-md-12" }, [
+                                  _c("div", { staticClass: "form-group row" }, [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass:
+                                          "control-label text-left col-md-4",
+                                      },
+                                      [_vm._v("Instruction :")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("textarea", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.instructionD,
+                                            expression: "instructionD",
+                                          },
+                                        ],
+                                        staticClass: "form-control",
+                                        domProps: { value: _vm.instructionD },
+                                        on: {
+                                          input: function ($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.instructionD =
+                                              $event.target.value
+                                          },
+                                        },
+                                      }),
+                                    ]),
+                                  ]),
+                                ]),
+                              ]),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._m(5),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.saveDiagnostics()
+                            },
+                          },
+                        },
+                        [_vm._v("Add")]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(6),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-info pull-right",
+                    attrs: { id: "show-modal" },
+                    on: {
+                      click: function ($event) {
+                        _vm.showModal = true
                       },
-                      [_vm._v("Add")]
-                    ),
-                    _vm._v(" "),
-                    _vm._m(8),
-                  ]
+                    },
+                  },
+                  [_vm._v("Print Prescription")]
                 ),
+                _c("br"),
               ]),
             ]),
           ]),
         ]),
-      ]),
-    ]),
+        _vm._v(" "),
+        _vm.showModal
+          ? _c(
+              "Px",
+              {
+                on: {
+                  close: function ($event) {
+                    _vm.showModal = false
+                  },
+                },
+              },
+              [
+                _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
+                  _vm._v("custom header"),
+                ]),
+              ]
+            )
+          : _vm._e(),
+      ],
+      1
+    ),
   ])
 }
 var staticRenderFns = [
@@ -49632,28 +49946,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link",
-          attrs: {
-            id: "custom-tabs-one-messages-tab",
-            "data-toggle": "pill",
-            href: "#custom-tabs-one-messages",
-            role: "tab",
-            "aria-controls": "custom-tabs-one-messages",
-            "aria-selected": "false",
-          },
-        },
-        [_vm._v("\n                        Diagnostic\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c("div", { staticClass: "custom-control" }, [
         _c("label", { attrs: { for: "" } }, [_vm._v("Medicine")]),
@@ -49692,24 +49984,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Qty")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "form-group row" }, [
-          _c("label", { staticClass: "control-label text-left col-md-4" }, [
-            _vm._v("Instruction :"),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("textarea", { staticClass: "form-control" }),
-          ]),
-        ]),
       ]),
     ])
   },
@@ -50173,6 +50447,83 @@ var staticRenderFns = [
     )
   },
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "modal" } }, [
+    _c("div", { staticClass: "modal-mask" }, [
+      _c("div", { staticClass: "modal-wrapper" }, [
+        _c("div", { staticClass: "modal-container" }, [
+          _c(
+            "div",
+            { staticClass: "modal-header" },
+            [
+              _vm._t("header", function () {
+                return [_vm._v("\n              default header\n            ")]
+              }),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-body" },
+            [
+              _vm._t("body", function () {
+                return [_vm._v("\n              default body\n            ")]
+              }),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal-footer" },
+            [
+              _vm._t("footer", function () {
+                return [
+                  _vm._v("\n              default footer\n              "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "modal-default-button",
+                      on: {
+                        click: function ($event) {
+                          return _vm.$emit("close")
+                        },
+                      },
+                    },
+                    [_vm._v("\n                OK\n              ")]
+                  ),
+                ]
+              }),
+            ],
+            2
+          ),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -69119,6 +69470,7 @@ window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('Autocomplete', __webpack_require__(/*! ./components/Autocomplete.vue */ "./resources/js/components/Autocomplete.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('diagnostic', __webpack_require__(/*! ./components/AutocompleteD.vue */ "./resources/js/components/AutocompleteD.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-info', __webpack_require__(/*! ./components/User.vue */ "./resources/js/components/User.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('Px', __webpack_require__(/*! ./components/Prescription.vue */ "./resources/js/components/Prescription.vue"));
 var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.mixin({
   toast: true,
   position: 'top-end',
@@ -69140,7 +69492,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
   data: function data() {
     return {
-      bladeValue: ''
+      bladeValue: '',
+      showModal: false
     };
   }
 });
@@ -69414,6 +69767,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_template_id_0f9093c9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_diagnose_vue_vue_type_template_id_0f9093c9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Prescription.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/Prescription.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Prescription.vue?vue&type=template&id=3f5f7b05& */ "./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05&");
+/* harmony import */ var _Prescription_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Prescription.vue?vue&type=script&lang=js& */ "./resources/js/components/Prescription.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Prescription_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Prescription.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Prescription.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Prescription.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Prescription_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Prescription.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Prescription.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Prescription_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Prescription.vue?vue&type=template&id=3f5f7b05& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Prescription.vue?vue&type=template&id=3f5f7b05&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Prescription_vue_vue_type_template_id_3f5f7b05___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

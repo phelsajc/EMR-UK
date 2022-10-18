@@ -5,8 +5,10 @@ use DB;
 use App\Model\Prescriptions_m;
 use App\Model\Inquiry;
 use App\Model\Frequency;
+use App\Model\Diagnostic_m;
 use App\User;
 use Illuminate\Http\Request;
+
 
 class PrescriptionController extends Controller
 {
@@ -171,7 +173,7 @@ class PrescriptionController extends Controller
 		return true;
     }
     
-    public function store_diagnostic(Request $request){
+    /* public function store_diagnostic(Request $request){
         date_default_timezone_set('Asia/Manila');
         $data = Diagnostic_m::create($request->except('_token'));
         $Inquiry = new Inquiry;
@@ -205,6 +207,44 @@ class PrescriptionController extends Controller
         $Inquiry->pspat = $request->pspat;
         $Inquiry->save();
         echo $data;
-    }
+    } */
+
+    public function addDiagnostics(Request $request)
+    {
+        //return $request->dctr;
+        foreach ($request->q as $key ) {
+            $getUser = User::where(['id'=>$request->dctr])->first();
+            $Inquiry = new Inquiry;
+            $Inquiry->pk_iwitems = $key['pk_iwitems'];
+            $Inquiry->item_description = $key['item_description'];
+            //$Inquiry->item_generic_name = $key['item_generic_name'];
+            $Inquiry->item_reg_price = 0; # to fix in vue
+            $Inquiry->item_discounted_price = 0;
+            $Inquiry->item_sc_price = $key['item_sc_price'];
+            $Inquiry->doctor = trim($getUser->name);
+            $Inquiry->item_qty =  1;
+            $Inquiry->item_total_amt_reg = 0; # to fix in vue
+            $Inquiry->item_total_amt_disc = 0.00;
+            $Inquiry->item_total_amt_sc_disc = $key['item_sc_price'];
+            $Inquiry->transaction_id = $request->diagnosisId;
+            $Inquiry->ancillary_location = 2;
+            $Inquiry->pspat = $request->pspat;
+            $Inquiry->created_at = date('Y-m-d H:i');
+            $Inquiry->inserted_by = $request->dctr;         
+            $Inquiry->save();
+
+            
+            $d = new Diagnostic_m;
+            $d->instructions = $request->r;
+            $d->diagnostic = $key['item_description'];
+            $d->diagnostic_code = $key['pk_iwitems'];
+            $d->doctor = trim($getUser->name);
+            $d->diagnosis_id = $request->diagnosisId;
+            $d->pspat = $request->pspat;
+            $d->created_at = date('Y-m-d H:i');
+            $d->created_by = $request->dctr;         
+            $d->save();
+        }
+    } 
     
 }

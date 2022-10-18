@@ -36,6 +36,8 @@ Route::match(['get','post'],'getrequency','PrescriptionController@getrequency');
 Route::match(['get','post'],'getPrescribeMedicine/{id}','PrescriptionController@getPrescribeMedicine');
 Route::match(['get','post'],'getPrecriptionDetail/{id}','PrescriptionController@getPrecriptionDetail');
 Route::match(['get','post'],'updateMedicine/{method}/{diagnosis_id}','PrescriptionController@updateMedicine');
+Route::match(['get','post'],'addDiagnostics','PrescriptionController@addDiagnostics');
+
 
 
 

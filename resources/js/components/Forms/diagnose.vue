@@ -104,7 +104,7 @@
 
          
          <div class="card card-primary">
-              <div class="card-header p-0 pt-1">
+            <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
@@ -117,7 +117,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">
+                    <a class="nav-link" :class="{'disabled': isDoneDetails }" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">
                         Diagnostic
                     </a>
                   </li>
@@ -326,7 +326,7 @@
                                 <div class="form-group row">
                                 <label class="control-label text-left col-md-4">Instruction :</label>
                                 <div class="col-md-12">
-                                    <textarea class="form-control"></textarea>
+                                    <textarea class="form-control" v-model="instructionD"></textarea>
                                 </div>
                                 </div>
                             </div>
@@ -498,10 +498,21 @@
                   </div>
                 </div>
             </div>
+            
+            <button id="show-modal" @click="showModal = true" class="btn btn-info pull-right">Print Prescription</button><br>
          </div>
        </div>
      </div>
    </div>
+
+   <Px v-if="showModal" @close="showModal = false">
+    <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+    <h3 slot="header">custom header</h3>
+  </Px>
+
 </section>   
    
     </div>
@@ -533,13 +544,14 @@ import AppStorage from '../../Helpers/AppStorage';
                     bp: '',
                     weight: '',
                     height: '',
+                    showModal: false,
                     chiefcomplaints: '',
                     pspat: this.$route.params.id,
                     user_id: User.user_id(),
                     historyPe: '',
                     diagnosis: '',
                 },
-                    editedMeds: false,
+                editedMeds: false,
                 prescription: {
                     breakFast: '8am',
                     lunch: '11:30am',
@@ -581,7 +593,8 @@ import AppStorage from '../../Helpers/AppStorage';
                 medicineList: [],
                 isUpdate: false,
                 prescription_id: null,
-                selectdD: []
+                selectdD: [],
+                instructionD: null
             }
         },
         props: ['results'],
@@ -637,7 +650,7 @@ import AppStorage from '../../Helpers/AppStorage';
                 this.getSelectedDiagnostic = value;
               //  console.log(this.getSelectedDiagnostic);
             this.selectdD.push({'d': value.itemdesc,'id': value.pk_iwitems});
-              //  console.log(this.selectdD)
+                console.log(value)
                         this.$emit('update', this.getSelectedDiagnostic)  
             },
             clickedShowDetailModal3: function (value) {
@@ -738,10 +751,10 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             saveDiagnostics() {
                      
-                console.log(this.$refs.getd.results3)
+                /* console.log(this.$refs.getd.results3)
                 this.$refs.getd.results3.forEach((element) => {
-                    alert(element.item_description);
-                });
+                    alert(element.pk_iwitems);
+                }); */
                 /* {
                     instructions:'Taken with meal',
                     medcine_desc: '',
@@ -755,7 +768,22 @@ import AppStorage from '../../Helpers/AppStorage';
                     iscustome: false,
                     dctr: User.user_id(),
                 } */
-            }
+                axios.post('/api/addDiagnostics', {
+                    q:this.$refs.getd.results3,
+                    r: this.instructionD,                    
+                    dctr: User.user_id(),
+                    diagnosisId:this.diagnosisId,
+                    pspat:this.$route.params.id,
+                })
+                .then(res => {
+                        this.isDoneDetails = false,
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Saved successfully'
+                    })
+                })
+                .catch(error => this.errors = error.response.data.errors)
+            },
         }
     }
     

@@ -25,6 +25,7 @@ window.Swal = Swal;
 Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
 Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);
 Vue.component('user-info', require('./components/User.vue').default);
+Vue.component('Px', require('./components/Prescription.vue'));
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -52,6 +53,7 @@ const app = new Vue({
     data() {
         return {
             bladeValue: '',
+            showModal: false,
         }
     }
 });
