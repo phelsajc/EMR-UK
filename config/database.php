@@ -113,6 +113,18 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'bizbox' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST_SQLSRV', '192.168.70.53'),
+            //'host' => env('DB_HOST_SQLSRV', '192.168.70.83'),
+            'port' => env('DB_PORT_SQLSRV', '1433'),
+            //'database' => env('DB_DATABASE_SQLSRV', 'bizbox8'),
+            'database' => env('DB_DATABASE_SQLSRV', 'bizboxyesterday'),
+            'username' => env('DB_USERNAME_SQLSRV', 'sa'),
+            'password' => env('DB_PASSWORD_SQLSRV', 's@password1'),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
     ],
 
     /*

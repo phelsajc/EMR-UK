@@ -12,21 +12,10 @@
     
               <div class="modal-body">
                 <slot name="body">
-                    <div class="container-iframe">
-                        <!-- <iframe class="responsive-iframe"  src="https://docs.google.com/viewerng/viewer?url=http://192.168.70.98:8081/api/pdf/HomeInstructionPdf.pdf" width="1000" height="1000"></iframe> -->
-                        <!-- <iframe class="responsive-iframe"  src="https://docs.google.com/gview?embedded=true&url=https://www.africau.edu/images/default/sample.pdf" width="1000" height="1000"></iframe> -->
-                        <!-- <iframe class="responsive-iframe"  src="https://docs.google.com/viewerng/viewer?url=api/pdf/HomeInstructionPdf.pdf" width="1000" height="1000"></iframe> -->
-                        <!-- <iframe class="responsive-iframe"  src="https://docs.google.com/viewerng/viewer?url=http://192.168.70.98:8081/api/pdf/" width="1000" height="1000"></iframe> -->
-                       <!--  <iframe class="responsive-iframe"  src="https://docs.google.com/gview?embedded=true&url=http://192.168.70.98:8081/api/pdf/" width="1000" height="1000"></iframe> -->
-                        <!-- <object data="http://192.168.70.98:8081/api/pdf/" type="application/pdf" frameborder="0" width="100%" height="600px" style="padding: 20px;">
-                            <embed src="http://192.168.70.98:8081/api/pdf/" width="100%" height="600px"/> 
-                        </object> -->
-                        <!-- <object data='http://192.168.70.98:8081/api/pdf/' 
-                        type='application/pdf' 
-                        width='100%' 
-                        height='700px'></object> -->  
-                         <embed :src="'http://192.168.70.98:8081/api/pdf' + previewPdf" width="100%" height="600" type='application/pdf'>
-                    </div>
+	<button @click="$refs.myPdfComponent.print()">print</button>                    
+  <pdf ref="myPdfComponent" src="/api/print_prescription/207891/John Carlo C. Lucasan"></pdf>
+  
+  
                 </slot>
               </div>
               <div class="modal-footer">
@@ -43,7 +32,14 @@
       </transition>
     </template>
     <script>
+        
+import pdf from 'vue-pdf'
+
       export default {
+
+components: {
+  pdf,
+    },
         props: ['name']
       }
     </script>
