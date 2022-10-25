@@ -39,7 +39,7 @@ class PatientController extends Controller
             $checkDetails = Diagnosis::where(['ps_patregisgter'=>$value->pk_pspatregisters])->first();
             $arr['patientname'] =  $value->patientname;
             if($value->attending_phy){
-                $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->attending_phy) as d"); 
+                $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->pk_pspatregisters) as d"); 
                 $arr['attending_phy'] =  $physicians[0]->d;
             }else{
                 $arr['attending_phy'] =  "";
@@ -210,7 +210,7 @@ class PatientController extends Controller
                 $page_count = $getDecimal[0] + 1;
             }
         }
-        $datasets = array(["data"=>$data_array,"count"=>$page_count,"summary"=>($start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array]);
+        $datasets = array(["data"=>$data_array,"count"=>$page_count,"showing"=>"Showing ".(($start+10)-9)." to ".($start+10>$count_all_record[0]->count?$count_all_record[0]->count:$start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array]);
         return response()->json($datasets);
     }
     

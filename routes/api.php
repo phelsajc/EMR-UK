@@ -38,6 +38,9 @@ Route::match(['get','post'],'getPrecriptionDetail/{id}','PrescriptionController@
 Route::match(['get','post'],'updateMedicine/{method}/{diagnosis_id}','PrescriptionController@updateMedicine');
 Route::match(['get','post'],'addDiagnostics','PrescriptionController@addDiagnostics');
 Route::match(['get','post'],'print_prescription/{id}/{doctor}','PDFController@printPrescription');
+Route::match(['get','post'],'getPrescribeLabs/{id}','PrescriptionController@getPrescribeLabs');
+Route::match(['get','post'],'destroyLab/{id}','PrescriptionController@destroyLab');
+Route::match(['get','post'],'destroyMeds/{id}','PrescriptionController@destroyMeds');
 
 //Route::get('/print_prescription/{id}/{doctor}', 'Prescription@printPrescription');
 

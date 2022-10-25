@@ -340,25 +340,18 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <!-- <tr v-for="e in filtersearch"  :key="e.id">                        
-                                <td v-if="utype=='Staff'" >
-                                
-                                </td>                      
-                                <td v-if="utype=='Administrator'||utype=='Doctor'" >
-                                
+                            <tbody>                            
+                            <tr v-for="e in labList"  :key="e.id">                        
+                                <td>{{e.diagnostic}}</td>                      
+                                <td>{{e.instruction}}</td>
+                                <td >
+                                    <button type="button" class="btn btn-danger" @click="removeLabs(e.id)"> <i class="fas fa-trash"></i>  </button>
                                 </td>
-                                <td>{{e.patientid}}</td>
-                                <td>{{e.pk_pspatregisters}}</td>
-                                <td width="10">{{e.sex}}</td>
-                                <td>
-                                {{e.attending_phy}}
-                                </td>
-                            </tr> -->
+                            </tr>
                             </tbody>
                         </table>    
                   </div>
-                    <!-- <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button> -->
+                    <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button>
                   <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
 
                         <form id="homeInsForm" enctype="multipart/form-data" method="POST">                            
@@ -530,6 +523,7 @@
             //this.getDiagnosisInfo()
             this.getFrequency()
             this.getMedicine()
+            this.getLabs()
         },
 
         data() {
@@ -590,6 +584,7 @@
                 diagnosisId: null,
                 frequencies:[],
                 medicineList: [],
+                labList: [],
                 isUpdate: false,
                 prescription_id: null,
                 selectdD: [],
@@ -744,10 +739,6 @@
                     ))
                 .catch()
             },
-            removeMeds(id) {  
-                this.chosenMethod = id 
-           
-            },
             saveDiagnostics() {
                      
                 /* console.log(this.$refs.getd.results3)
@@ -780,8 +771,24 @@
                         icon: 'success',
                         title: 'Saved successfully'
                     })
+                    this.getLabs()
                 })
                 .catch(error => this.errors = error.response.data.errors)
+            },
+            getLabs(){                
+                axios.get('/api/getPrescribeLabs/'+this.$route.params.id)
+                .then(({data}) => ( this.labList = data))
+                .catch()
+            },
+            removeLabs(id){                
+                axios.get('/api/destroyLab/'+id)
+                .then(({data}) => ( this.getLabs()))
+                .catch()
+            },
+            removeMeds(id){                
+                axios.get('/api/destroyMeds/'+id)
+                .then(({data}) => ( this.getMedicine()))
+                .catch()
             },
         }
     }

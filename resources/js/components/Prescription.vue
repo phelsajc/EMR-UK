@@ -8,21 +8,25 @@
                 <slot name="header">
                     {{name}}
                 </slot>
+                <button type="button" class="btn btn-danger pull-left" @click="download()"> <i class="fa fa-times"></i> </button>
               </div>
     
               <div class="modal-body">
                 <slot name="body">
-	<button @click="$refs.myPdfComponent.print()">print</button>                    
-  <pdf ref="myPdfComponent" src="/api/print_prescription/207891/John Carlo C. Lucasan"></pdf>
-  
+<!-- 	<button @click="$refs.myPdfComponent.print()">print</button>                    
+  <pdf ref="myPdfComponent" src="/api/print_prescription/207891/John Carlo C. Lucasan"></pdf> -->
   
                 </slot>
+  <vue-pdf-app style="height: 100vh;" pdf="/api/print_prescription/208815/John Carlo C. Lucasan" @open="openHandler"></vue-pdf-app>
+ <!--  <button @click="$refs.pdfRef.print()">print</button>  
+    <vue-pdf-embed
+      ref="pdfRef" source="/api/print_prescription/207891/John Carlo C. Lucasan" /> -->
               </div>
               <div class="modal-footer">
                 <slot name="footer">
-                  default footer
+                 <!--  default footer -->
                   <button class="modal-default-button" @click="$emit('close')">
-                    OK
+                    Close
                   </button>
                 </slot>
               </div>
@@ -33,13 +37,44 @@
     </template>
     <script>
         
-import pdf from 'vue-pdf'
+/* import pdf from 'vue-pdf' */
+import VuePdfApp from "vue-pdf-app";
+import "vue-pdf-app/dist/icons/main.css";
+/* import VuePdfEmbed from 'vue-pdf-embed/dist/vue2-pdf-embed' */
 
       export default {
 
 components: {
-  pdf,
+ // pdf,
+    VuePdfApp,
+  //VuePdfEmbed
     },
+  data() {
+    return {
+      info: []
+    };
+  },
+  methods: {
+    async openHandler(pdfApp) {
+      this.info = [];
+      const info = await pdfApp.pdfDocument
+        .getMetadata()
+        .catch(console.error.bind(console));
+
+      if (!info) return;
+      const props = Object.keys(info.info);
+      props.forEach((prop) => {
+        const obj = {
+          name: prop,
+          value: info.info[prop]
+        };
+        this.info.push(obj);
+      });
+    },
+    download(){
+        window.open("/api/print_prescription/208815/John Carlo C. Lucasan")
+    }
+  },
         props: ['name']
       }
     </script>

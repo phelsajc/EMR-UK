@@ -27,6 +27,8 @@
         "noty": "^3.2.0-beta-deprecated",
         "sweetalert2": "^11.4.0",
         "vue-pdf": "^4.3.0",
+        "vue-pdf-app": "^2.1.0",
+        "vue-pdf-embed": "^1.1.4",
         "vue-router": "^3.5.3"
     }
 }

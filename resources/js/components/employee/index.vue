@@ -70,10 +70,14 @@
                     </tbody>
                 </table>
                 <br>
-                      <nav aria-label="Page navigation example" class="to-right">
+                <nav aria-label="Page navigation example" class="to-right">
                         <ul class="pagination">
                           <li class="page-item" v-for="(e, index) in this.countRecords" ><a class="page-link" @click="getPageNo(index+1)" href="#">{{index+1}}</a></li>
                         </ul>
+                      </nav>
+
+                      <nav aria-label="Page navigation example" class="">
+                        {{showing}}
                       </nav>
               </div>
               <!-- /.card-body -->
@@ -118,6 +122,7 @@
                 getdctr: '-',
                 utype: User.user_type(),
                 token: localStorage.getItem('token'),
+                showing: '',
             }
         },
         computed:{
@@ -133,7 +138,7 @@
               this.isHidden =  false        
                 //axios.get('/api/employee')
                 axios.get('/api/patientEmployee')
-                .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count,
+                .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count,this.showing = data[0].showing,
               this.isHidden =  true  ))
                 .catch()
             },
@@ -235,6 +240,7 @@
                 .then(res => {
                   this.employees = res.data[0].data
                   this.countRecords =res.data[0].count 
+                  this.showing = res.data[0].showing,
                   console.log(res.data.data)
                   this.isHidden =  true
               })

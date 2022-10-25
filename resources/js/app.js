@@ -25,6 +25,8 @@ window.Swal = Swal;
 /* require('./components/Autocomplete.vue').default */
 
 
+import VuePdfApp from "vue-pdf-app";
+window.VuePdfApp = VuePdfApp;
 Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
 Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);
 Vue.component('user-info', require('./components/User.vue').default);

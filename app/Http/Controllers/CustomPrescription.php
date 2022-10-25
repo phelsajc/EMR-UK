@@ -13,8 +13,7 @@ class CustomPrescription extends LaraFpdf
         $this->data = $data;
         $this->check_method = null;
         $pdf = new LaraFpdf();
-        //parent::__construct('L', 'mm', array(215.9,139.7));
-        parent::__construct('P', 'mm', array(203.2,279.4));
+        parent::__construct('L', 'mm', array(215.9,139.7));
         /* parent::__construct('L', 'mm', array(
             215,
             279.4
@@ -68,21 +67,17 @@ class CustomPrescription extends LaraFpdf
         $this->SetFont('');
         $this->cell(10, 3, '', 'B', 1);
         $this->cell(13, 4, 'Address :', 0, 0);
-        $add = strlen($this->data['query_patient']->address);
-       // $this->cell(1, 4, strtoupper($this->data['query_patient']->patientname. ' '.$this->data['query_patient']->patientname) , 'B', 0);
-        
+        $add = strlen($this->data['query_patient']->address);        
 
         if($add<=51){
-            $this->cell(1, 4, strtoupper($this->data['query_patient']->address) , 'B', 0);
-        
-        $this->cell(87, 4, '', 'B', 0);
-        $this->cell(8, 4, 'Date :', 0, 0);
-        $this->Ln(10);
-        $this->Image(public_path() . '\img\rx.png', 10, 32, 4, 4, 'PNG');
+            $this->cell(1, 4, strtoupper($this->data['query_patient']->address) , 'B', 0);        
+            $this->cell(87, 4, '', 'B', 0);
+            $this->cell(8, 4, 'Date :', 0, 0);
+            $this->Ln(10);
+            $this->Image(public_path() . '\img\rx.png', 10, 32, 4, 4, 'PNG');
         }else{
-             $this->MultiCell(198,4,strtoupper(substr($this->data['query_patient']->address, 0, 81)),'B','L');
+            $this->MultiCell(198,4,strtoupper(substr($this->data['query_patient']->address, 0, 81)),'B','L');
             $this->MultiCell(100,4,strtoupper(substr($this->data['query_patient']->address, 82, $add)),'B','L'); 
-
             $this->SetXY(110, 31);
             $this->cell(8, 4, 'Date :', 0, 0);
             $this->SetXY(120, 31);
@@ -91,17 +86,11 @@ class CustomPrescription extends LaraFpdf
             $this->Image(public_path() . '\img\rx.png', 10, 36, 4, 4, 'PNG');
         }
 
-
-
         $this->SetFont('');
-    /*     $this->cell(87, 4, '', 'B', 0);
-        $this->cell(8, 4, 'Date :', 0, 0); */
         $this->SetFont('');
-        //$this->cell(20, 4, date('d-m-Y') , 'B', 1, 'C');
     }
 
-    //
-    function BasicTable($header)
+    function DiagnosticTbl($header)
     {
         $this->SetFont('Arial', 'B', 6);
 
@@ -131,8 +120,7 @@ class CustomPrescription extends LaraFpdf
         $this->Cell(array_sum($w) , 0, '', 'T');
     }
 
-    public function meal()
-    {
+    public function mealHeader(){
         $this->SetFont('Arial', '', 5);
         $this->Cell(25, 5, "Generic", 'LTR', 0, 'C');
         $this->Cell(25, 5, "Brand", 'LTR', 0, 'C');
@@ -153,7 +141,7 @@ class CustomPrescription extends LaraFpdf
 
         $this->Ln(5);
 
-        $this->SetFont('Arial', '', 4);
+        $this->SetFont('Arial', '', 5);
         $this->Cell(25, 5, "", 'LBR', 0, 'C');
         $this->Cell(25, 5, "", 'LBR', 0, 'C');
 
@@ -186,34 +174,13 @@ class CustomPrescription extends LaraFpdf
             5,
             30
         ));
-
-        $this->SetFont('Arial', '', 6);
-        foreach ($this->data['query_prescription'] as $item)
-        {
-            $this->check_method = $item['frequency_txt'];
-            if ($this->check_method == null)
-            {
-                $this->Row(array(
-                    $item['generic_name'],
-                    $item['medecine_desc'],
-                    $item['days'],
-                    $item['bf_time'],
-                    $item['ln_time'],
-                    $item['sp_time'],
-                    $item['bbt_time'],
-                    $item['quantity'],
-                    "SIG: " . $item['instruction']
-                ));
-            }
-        }
     }
 
-    public function frequency()
-    {
+    public function frequencyHeader(){
         $caption = array();
         $this->Ln(1);
 
-        $this->SetFont('Arial', '', 6);
+        $this->SetFont('Arial', '', 5);
         $this->Cell(22, 6, "Generic", 'LTR', 0, 'C');
         $this->Cell(21, 6, "Brand", 'LTR', 0, 'C');
 
@@ -248,12 +215,46 @@ class CustomPrescription extends LaraFpdf
             10,
             43
         ));
+    }
 
-        foreach ($this->data['query_prescription'] as $item)
+    public function meal()
+    {  
+        foreach ($this->data['query_prescription']  as $key => $item)
         {
+            $nkey = $key + 1;
+            if ($item['frequency_txt'] == null){
+                if($nkey==1){
+                    $this->mealHeader();
+                }
+                $this->check_method = $item['frequency_txt'];
+                   // if($nkey<=5){
+                        $this->Row(array(
+                            $item['generic_name'],
+                            $item['medecine_desc'],
+                            $item['days'],
+                            $item['bf_time'],
+                            $item['ln_time'],
+                            $item['sp_time'],
+                            $item['bbt_time'],
+                            $item['quantity'],
+                            "SIG: " . $item['instruction']
+                        ));
+                  //  }
+            }
+        }
+    }
+
+    public function frequency()
+    { 
+        $this->frequencyHeader();
+        foreach ($this->data['query_prescription'] as $key => $item)
+        {
+            $nkey = $key + 1;
             $this->check_method = $item['frequency_txt'];
-            if ($this->check_method != null)
+            if ($item['frequency_txt'] != null)
             {
+                if($nkey==1){
+                }
                 $this->Row(array(
                     $item['generic_name'],
                     $item['medecine_desc'],
@@ -292,14 +293,43 @@ class CustomPrescription extends LaraFpdf
         $this->Ln(20);
     }
 
+    function BasicTable($header)
+    {
+        $this->SetFont('Arial', 'B', 6);
+
+        // Column widths
+        $w = array(
+            60,
+            60
+        );
+
+        // Header
+        for ($i = 0;$i < count($header);$i++) $this->Cell($w[$i], 5, $header[$i], 1, 0, 'C');
+        $this->Ln();
+
+        $this->SetFont('Arial', '', 6);
+        $this->SetWidths(array(
+            60,
+            60
+        ));
+        foreach ($this->data['query_diagnostic'] as $row)
+        {
+            $this->Row(array(
+                $row['diagnostic'],
+                $row['instructions']
+            ));
+        }
+        // Closing line
+        $this->Cell(array_sum($w) , 0, '', 'T');
+    }
+
     public function Footer()
     {
         $this->SetY(-13);
         $this->SetFont('Arial', 'B', 5);
         $this->SetFont('Arial', '', 5);
         $this->cell(105, 3, "License No:", '', 0, 'R');
-        $this->cell(20, 3, '', 'B', 1, 'R');
-        //$this->cell(20, 3, $this->data['dctr_details']->prcno, 'B', 1, 'R');
+        $this->cell(20, 3, $this->data['dctr_details']->prcno, 'B', 1, 'R');
         $this->cell(105, 3, "PTR. No.", '', 0, 'R');
         $this->cell(20, 3, $this->data['dctr_details']->ptrno, 'B', 1, 'R');
         $this->cell(105, 3, "Narcotic Lic. No. (S2)", '', 0, 'R');
