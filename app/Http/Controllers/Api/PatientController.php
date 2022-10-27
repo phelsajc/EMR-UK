@@ -268,9 +268,11 @@ class PatientController extends Controller
     
     public function upDateHPE(Request $request)
     {
+        $getUser = User::where(['id'=>$request->user_id])->first();
         Diagnosis::where(['ps_patregisgter'=>$request->pspat])->update([
             'history'=> $request->historyPe,
             'diagosis'=> $request->diagnosis,
+            'doctor'=>  $getUser->name,
         ]);
         return $request->pspat;
     }

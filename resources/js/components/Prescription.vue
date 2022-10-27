@@ -6,18 +6,18 @@
     
               <div class="modal-header">
                 <slot name="header">
-                    {{name}}
+                   <!--  {{doctor}} -->
                 </slot>
-                <button type="button" class="btn btn-danger pull-left" @click="download()"> <i class="fa fa-times"></i> </button>
+                <button type="button" class="btn btn-success pull-left" @click="download()"> <i class="fa fa-download"></i> </button>
               </div>
     
               <div class="modal-body">
                 <slot name="body">
-<!-- 	<button @click="$refs.myPdfComponent.print()">print</button>                    
-  <pdf ref="myPdfComponent" src="/api/print_prescription/207891/John Carlo C. Lucasan"></pdf> -->
+	<!-- <button @click="$refs.myPdfComponent.print()">print</button>               -->      
+  <pdf ref="myPdfComponent" :src="src"></pdf>
   
                 </slot>
-  <vue-pdf-app style="height: 100vh;" pdf="/api/print_prescription/208815/John Carlo C. Lucasan" @open="openHandler"></vue-pdf-app>
+<!--   <vue-pdf-app style="height: 100vh;" :pdf="src" @open="openHandler"></vue-pdf-app> -->
  <!--  <button @click="$refs.pdfRef.print()">print</button>  
     <vue-pdf-embed
       ref="pdfRef" source="/api/print_prescription/207891/John Carlo C. Lucasan" /> -->
@@ -25,7 +25,7 @@
               <div class="modal-footer">
                 <slot name="footer">
                  <!--  default footer -->
-                  <button class="modal-default-button" @click="$emit('close')">
+                  <button class="btn btn-danger" @click="$emit('close')">
                     Close
                   </button>
                 </slot>
@@ -37,21 +37,22 @@
     </template>
     <script>
         
-/* import pdf from 'vue-pdf' */
-import VuePdfApp from "vue-pdf-app";
-import "vue-pdf-app/dist/icons/main.css";
+import pdf from 'vue-pdf'
+/* import VuePdfApp from "vue-pdf-app";
+import "vue-pdf-app/dist/icons/main.css"; */
 /* import VuePdfEmbed from 'vue-pdf-embed/dist/vue2-pdf-embed' */
 
       export default {
 
 components: {
- // pdf,
-    VuePdfApp,
+  pdf,
+ //   VuePdfApp,
   //VuePdfEmbed
     },
   data() {
     return {
-      info: []
+      info: [],
+      src: "/api/print_prescription/"+this.pspat+"/"+this.doctor
     };
   },
   methods: {
@@ -72,10 +73,10 @@ components: {
       });
     },
     download(){
-        window.open("/api/print_prescription/208815/John Carlo C. Lucasan")
+        window.open("/api/print_prescription/"+this.pspat+"/"+this.doctor)
     }
   },
-        props: ['name']
+        props: ['name','doctor','pspat']
       }
     </script>
     <style scoped>

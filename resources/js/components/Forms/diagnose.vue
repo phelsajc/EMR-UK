@@ -166,14 +166,14 @@
                     </div>
                     <div class="panel-body">       
                         <div v-if="chosenMethod!=null">    
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <div class="custom-control">
                                 <label for="" class="">Medicine</label>
                                     <button id="pbf" onclick="prescribe_by_freq()" class="btn btn-primary btn-xs btn-outline csbtn pull-center" type="button">
                                         Medicine Not Carried
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                             <autocomplete :meds="this.prescription.generic_name" ref="medicineVal" @handle-form-data="clickedShowDetailModal"></autocomplete>
                             <br>
                             <div class="row"  v-if="chosenMethod==1">
@@ -350,8 +350,8 @@
                             </tr>
                             </tbody>
                         </table>    
-                  </div>
                     <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button>
+                  </div>
                   <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
 
                         <form id="homeInsForm" enctype="multipart/form-data" method="POST">                            
@@ -491,13 +491,13 @@
                   </div>
                 </div>
             </div>            
-            <button id="show-modal" @click="showModal = true" class="btn btn-info pull-right">Print Prescription</button><br>
+            <button id="show-modal" @click="showModal = true" class="btn btn-info pull-right" v-if="hasPrinting">Print Prescription</button><br>
          </div>
        </div>
      </div>
    </div>
   <!-- use the modal component, pass in the prop -->
-  <pxmodal v-if="showModal" @close="showModal = false" :name="user_info.patientname" >
+  <pxmodal v-if="showModal" @close="showModal = false" :name="user_info.patientname"  :doctor="getAttendingDoctor" :pspat="this.$route.params.id" >
     <!--
       you can use custom content here to overwrite
       default content
@@ -588,7 +588,9 @@
                 isUpdate: false,
                 prescription_id: null,
                 selectdD: [],
-                instructionD: null
+                instructionD: null,
+                getAttendingDoctor: User.name(),
+                hasPrinting:false,
             }
         },
         props: ['results'],
@@ -618,7 +620,7 @@
                         this.form.diagnosis = data.diagosis,
                         this.form.historyPe = data.history,
                         this.form.pulse_rate = data.pulse_rate,
-                        this.isDoneDetails = data.history? false: true,
+                        this.isDoneDetails = data.history ? false : true,    
                         this.form.o2_stat = !Object.keys(data).length === 0 ? this.form.o2_stat : data.o2_stat,  
                         this.form.temp = !Object.keys(data).length === 0 ? this.form.temp : data.temp,             
                         this.form.rr = !Object.keys(data).length === 0 ? this.form.rr : data.rr,             
@@ -626,7 +628,7 @@
                         this.form.weight = !Object.keys(data).length === 0 ? this.form.weight : data.weight,             
                         this.form.height = !Object.keys(data).length === 0 ? this.form.height : data.height,             
                         this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints,
-                        this.diagnosisId = data.id     
+                        this.diagnosisId = data.id  
                 ))
                 .catch(console.log('error'))
             },
@@ -692,9 +694,11 @@
                         icon: 'success',
                         title: 'Medicine added successfully'
                     })
-                        this.getMedicine();
+                    this.getMedicine();
                     this.isUpdate = false     
                     this.editedMeds = false    
+                    this.hasPrinting = true
+                    this.$refs.medicineVal.form.val = ''
                     //this.prescription = Object.assign({}, this.prescription);
                 })
                 .catch(error => this.errors = error.response.data.errors)
@@ -706,7 +710,11 @@
             },
             getMedicine(){                
                 axios.get('/api/getPrescribeMedicine/'+this.$route.params.id)
-                .then(({data}) => ( this.medicineList = data))
+                    .then(({ data }) => (
+                        this.medicineList = data ,      
+                        console.log( data ? false : true ),                                    
+                        this.hasPrinting = data.length > 0 ? true : false 
+                    ))
                 .catch()
             },
             editMeds(method, id) { 
@@ -766,12 +774,13 @@
                     pspat:this.$route.params.id,
                 })
                 .then(res => {
-                        this.isDoneDetails = false,
+                    this.isDoneDetails = false,
                     Toast.fire({
                         icon: 'success',
                         title: 'Saved successfully'
                     })
                     this.getLabs()
+                    this.hasPrinting = true
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },

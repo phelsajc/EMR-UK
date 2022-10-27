@@ -26,10 +26,10 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('backend2/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('pdfjs-dist/web/viewer.css') }}">
-  <link rel="resource" type="application/l10n" href="{{ asset('locale/locale.properties') }}">
+{{--   <link rel="resource" type="application/l10n" href="{{ asset('locale/locale.properties') }}">
 
   <script src="{{ asset('pdfjs-dist/build/pdf.js') }}"></script>
-  <script src="{{ asset('pdfjs-dist/web/viewer.js') }}"></script>
+  <script src="{{ asset('pdfjs-dist/web/viewer.js') }}"></script> --}}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div id="app">

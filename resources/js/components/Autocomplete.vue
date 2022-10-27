@@ -29,8 +29,8 @@
       }
      },
      methods: {
-      autoComplete(){
-       this.results = [];                
+        autoComplete(){
+                this.results = [];                
                 axios.post('/api/searchMedicine',this.form)
                 .then(res => {
                     this.results = res.data  
@@ -54,6 +54,9 @@
          },
         setValue(value) {
           this.form.val = value
+        },
+        clearForm() {
+            this.form.val = ''
         }
          
     },
