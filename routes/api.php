@@ -47,6 +47,10 @@ Route::match(['get','post'],'destroyMeds/{id}','PrescriptionController@destroyMe
 Route::match(['get','post'],'addusers','UserController@registerUser');
 Route::match(['get','post'],'listusers','UserController@getAllUsers');
 
+Route::match(['get','post'],'show_frequency/{id}','PrescriptionController@show_frequency');
+
+
+
 //Route::get('/print_prescription/{id}/{doctor}', 'Prescription@printPrescription');
 
 

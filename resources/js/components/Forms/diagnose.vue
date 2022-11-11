@@ -242,7 +242,7 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-3">Frequency:</label>
                                     <div class="col-md-6">
-                                        <select type="text" v-model="prescription.frequency" class="form-control">
+                                        <select type="text" v-model="prescription.frequency" class="form-control" @change="selectFrequency($event)">
                                             <option  v-for="e in frequencies" v-bind:value="e.id">{{e.desc}}</option>
                                         </select>
                                     </div>
@@ -252,7 +252,7 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-3">Day/s:</label>
                                     <div class="col-md-6">
-                                        <input type="number" v-model="prescription.daysF" class="form-control">
+                                        <input type="number" v-model="prescription.daysF" class="form-control" @change="calculateFrequencyQty()">
                                     </div>
                                     </div>
                                 </div>
@@ -628,6 +628,7 @@
                 //getAttendingDoctor: User.name(),
                 getAttendingDoctor: User.user_id(),
                 hasPrinting:false,
+                selectedFrequencyDays: 0,
             }
         },
         props: ['results'],
@@ -843,6 +844,18 @@
                 .then(({data}) => ( this.getMedicine()))
                 .catch()
             },
+            selectFrequency(event){   
+                axios.get('/api/show_frequency/'+event.target.value)
+                .then(({data}) => ( 
+                    this.selectedFrequencyDays = data.quantity,
+                    this.prescription.daysF = '',
+                    this.prescription.qtyF = ''
+                ))
+                .catch()
+            },
+            calculateFrequencyQty(){
+               this.prescription.qtyF = this.selectedFrequencyDays * this.prescription.daysF
+            }
         }
     }
     

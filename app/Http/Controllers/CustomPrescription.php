@@ -42,11 +42,11 @@ class CustomPrescription extends LaraFpdf
             $this->Cell(130,-11,strtoupper(" "),0,0,'C');
         }
 
-        if($this->data['dctr_details']->smsplusmobileno||$this->data['dctr_details']->telefax){
+        //if($this->data['dctr_details']->smsplusmobileno||$this->data['dctr_details']->telefax){
             $this->Ln(1);
-            $this->Cell(130,-8,$this->data['dctr_details']->smsplusmobileno.' / '.$this->data['dctr_details']->telefax,0,0,'C');
+            $this->Cell(130,-8,"0929-2153564".' / '."+6334 435 4052-54",0,0,'C');
             $this->Cell(130,-8,strtoupper(" "),0,0,'C');
-        }
+        //}
 
         $this->Ln(1);
         $this->Cell(130, -5, strtoupper("BS Aquino Dr, Bacolod, 6100 Negros Occidental") , 0, 0, 'C');

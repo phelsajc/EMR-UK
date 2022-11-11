@@ -93,6 +93,12 @@ class PrescriptionController extends Controller
         $data = Frequency::all();
         return response()->json($data);
     }
+    
+    public function show_frequency($id)
+    {
+        $data = Frequency::where(["id"=>$id])->first();
+        return response()->json($data);
+    }
 
     public function getPrescribeMedicine($id)
     {
