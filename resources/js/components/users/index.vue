@@ -114,10 +114,10 @@
                 //axios.get('/api/employee')
                 axios.get('/api/listusers')
                 .then(({data}) => (
-                  this.employees = data.data /* ,
+                  this.employees = data[0].data ,
                   this.countRecords =data[0].count,
                   this.showing = data[0].showing,
-              this.isHidden =  true  */
+              this.isHidden =  true 
                ))
                 .catch()
             },

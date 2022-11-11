@@ -358,8 +358,8 @@
                 </ul>
               </li>
 
-              <li class="nav-item">
-                <a href="#" class="nav-link">
+              <li class="nav-item ">
+                <a href="#" class="nav-link"  id="usermenu">
                   <i class="far fa-circle nav-icon"></i>
                   <router-link to="/userslist" class="collapse-item">Users</router-link>
                 </a>
@@ -955,6 +955,12 @@
         $("#topbar").css("display","");
         $("#footer_div").css("display","");
         //  $("#user_name").text(localStorage.getItem('user_type'))
+        if(localStorage.getItem('user_type')!="Administrator")
+        {
+          $("#usermenu").addClass("d-none")
+        }else{
+          $("#usermenu").removeClass("d-none")
+        }
     }
   });
 </script>

@@ -255,7 +255,49 @@ class UserController extends Controller
 		echo json_encode($output);
     }
 
-    public function getAllUsers()
+    public function getAllUsers(Request $request)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $length = 10;
+        $start = $request->start?$request->start:0;
+        $val = $request->searchTerm2;
+        $dd=1;
+        /* if($val!=''||$start>0){   
+            $dd =  "select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start";
+            $data =  DB::connection('pgsql')->select("select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
+            $count =  DB::connection('pgsql')->select("select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+        }else{
+            $data =  DB::connection('pgsql')->select("select * from users where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select * from users where cast(registrydate as date) >= '".date("Y-m-d")."'");
+        } */
+
+        $data =  DB::connection('pgsql')->select("select * from users LIMIT $length");
+        $count =  DB::connection('pgsql')->select("select * from users");
+        
+        $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from users");
+
+        $data_array = array();
+
+        foreach ($data as $key => $value) {
+            $arr = array();
+            $arr['name'] =  $value->name;
+            $arr['type'] =  $value->type;
+            $data_array[] = $arr;
+        }
+        
+        $page = sizeof($count)/$length;
+        $getDecimal =  explode(".",$page);
+        $page_count = round(sizeof($count)/$length);
+        if(sizeof($getDecimal)==2){            
+            if($getDecimal[1]<5){
+                $page_count = $getDecimal[0] + 1;
+            }
+        }
+        $datasets = array(["data"=>$data_array,"count"=>$page_count,"showing"=>"Showing ".(($start+10)-9)." to ".($start+10>$count_all_record[0]->count?$count_all_record[0]->count:$start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array]);
+        return response()->json($datasets);
+    }
+
+    public function getAllUsers2()
     {
         $users = User::select('name','email','created_at','id','type','username','is_disabled')->get();
         $data = array();

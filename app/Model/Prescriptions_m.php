@@ -30,7 +30,6 @@ class Prescriptions_m extends Model
         'sp_b',
         'quantity',
         'days',
-        'bbt',
         'frequency',
         'days',
         'time',
