@@ -295,7 +295,8 @@ class UserController extends Controller
         }
 		$output = array("data" => $data);
         //echo json_encode($output);
-        return $output;
+        //return $output;
+        return response()->json($output);
     }
 
     public function getAllDoctors()
@@ -397,6 +398,8 @@ class UserController extends Controller
                     $user->password = Hash::make($data['password']);
                     $user->type = $data['type'];
                     $user->prcno = $data['prc'];
+                    $user->specialization = $data['specialization'];
+                    
                     //$user->clinic = $data['clinic'];
                     //$user->prcno = ($data['type']=="Secretary"?'':$data['prcno']);
                     //$user->dctr = ($data['type']=="Secretary"?$data['doctors']:$data['prcno']);

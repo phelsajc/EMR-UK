@@ -30,21 +30,19 @@
                 </div>
                 
                 <ul class="list-group">
-                    <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
-                    <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
-                      <li class="list-group-item " >
+                    <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search user here"> 
+                   <li class="list-group-item " v-for="e in filtersearch" :key="e.id">
                         <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"> <strong>{{e.patientname}} </strong></h5>
-                <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span>
+                <h5 class="mb-1"> <strong>{{e.name}} </strong></h5>
+                
                 </div>
                                 
-                <span class="badge badge-secondary">  {{e.pk_pspatregisters}}</span>
-                <span class="badge badge-info">                           {{e.sex}}</span>
-                <span class="badge badge-success">                          {{e.attending_phy}}</span>
+                <span class="badge badge-secondary">  {{e.type}}</span>
+               <!--  <span class="badge badge-info">                           {{e.sex}}</span>
+                <span class="badge badge-success">                          {{e.attending_phy}}</span> -->
                                   
                       </li>
-                  
-                    </router-link >       
+                     
                 </ul>
                 <br>
                 <nav aria-label="Page navigation example" class="to-right">
@@ -105,7 +103,7 @@
         computed:{
             filtersearch(){
                 return this.employees.filter(e => {
-                  return e.patientname.match(this.searchTerm)
+                  return e.name.match(this.searchTerm)
                 })
             },
             
@@ -114,9 +112,13 @@
             allEmployee(){
               this.isHidden =  false        
                 //axios.get('/api/employee')
-                axios.get('/api/patientEmployee')
-                .then(({data}) => (this.employees = data[0].data ,this.countRecords =data[0].count,this.showing = data[0].showing,
-              this.isHidden =  true  ))
+                axios.get('/api/listusers')
+                .then(({data}) => (
+                  this.employees = data.data /* ,
+                  this.countRecords =data[0].count,
+                  this.showing = data[0].showing,
+              this.isHidden =  true  */
+               ))
                 .catch()
             },
             me(){                

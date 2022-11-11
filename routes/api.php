@@ -21,8 +21,8 @@ Route::apiResource('/employee','Api\EmployeeController');
 
 
 Route::match(['get','post'],'/filterEmployee','Api\EmployeeController@filterEmployee');
-//Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmployee');
-Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmployee_test');
+Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmployee');
+//Route::match(['get','post'],'/patientEmployee','Api\PatientController@filterEmployee_test');
 Route::match(['get','post'],'/check_doctors_detail/{id}','Api\PatientController@check_doctors_detail');
 
 Route::match(['get','post'],'saveInitialData','Api\PatientController@saveInitialData');
@@ -45,6 +45,7 @@ Route::match(['get','post'],'destroyMeds/{id}','PrescriptionController@destroyMe
 
 
 Route::match(['get','post'],'addusers','UserController@registerUser');
+Route::match(['get','post'],'listusers','UserController@getAllUsers');
 
 //Route::get('/print_prescription/{id}/{doctor}', 'Prescription@printPrescription');
 

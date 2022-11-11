@@ -63,6 +63,27 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <h4>PRC</h4>
+                            <input type="text" class="form-control" id="" placeholder="Enter PRC" v-model="form.prc">
+                            <small class="text-danger" v-if="errors.prc">{{ errors.prc[0] }}</small>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <h4>Specialization</h4>
+                            <input type="text" class="form-control" id="" placeholder="Enter Specialization" v-model="form.specialization">
+                            <small class="text-danger" v-if="errors.specialization">{{ errors.specialization[0] }}</small>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <div class="form-row">
@@ -70,16 +91,6 @@
                             <h4>Username</h4>
                             <input type="text" class="form-control" id="" placeholder="Enter User" v-model="form.username">
                             <small class="text-danger" v-if="errors.username">{{ errors.username[0] }}</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-12">
-                            <h4>PRC</h4>
-                            <input type="text" class="form-control" id="" placeholder="Enter User" v-model="form.prc">
-                            <small class="text-danger" v-if="errors.prc">{{ errors.prc[0] }}</small>
                         </div>
                     </div>
                 </div>
@@ -130,7 +141,8 @@ import AppStorage from '../../Helpers/AppStorage';
                     password: '',
                     type: '',
                     id:'',
-                    prc: ''
+                    prc: '',
+                    specialization: ''
                 },
                 user_info:{
                     patientname: '',

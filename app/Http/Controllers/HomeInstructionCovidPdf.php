@@ -56,8 +56,7 @@ class HomeInstructionCovidPdf extends LaraFpdf
     {
         $this->SetFont('Arial', 'B', 12);
         $this->Ln(6);
-        $this->Cell(210, 20, strtoupper("HOME INSTRUCTIONS\n") , 0, 0, 'C');
-        
+        $this->Cell(210, 20, strtoupper("HOME INSTRUCTIONS\n") , 0, 0, 'C');        
     }
 
 

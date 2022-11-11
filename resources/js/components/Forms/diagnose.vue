@@ -625,7 +625,8 @@
                 prescription_id: null,
                 selectdD: [],
                 instructionD: null,
-                getAttendingDoctor: User.name(),
+                //getAttendingDoctor: User.name(),
+                getAttendingDoctor: User.user_id(),
                 hasPrinting:false,
             }
         },

@@ -29,7 +29,8 @@ class CustomPrescription extends LaraFpdf
     {
         $this->SetFont('Arial', 'B', 5);
         $this->Image(public_path() . '\img\rmci2.png', 11, 5, 15, 15, 'PNG');
-        $this->Cell(130, -9, strtoupper(strtoupper($this->data['doctor'])) , 0, 0, 'C');
+        /* $this->Cell(130, -9, strtoupper(strtoupper($this->data['doctor'])) , 0, 0, 'C'); */
+        $this->Cell(130, -9, strtoupper(strtoupper($this->data['dctr_details']->name)) , 0, 0, 'C');
         $this->Cell(130, -9, strtoupper(strtoupper(" ")) , 0, 0, 'C');
         $this->Ln(5);
         $this->Cell(130, -14, strtoupper($this->data['dctr_details']->specialization) , 0, 0, 'C');
