@@ -6,12 +6,12 @@
           <div class="col-sm-6">
             <h1>Patient List</h1>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Employee</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -29,13 +29,13 @@
                 <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger btn-sm">PDF</a> -->
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
+              <div class="card-body"> 
                 <div class="spin_center" :class="{'d-none': isHidden }">
                 <!-- <div class="spin_center"> -->
                   <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
                 </div>
                 <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
-                <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
+                <!-- <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
                 <table id="myTable" class="table table-bordered table-hover">
                     <thead class="thead-light">
                       <tr>
@@ -63,12 +63,27 @@
                         <td width="10">{{e.sex}}</td>
                         <td>
                          {{e.attending_phy}}
-                           <!--  <router-link :to="{name: 'edit-employee',params:{id:e.id}}" class="btn btn-sm btn-warning">Edit</router-link >
-                            <a href="javascript:void(0)" @click="deleteRecord(e.id)" class="btn btn-sm btn-danger">Delete</a> -->
                         </td>
                       </tr>
                     </tbody>
-                </table>
+                </table> -->
+                <ul class="list-group">
+                    <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
+                    <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
+                      <li class="list-group-item " >
+                        <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"> <strong>{{e.patientname}} </strong></h5>
+                <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span>
+                </div>
+                                
+                <span class="badge badge-secondary">  {{e.pk_pspatregisters}}</span>
+                <span class="badge badge-info">                           {{e.sex}}</span>
+                <span class="badge badge-success">                          {{e.attending_phy}}</span>
+                                  
+                      </li>
+                  
+                    </router-link >       
+                </ul>
                 <br>
                 <nav aria-label="Page navigation example" class="to-right">
                         <ul class="pagination">
@@ -230,19 +245,21 @@
                 .catch(error => this.errors = error.response.data.errors)
             },
             getPageNo(id){
-              this.isHidden =  false
               this.form.start = (id-1) * 10
+              this.isHidden =  false
               //alert(a)
               /* this.employees = []
               this.countRecords = null */
               //axios.post('/api/filterEmployee',this.form)
+              console.log(this.isHidden)
               axios.post('/api/patientEmployee',this.form)
                 .then(res => {
                   this.employees = res.data[0].data
                   this.countRecords =res.data[0].count 
                   this.showing = res.data[0].showing,
-                  console.log(res.data.data)
+                  console.log(res.data[0])
                   this.isHidden =  true
+              console.log(this.isHidden)
               })
               .catch(error => this.errors = error.response.data.errors)
             },

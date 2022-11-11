@@ -47,15 +47,15 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="index3.html" class="nav-link">Home</a>
+          <router-link to="/all_employee" class="nav-link">Home</router-link>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        {{-- <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Contact</a>
-        </li>
+        </li> --}}
       </ul>
 
       <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
+     {{--  <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
         <li class="nav-item">
           <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -173,7 +173,7 @@
             <i class="fas fa-th-large"></i>
           </a>
         </li>
-      </ul>
+      </ul> --}}
     </nav>
     <!-- /.navbar -->
 
@@ -181,10 +181,10 @@
     <aside id="sidebar" class="main-sidebar sidebar-dark-primary elevation-4" >
       <!-- Brand Logo -->
       <div v-show="$route.path === '/' || $route.path ==='/register' || $route.path ==='/forget' ? false : true " style="display: none">
-        <a href="index3.html" class="brand-link">
+        <router-link to="/all_employee" class="brand-link">
           <img src="{{ asset('backend2/uk_logo.jpg') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
           <span class="brand-text font-weight-light">UNAKonsulta</span>
-        </a>
+        </router-link>
   
         <!-- Sidebar -->
         <div class="sidebar">
@@ -326,7 +326,7 @@
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-chart-pie"></i>
                   <p>
-                    Employee
+                    Patients
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -340,7 +340,7 @@
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <router-link to="/all_employee" class="collapse-item">Patients</router-link>
+                      <router-link to="/all_employee" class="collapse-item">List</router-link>
                     </a>
                   </li>
                   {{-- <li class="nav-item">
@@ -356,6 +356,13 @@
                     </a>
                   </li> --}}
                 </ul>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <router-link to="/userslist" class="collapse-item">Users</router-link>
+                </a>
               </li>
               {{-- <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -793,15 +800,13 @@
                   <p>Informational</p>
                 </a>
               </li> --}}
+           
               <li class="nav-item">
-                {{-- <a href="#" class="nav-link">
-                  <i class="nav-icon far fa-circle text-info"></i>
-                  <p>Informational</p>
-                </a> --}}
-                <a href="#" class="nav-link">
-                  <i class="nav-icon far fa-circle text-info"></i>
-                  <router-link to="/logout" class="ml-2 d-none d-lg-inline text-white small"><p>Logout</p></router-link>
-                </a>
+                <router-link to="/logout" class="nav-link">
+                  <p>
+                    Logout
+                  </p>
+                </router-link>
               </li>
             </ul>
           </nav>

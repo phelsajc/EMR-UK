@@ -8,7 +8,7 @@
     export default {
         data() {
             return {
-                user: localStorage.getItem('user_type')
+                user: localStorage.getItem('user')
             }
         },
         watch: {

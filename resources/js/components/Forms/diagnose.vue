@@ -7,12 +7,12 @@
           <div class="col-sm-6">
             <h1>&nbsp;</h1>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Employee</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -284,14 +284,23 @@
                                 </div>
                             </div>
                         </div> 
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                <div class="col-md-12">
+                                    <button type="button" @click="AddMedicine()" class="btn btn-primary btn-block ">Add</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div> 
                         
 
                         <div class="">
-                            <button type="button" @click="AddMedicine()" class="btn btn-primary pull-right">Add</button><br>
                         </div> 
                         </div>
                         
-                        <table id="myTable" class="table table-bordered table-hover">
+                        <!-- <table id="myTable" class="table table-bordered table-hover">
                             <thead class="thead-light">
                             <tr>
                                 <th>Generic</th>
@@ -314,7 +323,23 @@
                                 </td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table> -->
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="e in medicineList"  :key="e.id">
+                                <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"> <strong>{{e.med_gen_name}} </strong></h5>
+                        </div>
+                                        
+                        <span class="badge badge-secondary">  {{e.med_desc}}</span>
+                        
+                        <button type="button" class="btn btn-xs btn-warning" @click="editMeds(e.method,e.id)"> <!-- <i class="fas fa-edit"></i> --> Edit</button>
+                                    <button type="button" class="btn  btn-xs btn-danger" @click="removeMeds(e.id)"> <!-- <i class="fas fa-trash"></i> -->  Remove</button> <br></br>
+                        <!-- <span class="badge badge-info" v-if="e.dosage>0">            Dosage:               {{e.dosage}}</span> -->
+                        <span class="badge badge-info">                           {{e.dosage}}</span>
+                        <span class="badge badge-success">   QTY:                   {{e.quantity}}</span>
+                                        
+                            </li>                            
+                        </ul>
                     </div>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
@@ -332,7 +357,7 @@
                             </div>
                         </div>    
                     </div>
-                        <table id="myTable" class="table table-bordered table-hover">
+                      <!--   <table id="myTable" class="table table-bordered table-hover">
                             <thead class="thead-light">
                             <tr>
                                 <th>Diagnostic</th>
@@ -349,7 +374,18 @@
                                 </td>
                             </tr>
                             </tbody>
-                        </table>    
+                        </table>     -->
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="e in labList"  :key="e.id">
+                                <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"> <strong>{{e.diagnostic}} </strong></h5>
+                        </div>
+                                        
+                        <span class="badge badge-secondary">  {{e.instruction}}</span>
+                                        
+                                    <button type="button" class="btn  btn-xs btn-danger" @click="removeLabs(e.id)"> <!-- <i class="fas fa-trash"></i> -->  Remove</button>
+                            </li>                            
+                        </ul>
                     <button type="button" class="btn btn-primary" @click="saveDiagnostics()">Add</button>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
@@ -546,17 +582,17 @@
                 },
                 editedMeds: false,
                 prescription: {
-                    breakFast: '8am',
-                    lunch: '11:30am',
-                    supper: '8pm',
+                    breakFast: '',
+                    lunch: '',
+                    supper: '',
                     bbt: null,
-                    dueDate: '2022-10-22',
-                    days: 5,
-                    qty: 10,
+                    dueDate: '',
+                    days: '',
+                    qty: '',
                     dueDateF: null,
                     daysF: null,
                     qtyF: null,
-                    instruction:'Taken with meal',
+                    instruction:'',
                     medcine_desc: '',
                     medecine_id: 0,
                     dosage:0,
@@ -688,20 +724,27 @@
                 } else {
                     query = axios.post('/api/addMedicine/'+this.chosenMethod+"/"+this.$route.params.id+"/"+this.diagnosisId, this.prescription)
                 }
-                query.then(res => {
-                    this.medicineList = []
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Medicine added successfully'
+                if(this.$refs.medicineVal.form.val ){
+                    query.then(res => {
+                        this.medicineList = []
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Medicine added successfully'
+                        })
+                        this.getMedicine();
+                        this.isUpdate = false     
+                        this.editedMeds = false    
+                        this.hasPrinting = true
+                        this.$refs.medicineVal.form.val = ''
+                        //this.prescription = Object.assign({}, this.prescription);
                     })
-                    this.getMedicine();
-                    this.isUpdate = false     
-                    this.editedMeds = false    
-                    this.hasPrinting = true
-                    this.$refs.medicineVal.form.val = ''
-                    //this.prescription = Object.assign({}, this.prescription);
-                })
-                .catch(error => this.errors = error.response.data.errors)
+                    .catch(error => this.errors = error.response.data.errors)
+                }else{
+                    Toast.fire({
+                            icon: 'error',
+                            title: 'Please check fields'
+                        })
+                }
             },
             getFrequency(){                
                 axios.get('/api/getrequency')

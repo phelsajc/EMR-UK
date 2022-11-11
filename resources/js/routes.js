@@ -16,6 +16,10 @@ let editEmployee = require('./components/employee/edit.vue').default
 let diagnose_from = require('./components/employee/diagnose.vue').default
 let diagnose_from_dctr = require('./components/Forms/diagnose.vue').default
 
+
+let userslist = require('./components/users/index.vue').default
+let usersadd = require('./components/users/create.vue').default
+
 /*
     path, component & name should be the same inorder to work
 */
@@ -33,6 +37,11 @@ export const routes = [
     { path: '/edit-employee/:id', component: editEmployee, name: 'edit-employee' },
     { path: '/diagnose-from/:id', component: diagnose_from, name: 'diagnose-from' },
     { path: '/diagnose-from-dctr/:id', component: diagnose_from_dctr, name: 'diagnose-from-dctr' },
+
+
+    //Users
+    { path: '/userslist', component: userslist, name: 'userslist' },
+    { path: '/usersadd', component: usersadd, name: 'usersadd' },
 ]
 
 
