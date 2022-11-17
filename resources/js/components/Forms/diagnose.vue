@@ -181,7 +181,8 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-3">Breakfast:</label>
                                     <div class="col-md-6">
-                                        <input type="text" v-model="prescription.breakFast" class="form-control">
+                                        <!-- <input type="text" v-model="prescription.breakFast" class="form-control"> -->
+                                        <VueTimepicker format="hh:mm A" v-model="prescription.breakFast"></VueTimepicker>
                                     </div>
                                     </div>
                                 </div>
@@ -189,7 +190,8 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-3">Lunch:</label>
                                     <div class="col-md-6">
-                                        <input type="text" v-model="prescription.lunch" class="form-control">
+                                        <!-- <input type="text" v-model="prescription.lunch" class="form-control"> -->
+                                        <VueTimepicker format="hh:mm A" v-model="prescription.lunch"></VueTimepicker>
                                     </div>
                                     </div>
                                 </div>
@@ -197,7 +199,8 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-3">Supper:</label>
                                     <div class="col-md-6">
-                                        <input type="text" v-model="prescription.supper" class="form-control">
+                                        <!-- <input type="text" v-model="prescription.supper" class="form-control"> -->
+                                        <VueTimepicker format="hh:mm A" v-model="prescription.supper"></VueTimepicker>
                                     </div>
                                     </div>
                                 </div>
@@ -205,7 +208,8 @@
                                     <div class="form-group row">
                                     <label class="control-label text-left col-md-6">Before Bed Time:</label>
                                     <div class="col-md-6">
-                                        <input type="text" v-model="prescription.bbt"  class="form-control">
+                                        <!-- <input type="text" v-model="prescription.bbt"  class="form-control"> -->
+                                        <VueTimepicker format="hh:mm A" v-model="prescription.bbt"></VueTimepicker>
                                     </div>
                                     </div>
                                 </div>
@@ -548,8 +552,14 @@
 
 <script type="text/javascript">
 
+import VueTimepicker from 'vue2-timepicker';
+// CSS
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
     export default {
+        components:{
+            VueTimepicker
+        },
         created(){
             if(!User.loggedIn()){
                 this.$router.push({name: '/'})

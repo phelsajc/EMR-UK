@@ -251,7 +251,7 @@
               /* this.employees = []
               this.countRecords = null */
               //axios.post('/api/filterEmployee',this.form)
-              console.log(this.isHidden)
+            
               axios.post('/api/patientEmployee',this.form)
                 .then(res => {
                   this.employees = res.data[0].data
@@ -259,7 +259,7 @@
                   this.showing = res.data[0].showing,
                   console.log(res.data[0])
                   this.isHidden =  true
-              console.log(this.isHidden)
+            
               })
               .catch(error => this.errors = error.response.data.errors)
             },
