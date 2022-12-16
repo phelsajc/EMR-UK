@@ -58,7 +58,8 @@ const app = new Vue({
     data() {
         return {
             bladeValue: '',
-            showModal: false
+            showModal: false,
+            isLogin: 'xxxx',
         }
     }
 });

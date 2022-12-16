@@ -47,6 +47,11 @@
     </div>
 </template>
 
+<style lang="scss" scoped>
+    @import "../../../../public/backend2/dist/css/adminlte.min.css";
+    /* {{ asset('backend2/dist/css/adminlte.min.css') }} */
+</style>    
+
 <script type="text/javascript">
 
     export default {

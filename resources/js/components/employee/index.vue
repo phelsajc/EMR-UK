@@ -30,10 +30,9 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body"> 
-                <div class="spin_center" :class="{'d-none': isHidden }">
-                <!-- <div class="spin_center"> -->
+                <!-- <div class="spin_center" :class="{'d-none': isHidden }">
                   <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                </div>
+                </div> -->
                 <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
                 <!-- <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
                 <table id="myTable" class="table table-bordered table-hover">
@@ -66,9 +65,10 @@
                         </td>
                       </tr>
                     </tbody>
-                </table> -->
+                </table> --><div id="loader" :class="{'d-none': isHidden }"></div>
                 <ul class="list-group">
                     <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
+                    
                     <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
                       <li class="list-group-item " >
                         <div class="d-flex w-100 justify-content-between">
@@ -295,8 +295,69 @@
       /*display: none;*/
     }
 
+    .spin_center2{
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      text-align:center;
+      transform: translateX(-50%);
+      /*display: none;*/
+    }
+
     .btn-app {
       height: unset !important;
       padding: 0 1.5em 0 1.5em;
   }
 </style>
+
+<style>
+  /* Center the loader */
+  #loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Add animation to "page content" */
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+  }
+  
+  @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 } 
+    to { bottom:0px; opacity:1 }
+  }
+  
+  @keyframes animatebottom { 
+    from{ bottom:-100px; opacity:0 } 
+    to{ bottom:0; opacity:1 }
+  }
+  
+  #myDiv {
+    display: none;
+    text-align: center;
+  }
+  </style>

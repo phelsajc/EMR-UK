@@ -132,10 +132,14 @@
                 <div class="tab-content" id="custom-tabs-one-tabContent">
                   <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">                   
                     <form class="user" @submit.prevent="addInitialdata" enctype="multipart/form-data">                        
-                        <h4>History & PE</h4>
+                        <h4>History</h4>
                         <div class="form-group">
                             <textarea class="form-control" rows="3" placeholder="Enter ..." v-model="form.historyPe"></textarea>
                         </div>                    
+                        <h4>PE</h4>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." v-model="form.pe"></textarea>
+                        </div>              
                         <h4>Diagnosis</h4>
                         <div class="form-group">
                             <textarea class="form-control" rows="3" placeholder="Enter ..." v-model="form.diagnosis"></textarea>
@@ -209,7 +213,7 @@
                                     <label class="control-label text-left col-md-6">Before Bed Time:</label>
                                     <div class="col-md-6">
                                         <!-- <input type="text" v-model="prescription.bbt"  class="form-control"> -->
-                                        <VueTimepicker format="hh:mm A" v-model="prescription.bbt"></VueTimepicker>
+                                        <VueTimepicker format="hh:mm A" v-model="prescription.bbt_time"></VueTimepicker>
                                     </div>
                                     </div>
                                 </div>
@@ -588,6 +592,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                     pspat: this.$route.params.id,
                     user_id: User.user_id(),
                     historyPe: '',
+                    pe:'',
                     diagnosis: '',
                 },
                 editedMeds: false,
@@ -595,7 +600,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                     breakFast: '',
                     lunch: '',
                     supper: '',
-                    bbt: null,
+                    bbt_time: '',
                     dueDate: '',
                     days: '',
                     qty: '',
@@ -667,6 +672,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                         //alert(this.form.history),      
                         this.form.diagnosis = data.diagosis,
                         this.form.historyPe = data.history,
+                        this.form.pe = data.pe,
                         this.form.pulse_rate = data.pulse_rate,
                         this.isDoneDetails = data.history ? false : true,    
                         this.form.o2_stat = !Object.keys(data).length === 0 ? this.form.o2_stat : data.o2_stat,  
@@ -725,7 +731,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                         this.prescription.breakFast = null
                         this.prescription.lunch = null
                         this.prescription.supper = null
-                        this.prescription.bbt = null
+                        this.prescription.bbt_time = null
                         this.prescription.dueDate = null
                         this.prescription.days = null
                         this.prescription.qty = null
@@ -781,7 +787,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                         this.prescription.breakFast = method==1?data.bf_time:null,
                         this.prescription.lunch = method==1?data.ln_time:null,
                         this.prescription.supper = method==1?data.sp_time:null,
-                        this.prescription.bbt = method==1?data.bbt_time:null,
+                        this.prescription.bbt_time = method==1?data.bbt_time:null,
                         this.prescription.dueDate = method==1?data.due:null,
                         this.prescription.days = method==1?data.days:null,
                         this.prescription.qty = method == 1 ? data.quantity : null,

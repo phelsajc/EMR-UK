@@ -28,7 +28,7 @@ class PrescriptionController extends Controller
         $request['bf_time'] = $request->breakFast;
         $request['sp_time'] = $request->supper;
         $request['ln_time'] = $request->lunch;
-        $request['bbt_time'] = $request->bbt;
+        $request['bbt_time'] = $request->bbt_time;
         $request['quantity'] = $request->qty;
         $request['price'] = $request->reg_p;
         $request['dc_price'] = $request->dsc_p;
