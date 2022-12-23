@@ -1,129 +1,123 @@
 <template>
-    <div>
-
-        <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>&nbsp;</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Employee</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-<section class="content">
-   <div class="container-fluid">
-     <div class="row">
-       <div class="col-12">
-         <div class="card card-success">
-           <div class="card-header">
-             <h3 class="card-title">Patient Information</h3>
-             <div class="card-tools">
-               <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                 <i class="fas fa-minus"></i>
-               </button>
-             </div>
-           </div>
-           <div class="card-body">  
+    <div class="wrapper">  
+      <navComponent></navComponent>    
+      <sidemenuComponent></sidemenuComponent>      
+        <div class="content-wrapper">
+            <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>&nbsp;</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Employee</li>
+                    </ol>
+                </div>
+                </div>
+            </div>
+            </section>
+            <section class="content">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                        <label class="control-label text-right col-md-3">Patient:</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static">{{ user_info.patientname }}</p>
+                <div class="col-12">
+                    <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Patient Information</h3>
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Patient:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">{{ user_info.patientname }}</p>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Mobile #:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" id="mobileno">{{ user_info.contactno }}</p>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Registry #:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" id="ack_date">{{ user_info.pk_pspatregisters }}</p>
+                            </div>
+                            </div>
                         </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                        <label class="control-label text-right col-md-3">Mobile #:</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static" id="mobileno">{{ user_info.contactno }}</p>
-                        </div>
+                    </div>
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Initial Data</h3>
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                        <label class="control-label text-right col-md-3">Registry #:</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static" id="ack_date">{{ user_info.pk_pspatregisters }}</p>
+                    <div class="card-body">
+                        <form class="user" @submit.prevent="addInitialdata" enctype="multipart/form-data">
+                        <h4>O2 Saturation</h4>
+                        <div class="form-group">
+                            <!-- <label for="exampleInputBorder">Bottom Border only <code>.form-control-border</code></label> -->
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.o2_stat">
                         </div>
+                        <h4>Pulse Rate</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.pulse_rate">
                         </div>
+                        <h4>RR</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.rr">
+                        </div>
+                        <h4>Temperature</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.temp">
+                        </div>
+                        <h4>BP</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.bp">
+                        </div>
+                        <h4>Weight (Kg)</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.weight">
+                        </div>
+                        <h4>Height (Cm)</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.height">
+                        </div>
+                        <h4>Chief Complaints</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.chiefcomplaints">
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                        </div>
+                        </form>
                     </div>
-                </div>                  
+                    </div>
+                </div>
+                </div>
             </div>
-         </div>
-
-         
-         <div class="card card-primary">
-           <div class="card-header">
-             <h3 class="card-title">Initial Data</h3>
-             <div class="card-tools">
-               <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                 <i class="fas fa-minus"></i>
-               </button>
-             </div>
-           </div>
-           <div class="card-body">            
-                <form class="user" @submit.prevent="addInitialdata" enctype="multipart/form-data">
-                    <h4>O2 Saturation</h4>
-                    <div class="form-group">
-                        <!-- <label for="exampleInputBorder">Bottom Border only <code>.form-control-border</code></label> -->
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.o2_stat">
-                    </div>
-                    
-                    <h4>Pulse Rate</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.pulse_rate">
-                    </div>
-                    
-                    <h4>RR</h4>
-                    <div class="form-group">
-                    <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.rr">
-                    </div>
-                    
-                    <h4>Temperature</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.temp">
-                    </div>
-                    
-                    <h4>BP</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.bp">
-                    </div>
-                    
-                    <h4>Weight (Kg)</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.weight">
-                    </div>
-                    
-                    <h4>Height (Cm)</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.height">
-                    </div>
-                    
-                    <h4>Chief Complaints</h4>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-border" id="exampleInputBorder" placeholder="Enter value here" v-model="form.chiefcomplaints">
-                    </div>
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
-                    </div>
-                </form>
-            </div>
-         </div>
-       </div>
-     </div>
-   </div>
-</section>   
-   
+            </section>
+        </div>
+        <footerComponent></footerComponent>
     </div>
 </template>
 

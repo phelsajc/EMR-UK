@@ -1,72 +1,77 @@
 <template>
-    <div>        
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Users List</h1>
-          </div>
+  <div class="wrapper">  
+    <navComponent></navComponent>    
+    <sidemenuComponent></sidemenuComponent>      
+        <div class="content-wrapper">
+          <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Users List</h1>
+                </div>
+                
+              </div>
+            </div><!-- /.container-fluid -->
+          </section>
+
+          <!-- Main content -->
           
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">&nbsp;</h3>                
+                      <router-link to="/usersadd" class="btn btn-primary">Add</router-link>
+                    </div>
+                    
+                    <div class="card-body"> 
+                      <div class="spin_center" :class="{'d-none': isHidden }">
+                        
+                        <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                      </div>
+                      
+                      <ul class="list-group">
+                          <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search user here"> 
+                        <li class="list-group-item " v-for="e in filtersearch" :key="e.id">
+                              <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"> <strong>{{e.name}} </strong></h5>
+                      
+                      </div>
+                                      
+                      <span class="badge badge-secondary">  {{e.type}}</span>
+                    <!--  <span class="badge badge-info">                           {{e.sex}}</span>
+                      <span class="badge badge-success">                          {{e.attending_phy}}</span> -->
+                                        
+                            </li>
+                          
+                      </ul>
+                      <br>
+                      <nav aria-label="Page navigation example" class="to-right">
+                              <ul class="pagination">
+                                <li class="page-item" v-for="(e, index) in this.countRecords" ><a class="page-link" @click="getPageNo(index+1)" href="#">{{index+1}}</a></li>
+                              </ul>
+                            </nav>
 
-    <!-- Main content -->
-    
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">&nbsp;</h3>                
-                <router-link to="/usersadd" class="btn btn-primary">Add</router-link>
-              </div>
-              
-              <div class="card-body"> 
-                <div class="spin_center" :class="{'d-none': isHidden }">
-                  
-                  <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                </div>
-                
-                <ul class="list-group">
-                    <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search user here"> 
-                   <li class="list-group-item " v-for="e in filtersearch" :key="e.id">
-                        <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"> <strong>{{e.name}} </strong></h5>
-                
-                </div>
-                                
-                <span class="badge badge-secondary">  {{e.type}}</span>
-               <!--  <span class="badge badge-info">                           {{e.sex}}</span>
-                <span class="badge badge-success">                          {{e.attending_phy}}</span> -->
-                                  
-                      </li>
-                     
-                </ul>
-                <br>
-                <nav aria-label="Page navigation example" class="to-right">
-                        <ul class="pagination">
-                          <li class="page-item" v-for="(e, index) in this.countRecords" ><a class="page-link" @click="getPageNo(index+1)" href="#">{{index+1}}</a></li>
-                        </ul>
-                      </nav>
+                            <nav aria-label="Page navigation example" class="">
+                              {{showing}}
+                            </nav>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
 
-                      <nav aria-label="Page navigation example" class="">
-                        {{showing}}
-                      </nav>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
               </div>
-              <!-- /.card-body -->
+              <!-- /.row -->
             </div>
-            <!-- /.card -->
-
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
+            <!-- /.container-fluid -->
+          </section>
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
+      <footerComponent></footerComponent>
     </div>
 </template>
 
@@ -78,7 +83,7 @@
                 this.$router.push({name: '/'})
             }
             
-            Notification.success()
+            //Notification.success()
             this.allEmployee();
             this.me();
         }, 

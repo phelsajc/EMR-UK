@@ -31,6 +31,10 @@ Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
 Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);
 Vue.component('user-info', require('./components/User.vue').default);
 Vue.component('pxmodal', require('./components/Prescription.vue').default);
+Vue.component('navComponent', require('./components/template/nav.vue').default);
+Vue.component('sidemenuComponent', require('./components/template/sidemenu.vue').default);
+Vue.component('footerComponent', require('./components/template/footer.vue').default);
+Vue.component('loaderComponent', require('./components/template/loader.vue').default);
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',

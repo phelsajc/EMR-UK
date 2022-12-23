@@ -1,112 +1,114 @@
 <template>
-    <div>        
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Patient List</h1>
-          </div>
-          <!-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Employee</li>
-            </ol>
-          </div> -->
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">&nbsp;</h3>                
-                <!-- <router-link to="/add_employee" class="btn btn-primary btn-sm">Add Employee</router-link>
-                <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger btn-sm">PDF</a> -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body"> 
-                <!-- <div class="spin_center" :class="{'d-none': isHidden }">
-                  <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                </div> -->
-                <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
-                <!-- <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
-                <table id="myTable" class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Patient ID</th>
-                        <th>Registry No.</th>
-                        <th>Gender</th>
-                        <th>Physician</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="e in filtersearch"  :key="e.id">                        
-                        <td v-if="utype=='Staff'" >
-                           <router-link  :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-warning">   
-                              {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
-                            </router-link >
-                        </td>                      
-                        <td v-if="utype=='Administrator'||utype=='Doctor'" >
-                          <router-link :to="{name: 'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-primary">
-                            {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
-                          </router-link >
-                        </td>
-                        <td>{{e.patientid}}</td>
-                        <td>{{e.pk_pspatregisters}}</td>
-                        <td width="10">{{e.sex}}</td>
-                        <td>
-                         {{e.attending_phy}}
-                        </td>
-                      </tr>
-                    </tbody>
-                </table> --><div id="loader" :class="{'d-none': isHidden }"></div>
-                <ul class="list-group">
-                    <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
-                    
-                    <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
-                      <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"> <strong>{{e.patientname}} </strong></h5>
-                <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span>
+    <div class="wrapper">  
+      <navComponent></navComponent>    
+      <sidemenuComponent></sidemenuComponent>      
+        <div class="content-wrapper">
+          <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Patient List</h1>
                 </div>
-                                
-                <span class="badge badge-secondary">  {{e.pk_pspatregisters}}</span>
-                <span class="badge badge-info">                           {{e.sex}}</span>
-                <span class="badge badge-success">                          {{e.attending_phy}}</span>
-                                  
-                      </li>
-                  
-                    </router-link >       
-                </ul>
-                <br>
-                <nav aria-label="Page navigation example" class="to-right">
-                        <ul class="pagination">
-                          <li class="page-item" v-for="(e, index) in this.countRecords" ><a class="page-link" @click="getPageNo(index+1)" href="#">{{index+1}}</a></li>
-                        </ul>
-                      </nav>
-
-                      <nav aria-label="Page navigation example" class="">
-                        {{showing}}
-                      </nav>
+                <!-- <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Employee</li>
+                  </ol>
+                </div> -->
               </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+            </div><!-- /.container-fluid -->
+          </section>
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">&nbsp;</h3>                
+                      <!-- <router-link to="/add_employee" class="btn btn-primary btn-sm">Add Employee</router-link>
+                      <a href="javascript:void(0)" @click="pdf()" class="btn btn-sm btn-danger btn-sm">PDF</a> -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body"> 
+                      <!-- <div class="spin_center" :class="{'d-none': isHidden }">
+                        <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                      </div> -->
+                      <!-- <input type="text" v-model="searchTerm" class="form-control" style="width:300px;" placeholder="Search here"> -->
+                      <!-- <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:300px;" placeholder="Search patient here"> <br><br>
+                      <table id="myTable" class="table table-bordered table-hover">
+                          <thead class="thead-light">
+                            <tr>
+                              <th>Name</th>
+                              <th>Patient ID</th>
+                              <th>Registry No.</th>
+                              <th>Gender</th>
+                              <th>Physician</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="e in filtersearch"  :key="e.id">                        
+                              <td v-if="utype=='Staff'" >
+                                <router-link  :to="{name: 'diagnose-from',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-warning">   
+                                    {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
+                                  </router-link >
+                              </td>                      
+                              <td v-if="utype=='Administrator'||utype=='Doctor'" >
+                                <router-link :to="{name: 'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}" class="btn btn-app bg-primary">
+                                  {{e.patientname}} <span v-if="e.hasdetails" class="badge bg-success"><i class="fa fa-check"></i></span>
+                                </router-link >
+                              </td>
+                              <td>{{e.patientid}}</td>
+                              <td>{{e.pk_pspatregisters}}</td>
+                              <td width="10">{{e.sex}}</td>
+                              <td>
+                              {{e.attending_phy}}
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table> --><div id="loader" :class="{'d-none': isHidden }"></div>
+                      <ul class="list-group">
+                          <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
+                          
+                          <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
+                            <li class="list-group-item " >
+                              <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1"> <strong>{{e.patientname}} </strong></h5>
+                      <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span>
+                      </div>
+                                      
+                      <span class="badge badge-secondary">  {{e.pk_pspatregisters}}</span>
+                      <span class="badge badge-info">                           {{e.sex}}</span>
+                      <span class="badge badge-success">                          {{e.attending_phy}}</span>
+                                        
+                            </li>
+                        
+                          </router-link >       
+                      </ul>
+                      <br>
+                      <nav aria-label="Page navigation example" class="to-right">
+                              <ul class="pagination">
+                                <li class="page-item" v-for="(e, index) in this.countRecords" ><a class="page-link" @click="getPageNo(index+1)" href="#">{{index+1}}</a></li>
+                              </ul>
+                            </nav>
 
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
+                            <nav aria-label="Page navigation example" class="">
+                              {{showing}}
+                            </nav>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </section>
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
+        <footerComponent></footerComponent>
     </div>
 </template>
 
@@ -118,7 +120,7 @@
                 this.$router.push({name: '/'})
             }
             
-            Notification.success()
+            //Notification.success()
             this.allEmployee();
             this.me();
         }, 
