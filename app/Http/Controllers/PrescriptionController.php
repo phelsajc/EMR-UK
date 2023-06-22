@@ -18,13 +18,13 @@ class PrescriptionController extends Controller
         # $selectedMethod 2 = frequency
         date_default_timezone_set('Asia/Manila');
         $getUser = User::where(['id'=>$request->dctr])->first();
-        $request['created_by'] = 3;
+        $request['created_by'] =  $request->dctr;
         $request['created_at'] = date("Y-m-d");
         $request['pspat'] = $pspat;
         $request['doctor'] = $getUser->name;
         $request['diagnosis_id'] = $diagnosis_id;
         $request['medecine_desc'] = $request->item_description;
-        $request['generic_name'] = $request->item_generic_name;
+        $request['generic_name'] = $request->item_generic_name?$request->item_generic_name:$request->generic_name;
         $request['bf_time'] = $request->breakFast;
         $request['sp_time'] = $request->supper;
         $request['ln_time'] = $request->lunch;

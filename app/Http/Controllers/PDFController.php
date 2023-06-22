@@ -70,7 +70,7 @@ class PDFController extends Controller
         //$data['query_user'] = $query_user;        
         $data['query_diagnosis'] = $query_diagnosis;
         $myPdf = new CustomPrescription($data);
-        $myPdf->Output('I', "CustomPrescription.pdf", true);
+        $myPdf->Output('I', time()."-".$query_patient[0]->patientname.".pdf", true);
         //$myPdf->Output('F',"//192.168.70.205/UsersBackup/TEST UIPATH/");
         //$myPdf->Output('yourfilename.pdf','F');
         //$myPdf->Output('C:\Users\carlo\Documents\test\\'."carlo.pdf",'F'); 

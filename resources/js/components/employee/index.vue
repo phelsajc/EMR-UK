@@ -70,13 +70,15 @@
                           <input type="text" v-model="form.searchTerm2" @change="filterEmployee()" class="form-control to-right" style="width:100%;" placeholder="Search patient here"> 
                           
                           <router-link v-for="e in filtersearch" :key="e.id" :to="{name: utype=='Staff'?'diagnose-from':'diagnose-from-dctr',params:{id:e.pk_pspatregisters}}">        
-                            <li class="list-group-item " >
+                            <li class="list-group-item " :class="{'hasDetails': e.hasdetails }">
                               <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1"> <strong>{{e.patientname}} </strong></h5>
-                      <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span>
+                      <!-- <span  v-if="e.hasdetails" class="badge badge-primary"><i class="fa fa-check"></i></span> -->
+                      <!-- <span  v-if="e.hasdetails" class="badge badge-primary">Print</span> -->
+                      <button v-if="e.cnt_meds > 0" type="button" class="btn btn-lg btn-danger"  @click="download(e.pk_pspatregisters,e.dctr)">Print</button>
                       </div>
                                       
-                      <span class="badge badge-secondary">  {{e.pk_pspatregisters}}</span>
+                      <span class="badge badge-secondary">  {{e.patientid}}</span>
                       <span class="badge badge-info">                           {{e.sex}}</span>
                       <span class="badge badge-success">                          {{e.attending_phy}}</span>
                                         
@@ -265,6 +267,10 @@
               })
               .catch(error => this.errors = error.response.data.errors)
             },
+            
+            download(ppspat,ddoctor){
+                window.open("/api/print_prescription/"+ppspat+"/"+ddoctor)
+            }
         },
         /* mounted () {
           axios.get('/api/check_doctors_detail/'+id)
@@ -361,5 +367,9 @@
   #myDiv {
     display: none;
     text-align: center;
+  }
+
+  .hasDetails{
+    box-shadow: 14px 0px 0px 0px #00ce6e inset;
   }
   </style>

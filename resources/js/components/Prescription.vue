@@ -14,8 +14,9 @@
               <div class="modal-body">
                 <slot name="body">
 	<!-- <button @click="$refs.myPdfComponent.print()">print</button>               -->      
-  <pdf ref="myPdfComponent" :src="src"></pdf>
-  
+  <!-- WORKING BELOW -->
+  <!-- <pdf ref="myPdfComponent" :src="src"></pdf> -->
+  <vue-pdf-app style="height: 100vh;" :pdf="src" @open="openHandler"></vue-pdf-app>
                 </slot>
 <!--   <vue-pdf-app style="height: 100vh;" :pdf="src" @open="openHandler"></vue-pdf-app> -->
  <!--  <button @click="$refs.pdfRef.print()">print</button>  
@@ -45,8 +46,8 @@ import "vue-pdf-app/dist/icons/main.css"; */
       export default {
 
 components: {
-  pdf,
- //   VuePdfApp,
+ /*  pdf, */
+    VuePdfApp,
   //VuePdfEmbed
     },
   data() {

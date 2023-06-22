@@ -29,7 +29,7 @@
   <script src="{{ asset('pdfjs-dist/build/pdf.js') }}"></script>
   <script src="{{ asset('pdfjs-dist/web/viewer.js') }}"></script> --}}
 </head>
-<body class="">
+<body class="hold-transition sidebar-mini sidebar-collapse">
 <div id="app">
   
       <router-view></router-view>

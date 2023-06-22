@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\Diagnosis;
 use App\Model\Patient;
 use App\User;
+use App\Model\Prescriptions_m;
 use Intervention\Image\ImageManagerStatic as Image;
 use DB;
 
@@ -237,6 +238,9 @@ class PatientController extends Controller
         foreach ($data as $key => $value) {
             $arr = array();
             $checkDetails = Diagnosis::where(['ps_patregisgter'=>$value->pk_pspatregisters])->first();
+
+            
+            $check_medicines = Prescriptions_m::where(['pspat'=>$value->pk_pspatregisters])->get();
             $arr['patientname'] =  $value->patientname;
             if($value->attending_phy){
                 $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->pk_pspatregisters) as d"); 
@@ -249,6 +253,9 @@ class PatientController extends Controller
             $arr['patientid'] =  $value->patientid;
             $arr['sex'] =  $value->sex;
             $arr['hasdetails'] =  $checkDetails?true:false;
+            $arr['cnt_meds'] =  sizeof($check_medicines);
+            $arr['dctr'] =  sizeof($check_medicines)>0?$check_medicines[0]->created_by:0;
+            
 
             $data_array[] = $arr;
         }

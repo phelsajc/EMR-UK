@@ -187,7 +187,7 @@
                                     </div>
                                     <div class="col-md-3">
                                     <div class="form-group row">
-                                        <label class="control-label text-left col-md-6">Before Bed Time:</label>
+                                        <label class="control-label text-left col-md-6">Bed Time:</label>
                                         <div class="col-md-6">
                                         <!-- <input type="text" v-model="prescription.bbt"  class="form-control"> -->
                                         <VueTimepicker format="hh:mm A" v-model="prescription.bbt_time"></VueTimepicker>
@@ -666,7 +666,13 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                         this.prescription.dueDate = null
                         this.prescription.days = null
                         this.prescription.qty = null
-                }         
+                }        
+                if(this.getSelectedMedicine.genericname){
+                    this.prescription.generic_name = this.getSelectedMedicine.genericname
+                } else{
+                    this.prescription.generic_name = this.$refs.medicineVal.form.val
+                }
+                console.log(this.prescription.generic_name )
                 let query  = ''    
                 if (this.isUpdate) {
                     query = axios.post('/api/updateMedicine/'+this.chosenMethod+"/"+this.prescription_id,this.prescription)
@@ -758,6 +764,13 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                     iscustome: false,
                     dctr: User.user_id(),
                 } */
+                     
+                /* if(this.getSelectedMedicine.genericname){
+                    this.prescription.generic_name = this.getSelectedMedicine.genericname
+                } else{
+                    this.prescription.generic_name = this.$refs.medicineVal.form.val
+                } */
+                
                 axios.post('/api/addDiagnostics', {
                     q:this.$refs.getd.results3,
                     r: this.instructionD,                    
@@ -773,6 +786,7 @@ import 'vue2-timepicker/dist/VueTimepicker.css'
                     })
                     this.getLabs()
                     this.hasPrinting = true
+                    this.$refs.getd.results3 = []
                 })
                 .catch(error => this.errors = error.response.data.errors)
             },

@@ -48,7 +48,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="javascript:void(0);" class="h1"><b>Login</b></a>
+      <a href="javascript:void(0);" class="h1"><b>Welcome User</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>

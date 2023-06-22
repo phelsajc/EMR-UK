@@ -1,13 +1,13 @@
 <template>    
     <aside id="sidebar" class="main-sidebar sidebar-dark-primary elevation-4" >
             <router-link to="/all_employee" class="brand-link">
-            <img :src="require('../../../../public/backend2/uk_logo.jpg')" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">UNAKonsulta</span>
-            </router-link>
+            <img :src="('../../../../public/backend2/uk_logo.jpg')" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">UNAKonsulta</span>           
+            </router-link> 
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                    <img :src="require('../../../../public/backend2/uk_logo.jpg')" class="img-circle elevation-2" alt="User Image">
+                    <img :src="('../../../../public/backend2/uk_logo.jpg')" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                     <user-info></user-info>
@@ -15,7 +15,8 @@
                 </div> 
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">              
-                    <li class="nav-item menu-open">
+                    
+          <li class="nav-item menu-open">
                         <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -46,6 +47,12 @@
                             Logout
                         </p>
                         </router-link>
+                    </li>
+                    
+                    <li class="nav-item">
+            <a class="nav-link col-sm-6  col-sm-offset-6" data-widget="pushmenu" href="#" role="button">
+              <i class="fas fa-arrow-left"></i>
+            </a>
                     </li>
                     </ul>
                 </nav>

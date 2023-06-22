@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <input type="text" placeholder="what are you looking for?" v-model="form.val" v-on:keyup="autoComplete" class="form-control">
+        <input type="text" placeholder="what are you looking for?" v-model="form.val" v-on:change="autoComplete" class="form-control">
         <div class="panel-footer" v-if="results.length">
             <ul class="list-group">
                 <li class="list-group-item" v-for="result in results" @click="getMedicine(result)" v-if="!results3.find(e => e.item_description  === result.itemdesc)">
@@ -51,6 +51,17 @@
                 .then(res => {
                     this.results = res.data  
                     console.log(res) 
+
+                    if(!res.data.length){
+                       // console.log("no dtaa"+ this.form.val)
+                        this.results3.push({
+                            'diagnostic': this.form.val,
+                            'item_description': this.form.val,
+                            'pk_iwitems': 0,
+                            'item_reg_price': 0,
+                            'item_sc_price': 0,
+                        });
+                    }
                 })
                 .catch(error => this.errors = error.response.data.errors)
             }
@@ -81,6 +92,7 @@
              console.log(this.results3)
          },
          remove(index) {
+            console.log(this.results3)
             this.results3.splice(index, 1);
          },
          finalD() {

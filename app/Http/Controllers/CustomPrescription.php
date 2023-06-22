@@ -273,8 +273,9 @@ class CustomPrescription extends LaraFpdf
     {
         $this->SetFont('Arial', '', 7);
         $this->AliasNbPages();
-        $this->SetFont('Arial', 'B', 7);
+        //$this->SetFont('Arial', 'B', 5);
         $this->Cell(100, 5, "PRESCRIPTIONS:", 0, 1, 'L');
+        $this->SetFont('Arial', '', 5);
         $this->meal();
         $this->Ln(5);
         $header = array(
@@ -283,13 +284,15 @@ class CustomPrescription extends LaraFpdf
         );
         $this->SetFont('Arial', '', 7);
         $this->AliasNbPages();
-        $this->SetFont('Arial', 'B', 7);
+        //$this->SetFont('Arial', 'B', 7);
+        $this->SetFont('Arial', '', 5);
         $this->frequency();
         $this->Ln(5);
         $header = array(
             'Diagnostic',
             'Instruction'
         );
+        $this->SetFont('Arial', '', 5);
         $this->BasicTable($header);
         $this->Ln(20);
     }
