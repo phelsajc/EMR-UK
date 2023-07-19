@@ -62,6 +62,7 @@ class PDFController extends Controller
             $data['query_patient'] = $query_patient[0];
            // $data['doctor'] = $doctor;
             $data['dctr_details'] = $dctr_details;
+            
         
        $data['query_prescription'] = $query_prescription;
        $data['f_size'] = sizeof($query_prescription_f);

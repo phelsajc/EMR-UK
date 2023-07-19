@@ -255,24 +255,24 @@ class UserController extends Controller
 		echo json_encode($output);
     }
 
-    public function getAllUsers(Request $request)
+    public function getAllUsers3(Request $request)
     {
         date_default_timezone_set('Asia/Manila');
         $length = 10;
         $start = $request->start?$request->start:0;
         $val = $request->searchTerm2;
         $dd=1;
-        /* if($val!=''||$start>0){   
-            $dd =  "select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start";
-            $data =  DB::connection('pgsql')->select("select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
-            $count =  DB::connection('pgsql')->select("select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+        if($val!=''||$start>0){   
+            //$dd =  "select * from users where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start";
+            $data =  DB::connection('pgsql')->select("select * from users where name ilike '%".$val."%'  LIMIT $length offset $start");
+            $count =  DB::connection('pgsql')->select("select * from users where name ilike '%".$val."%'");
         }else{
-            $data =  DB::connection('pgsql')->select("select * from users where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
-            $count =  DB::connection('pgsql')->select("select * from users where cast(registrydate as date) >= '".date("Y-m-d")."'");
-        } */
+            $data =  DB::connection('pgsql')->select("select * from users where cast(created_at as date) >= '".date("Y-m-d")."' LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select * from users where cast(created_at as date) >= '".date("Y-m-d")."'");
+        }
 
-        $data =  DB::connection('pgsql')->select("select * from users LIMIT $length");
-        $count =  DB::connection('pgsql')->select("select * from users");
+        //$data =  DB::connection('pgsql')->select("select * from users LIMIT $length");
+        //$count =  DB::connection('pgsql')->select("select * from users");
         
         $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from users");
 
@@ -282,9 +282,48 @@ class UserController extends Controller
             $arr = array();
             $arr['name'] =  $value->name;
             $arr['type'] =  $value->type;
+            $arr['id'] =  $value->id;
             $data_array[] = $arr;
         }
         
+        $page = sizeof($count)/$length;
+        $getDecimal =  explode(".",$page);
+        $page_count = round(sizeof($count)/$length);
+        if(sizeof($getDecimal)==2){            
+            if($getDecimal[1]<5){
+                $page_count = $getDecimal[0] + 1;
+            }
+        }
+        $datasets = array(["data"=>$data_array,"count"=>$page_count,"showing"=>"Showing ".(($start+10)-9)." to ".($start+10>$count_all_record[0]->count?$count_all_record[0]->count:$start+10)." of ".$count_all_record[0]->count, "patient"=>$data_array]);
+        return response()->json($datasets);
+    }
+
+    public function getAllUsers(Request $request)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $length = 10;
+        $start = $request->start?$request->start:0;
+        $val = $request->searchTerm2;
+        $dd=1;
+        if($val!=''||$start>0){   
+            $data =  DB::connection('pgsql')->select("select * from users where name ilike '%".$val."%' LIMIT $length offset $start");
+            $count =  DB::connection('pgsql')->select("select * from users where name ilike '%".$val."%' ");
+        }else{
+            $data =  DB::connection('pgsql')->select("select * from users   LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select * from users  ");
+        }
+        
+        $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from users where cast(created_at as date) >= '".date("Y-m-d")."'");
+
+        $data_array = array();
+
+        foreach ($data as $key => $value) {
+            $arr = array();
+            $arr['name'] =  $value->name;
+            $arr['type'] =  $value->type;
+            $arr['id'] =  $value->id;
+            $data_array[] = $arr;
+        }
         $page = sizeof($count)/$length;
         $getDecimal =  explode(".",$page);
         $page_count = round(sizeof($count)/$length);
@@ -424,10 +463,20 @@ class UserController extends Controller
                     'username'=>$data['username'],
                     'type'=> $data['type'],
                     'prcno'=> $data['prc'],
+                    'ptr'=> $data['ptr'],
+                    'signature'=> $data['signatureData'],
+                    'username'=> $data['username'],
+                    'validity'=> $data['validity'],
                     //'prcno'=>($data['type']=="Secretary"?'':$data['prcno']),
                     //'dctr'=>($data['type']=="Secretary"?$data['doctors']:$data['prcno']),
                     ]
                 );
+                if(array_key_exists("password",$data)){
+                    User::where(['id'=>$data['id']])->update([
+                        'password'=>  Hash::make($data['password']),
+                        ]
+                    );
+                }
                 /* $output = array("data" => true,"data1" => $data ,"status"=>true,"update"=>"update");
                 echo json_encode($output); */
                 return 1;
@@ -441,6 +490,8 @@ class UserController extends Controller
                     $user->type = $data['type'];
                     $user->prcno = $data['prc'];
                     $user->specialization = $data['specialization'];
+                    $user->signature = $data['signatureData'];
+                    $user->ptr = $data['ptr'];
                     
                     //$user->clinic = $data['clinic'];
                     //$user->prcno = ($data['type']=="Secretary"?'':$data['prcno']);
@@ -458,9 +509,10 @@ class UserController extends Controller
 
     public function getUser($id)
     {
-        $users = User::select('name','email','created_at','id','type','username')->where('id',$id)->first();
+        $users = User::select('name','email','created_at','id','type','username','signature','ptr','prcno','specialization','validity')->where('id',$id)->first();
 		$output = array("data" => $users);
-		echo json_encode($users);
+		//echo json_encode($users);
+        return response()->json($users);
     }
 
     function reset_password($id){

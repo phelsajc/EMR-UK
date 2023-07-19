@@ -26,6 +26,8 @@ window.Swal = Swal;
 
 
 import VuePdfApp from "vue-pdf-app";
+import VueSignaturePad from 'vue-signature-pad';
+Vue.use(VueSignaturePad);
 window.VuePdfApp = VuePdfApp;
 Vue.component('Autocomplete', require('./components/Autocomplete.vue').default);
 Vue.component('diagnostic', require('./components/AutocompleteD.vue').default);

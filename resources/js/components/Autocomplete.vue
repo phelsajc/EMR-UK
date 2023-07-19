@@ -40,6 +40,7 @@
        
          },
          getMedicine(id) {
+            console.log(id)
              this.getValue = id
             
              this.results2.pk_iwitems = id.pk_iwitems;

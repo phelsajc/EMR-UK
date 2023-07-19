@@ -44,10 +44,14 @@ Route::match(['get','post'],'destroyLab/{id}','PrescriptionController@destroyLab
 Route::match(['get','post'],'destroyMeds/{id}','PrescriptionController@destroyMeds');
 
 
+Route::get('update-peds/{id}/{pspat}', 'PrescriptionController@transfer_peds');   
+
 Route::match(['get','post'],'addusers','UserController@registerUser');
 Route::match(['get','post'],'listusers','UserController@getAllUsers');
+Route::match(['get','post'],'getUser/{id}','UserController@getUser');
 
 Route::match(['get','post'],'show_frequency/{id}','PrescriptionController@show_frequency');
+Route::match(['get','post'],'printChart/{pid}','PrescriptionController@printChart');
 
 
 

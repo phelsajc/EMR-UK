@@ -28,7 +28,7 @@ class CustomPrescription extends LaraFpdf
     public function Header()
     {
         $this->SetFont('Arial', 'B', 5);
-        $this->Image(public_path() . '\img\rmci2.png', 11, 5, 15, 15, 'PNG');
+        $this->Image(public_path() . '\images\uk_logo.png', 2, -15, 50, 50, 'PNG');
         /* $this->Cell(130, -9, strtoupper(strtoupper($this->data['doctor'])) , 0, 0, 'C'); */
         $this->Cell(130, -9, strtoupper(strtoupper($this->data['dctr_details']->name)) , 0, 0, 'C');
         $this->Cell(130, -9, strtoupper(strtoupper(" ")) , 0, 0, 'C');
@@ -36,22 +36,21 @@ class CustomPrescription extends LaraFpdf
         $this->Cell(130, -14, strtoupper($this->data['dctr_details']->specialization) , 0, 0, 'C');
         $this->Cell(130, -14, strtoupper(" ") , 0, 0, 'C');
 
-        if($this->data['dctr_details']->rm_loc){
+        /* if($this->data['dctr_details']->rm_loc){
             $this->Ln(1);
             $this->Cell(130,-11,strtoupper($this->data['dctr_details']->rm_loc),0,0,'C');
             $this->Cell(130,-11,strtoupper(" "),0,0,'C');
-        }
+        } */
 
         //if($this->data['dctr_details']->smsplusmobileno||$this->data['dctr_details']->telefax){
-            $this->Ln(1);
-            $this->Cell(130,-8,"0929-2153564".' / '."+6334 435 4052-54",0,0,'C');
-            $this->Cell(130,-8,strtoupper(" "),0,0,'C');
+            $this->Ln(1.5);
+            $this->Cell(130,-11,"0929-2153564".' / '."+6334 435 4052-54",0,0,'C');
+            $this->Cell(130,-11,strtoupper(" "),0,0,'C');
         //}
 
-        $this->Ln(1);
-        $this->Cell(130, -5, strtoupper("BS Aquino Dr, Bacolod, 6100 Negros Occidental") , 0, 0, 'C');
+        $this->Ln(0.5);
+        $this->Cell(130, -5, strtoupper("SM City Bacolod - South Wing, Bacolod, 6100 Negros") , 0, 0, 'C');
         $this->Cell(130, -5, strtoupper(" ") , 0, 0, 'C');
-        $this->Ln(1);
         $this->Ln(1);
         $this->Ln(5);
         $this->SetFont('Arial', '', 7);
@@ -189,9 +188,13 @@ class CustomPrescription extends LaraFpdf
 
         $this->Cell(20, 6, "Frequency", "TR", 0, 'C');
 
-        $this->Cell(10, 6, "Qty", 'RT', 0, 'C');
+        $this->Cell(7, 6, "Qty", 'RT', 0, 'C');
 
-        $this->Cell(43, 6, "Remarks", "TR", 0, 'C');
+        
+        $this->Cell(12, 6, "Due Date", "TR", 0, 'C');
+
+        $this->Cell(35, 6, "Remarks", "TR", 0, 'C');
+        
 
         $this->Ln(5);
 
@@ -203,9 +206,11 @@ class CustomPrescription extends LaraFpdf
 
         $this->Cell(20, 1, "", "RB", 0, 'C');
 
-        $this->Cell(10, 1, "", "RB", 0, 'C');
+        $this->Cell(7, 1, "", "RB", 0, 'C');
+        
+        $this->Cell(12, 1, "", "RB", 0, 'C');
 
-        $this->Cell(43, 1, "", "RB", 0, 'C');
+        $this->Cell(35, 1, "", "RB", 0, 'C');
         $this->Ln(1);
 
         $this->SetWidths(array(
@@ -213,25 +218,27 @@ class CustomPrescription extends LaraFpdf
             21,
             10,
             20,
-            10,
-            43
+            7,
+            12,
+            35
         ));
     }
 
     public function meal()
     {  
+        $this->mealHeader();
         foreach ($this->data['query_prescription']  as $key => $item)
         {
             $nkey = $key + 1;
+            
             if ($item['frequency_txt'] == null){
                 if($nkey==1){
-                    $this->mealHeader();
                 }
-                $this->check_method = $item['frequency_txt'];
+               // $this->check_method = $item['frequency_txt'];
                    // if($nkey<=5){
                         $this->Row(array(
                             $item['generic_name'],
-                            $item['medecine_desc'],
+                            $item['medecine_desc'].($item['dosage']!=0&&$item['dosage']!=null&&$item['dosage']!=''? $item['dosage']:''),
                             $item['days'],
                             $item['bf_time'],
                             $item['ln_time'],
@@ -240,6 +247,8 @@ class CustomPrescription extends LaraFpdf
                             $item['quantity'],
                             "SIG: " . $item['instruction']
                         ));
+                        
+                    
                   //  }
             }
         }
@@ -258,10 +267,11 @@ class CustomPrescription extends LaraFpdf
                 }
                 $this->Row(array(
                     $item['generic_name'],
-                    $item['medecine_desc'],
+                    $item['medecine_desc'].($item['dosage']!=0&&$item['dosage']!=null&&$item['dosage']!=''? $item['dosage']:''),
                     $item['days'],
                     $item['frequency_txt'],
                     $item['quantity'],
+                    date_format(date_create($item['due']),'F d,Y'),
                     "Sig: " . $item['instruction']
                 ));
             }
@@ -329,16 +339,20 @@ class CustomPrescription extends LaraFpdf
 
     public function Footer()
     {
-        $this->SetY(-13);
+        $this->SetY(-17);
         $this->SetFont('Arial', 'B', 5);
-        $this->SetFont('Arial', '', 5);
+        $this->SetFont('Arial', '', 5);        
+        $this->Image( $this->data['dctr_details']->signature ,110,188,40,20,'png');    
+        $this->cell(105, 3, "", '', 0, 'R');   
+        $this->cell(20, 3, strtoupper($this->data['dctr_details']->name), 'B', 1, 'R');
         $this->cell(105, 3, "License No:", '', 0, 'R');
         $this->cell(20, 3, $this->data['dctr_details']->prcno, 'B', 1, 'R');
         $this->cell(105, 3, "PTR. No.", '', 0, 'R');
-        $this->cell(20, 3, $this->data['dctr_details']->ptrno, 'B', 1, 'R');
+        $this->cell(20, 3, $this->data['dctr_details']->ptr, 'B', 1, 'R');
         $this->cell(105, 3, "Narcotic Lic. No. (S2)", '', 0, 'R');
         $this->cell(20, 3, "", 'B', 1, 'R');
         $this->cell(105, 3, "Valid Until:", '', 0, 'R');
+        $this->cell(20, 3, $this->data['dctr_details']->validity?date_format(date_create($this->data['dctr_details']->validity),'F d,Y'):'', 'B', 1, 'R');
         $this->cell(20, 3, "", 'B', 1, 'R');
         $this->Cell(105, 5, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
         $this->SetAutoPageBreak(true, 25);

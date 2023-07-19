@@ -146,12 +146,14 @@ import AppStorage from '../../Helpers/AppStorage';
                     height: '',
                     chiefcomplaints: '',
                     pspat: this.$route.params.id,
+                    patientid: null,
                     user_id: User.user_id()
                 },
                 user_info:{
                     patientname: '',
                     contactno: '',
                     pk_pspatregisters: '',
+                    patientid: '',
                 },
                 errors:{}
             }
@@ -186,21 +188,25 @@ import AppStorage from '../../Helpers/AppStorage';
             },
             getPatientInformation(){
                 axios.get('/api/getPxInfo/'+this.$route.params.id)
-                .then(({data}) => ( this.user_info = data))
+                .then(({data}) => ( 
+                    this.user_info = data,
+                    this.form.patientid = this.user_info.patientid
+                ))
                 .catch()
             },
             editForm(){                
                 let id = this.$route.params.id
                 axios.get('/api/getFormDetail/'+id)
                     .then(({ data }) => (
-                    console.log("l "+data?data:0),
                         this.form.o2_stat = !Object.keys(data).length === 0 ? this.form.o2_stat : data.o2_stat,  
                         this.form.temp = !Object.keys(data).length === 0 ? this.form.temp : data.temp,             
                         this.form.rr = !Object.keys(data).length === 0 ? this.form.rr : data.rr,             
                         this.form.bp = !Object.keys(data).length === 0 ? this.form.bp : data.bp,             
                         this.form.weight = !Object.keys(data).length === 0 ? this.form.weight : data.weight,             
                         this.form.height = !Object.keys(data).length === 0 ? this.form.height : data.height,             
-                        this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints                                 
+                        this.form.chiefcomplaints = !Object.keys(data).length === 0 ? this.form.chiefcomplaints : data.chiefcomplaints,   
+                        this.form.pulse_rate = !Object.keys(data).length === 0 ? this.form.pulse_rate : data.pulse_rate           
+                                                      
                 ))
                 .catch(console.log('error'))
             }

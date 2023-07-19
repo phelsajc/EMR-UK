@@ -8,7 +8,7 @@ class MedicineController extends Controller
 {
     public function searchMedicine(Request $request)
     {
-        $query = DB::connection('peds')->select("select * from bf_items where (itemdesc ILIKE '%$request->val%' OR genericname ILIKE '%$request->val%') and iscontroldrug = '0' and warehouse_id = '1075' limit 5");
+        $query = DB::connection('peds_uk')->select("select * from bf_items where (itemdesc ILIKE '%$request->val%' OR genericname ILIKE '%$request->val%') and iscontroldrug = '0' and warehouse_id = '1007' limit 5");
         $data = array();
         foreach ($query as $key => $value ) {
             $arr = array();
@@ -32,7 +32,7 @@ class MedicineController extends Controller
     }
     
     public function searchDiagnostic(Request $request){
-        $query = DB::connection('peds')->select("select * from bf_items_lab where itemdesc ILIKE '%$request->val%' or shortname ILIKE '%$request->val%'");
+        $query = DB::connection('peds_uk')->select("select * from bf_items_lab where itemdesc ILIKE '%$request->val%' or shortname ILIKE '%$request->val%'");
         $data = array();
         foreach ($query as $key => $value ) {
             $arr = array();
@@ -54,7 +54,7 @@ class MedicineController extends Controller
             $arr['rp'] = number_format(floatval($value->reg_price),2,'.','');
             $data_package = array();
             if($value->is_package==1){
-                $query_package = DB::connection('peds')->select("select * from package_detail where under_to_pk_iwitems = '$value->itemdesc'");                
+                $query_package = DB::connection('peds_uk')->select("select * from package_detail where under_to_pk_iwitems = '$value->itemdesc'");                
                 foreach ($query_package as $qp => $qp_value ) {
                     $arr_package = array();
                     $arr_package['description'] = $qp_value->description;
@@ -62,9 +62,10 @@ class MedicineController extends Controller
                 }
             }
             $arr['pkg'] = $data_package;
+            $arr['val'] = $request->val;
             $data[] = $arr;
         }
-        $output = array("data" => $data);
+        $output = array("data" => $data,"V"=>$request->val);
         return response()->json($data);
     }
     

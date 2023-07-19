@@ -19,6 +19,7 @@ let diagnose_from_dctr = require('./components/Forms/diagnose.vue').default
 
 let userslist = require('./components/users/index.vue').default
 let usersadd = require('./components/users/create.vue').default
+let profile = require('./components/users/profile.vue').default
 
 /*
     path, component & name should be the same inorder to work
@@ -41,7 +42,8 @@ export const routes = [
 
     //Users
     { path: '/userslist', component: userslist, name: 'userslist' },
-    { path: '/usersadd', component: usersadd, name: 'usersadd' },
+    { path: '/usersadd/:id', component: usersadd, name: 'usersadd' },
+    { path: '/profile', component: profile, name: 'profile' },
 ]
 
 

@@ -224,11 +224,20 @@ class PatientController extends Controller
         $dd=1;
         if($val!=''||$start>0){   
             $dd =  "select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start";
-            $data =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start");
-            $count =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+            //$data =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length offset $start"); 
+            $data =  DB::connection('pgsql')->select("select p.* from patients_1 p left join diagnose d on p.pk_pspatregisters = d.ps_patregisgter 
+            where p.patientname ilike '%".$val."%' and cast(p.registrydate as date) >= '".date("Y-m-d")."' order by d.id asc LIMIT $length offset $start");
+            
+            //$count =  DB::connection('pgsql')->select("select * from patients_1 where patientname ilike '%".$val."%' and cast(registrydate as date) >= '".date("Y-m-d")."' ");
+            $count =  DB::connection('pgsql')->select("select p.* from patients_1 p left join diagnose d on p.pk_pspatregisters = d.ps_patregisgter 
+            where p.patientname ilike '%".$val."%' and cast(p.registrydate as date) >= '".date("Y-m-d")."' order by d.id asc");
         }else{
-            $data =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
-            $count =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
+            /* $data =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."' LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select * from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'"); */
+            $data =  DB::connection('pgsql')->select("select p.* from patients_1 p left join diagnose d on p.pk_pspatregisters = d.ps_patregisgter 
+            where p.patientname ilike '%".$val."%' and cast(p.registrydate as date) >= '".date("Y-m-d")."' order by d.id asc LIMIT $length");
+            $count =  DB::connection('pgsql')->select("select p.* from patients_1 p left join diagnose d on p.pk_pspatregisters = d.ps_patregisgter 
+            where p.patientname ilike '%".$val."%' and cast(p.registrydate as date) >= '".date("Y-m-d")."' order by d.id asc");
         }
         
         $count_all_record =  DB::connection('pgsql')->select("select count(*) as count from patients_1 where cast(registrydate as date) >= '".date("Y-m-d")."'");
@@ -242,12 +251,13 @@ class PatientController extends Controller
             
             $check_medicines = Prescriptions_m::where(['pspat'=>$value->pk_pspatregisters])->get();
             $arr['patientname'] =  $value->patientname;
-            if($value->attending_phy){
+            /* if($value->attending_phy){
                 $physicians = DB::connection('bizbox_uk')->select("select dbo.udf_ConcatAllPatientsDoctor($value->pk_pspatregisters) as d"); 
                 $arr['attending_phy'] =  $physicians[0]->d;
             }else{
                 $arr['attending_phy'] =  "";
-            }
+            } */
+            $arr['attending_phy'] =  "";
             $arr['chiefcomplaint'] =  $value->chiefcomplaint;
             $arr['pk_pspatregisters'] =  $value->pk_pspatregisters;
             $arr['patientid'] =  $value->patientid;
@@ -259,156 +269,6 @@ class PatientController extends Controller
 
             $data_array[] = $arr;
         }
-        /* if($val!=''||$start>0){   
-            $data = DB::connection('bizbox_uk')->select("SELECT PK_psPatRegisters,
-            CAST(a.registrydate as varchar(30)) as registrydate,
-            a.chiefcomplaint,
-            CAST(dischdate as varchar(30)) as dischdate,
-            a.registrystatus,
-            dbo.udf_GetFullName(a.FK_emdPatients) PatientName,
-            dbo.udf_GetPatID(a.FK_emdPatients) HospitalNo,
-            d.gender,
-            d.civilstatus,
-            CAST(d.birthdate as varchar(30)) as birthdate,
-            eg.FK_mscICD10Mstr as icd10Code, eg.description as icd10Description,
-            (select
-                top 1
-                cc.PK_emdDoctors
-                from emdDoctors cc
-                inner join psDctrLedgers dd
-                on   dd.FK_emdDoctors = cc.PK_emdDoctors
-                where dd.fk_emdConsultantTypes = 1002
-                and   dd.FK_psPatRegisters  = a.PK_psPatRegisters) AS AttendingDoctor,
-            (select top 1 cc.PK_psDatacenter
-                from emddoctors aa
-                    inner join psdctrledgers bb
-                    on aa.pk_emddoctors = bb.fk_emddoctors
-                    inner join psdatacenter cc
-                    on aa.pk_emddoctors = cc.pk_psdatacenter
-                    where bb.fk_pspatregisters = a.PK_psPatRegisters and bb.fk_emdconsultanttypes = 1002) as dr_id
-            FROM psPatRegisters a
-            left join psPersonaldata d
-            on d.PK_psPersonalData = a.FK_emdPatients
-            left join psPatFinalDXDtls eg
-            on eg.FK_psPatRegisters = a.PK_psPatRegisters
-            WHERE a.pattrantype = 'O'
-            AND   (registrystatus <> 'D' and registrystatus <> 'X')
-            AND     dbo.udf_GetFullName(a.FK_emdPatients) like '%$val%'
-            AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
-            ORDER BY PatientName OFFSET $start ROWS FETCH NEXT $length ROWS ONLY
-            ");
-
-            $count =  DB::connection('bizbox_uk')->select("SELECT  PK_psPatRegisters,
-            CAST(a.registrydate as varchar(30)) as registrydate,
-            CAST(dischdate as varchar(30)) as dischdate,
-            a.registrystatus,
-            dbo.udf_GetFullName(a.FK_emdPatients) PatientName,
-            dbo.udf_GetPatID(a.FK_emdPatients) HospitalNo,
-            d.gender,
-            d.civilstatus,
-            CAST(d.birthdate as varchar(30)) as birthdate,
-            eg.FK_mscICD10Mstr as icd10Code, eg.description as icd10Description,
-            (select
-                top 1
-                cc.PK_emdDoctors
-                from emdDoctors cc
-                inner join psDctrLedgers dd
-                on   dd.FK_emdDoctors = cc.PK_emdDoctors
-                where dd.fk_emdConsultantTypes = 1002
-                and   dd.FK_psPatRegisters  = a.PK_psPatRegisters) AS AttendingDoctor,
-            (select top 1 cc.PK_psDatacenter
-                from emddoctors aa
-                    inner join psdctrledgers bb
-                    on aa.pk_emddoctors = bb.fk_emddoctors
-                    inner join psdatacenter cc
-                    on aa.pk_emddoctors = cc.pk_psdatacenter
-                    where bb.fk_pspatregisters = a.PK_psPatRegisters and bb.fk_emdconsultanttypes = 1002) as dr_id
-            FROM psPatRegisters a
-            left join psPersonaldata d
-            on d.PK_psPersonalData = a.FK_emdPatients
-            left join psPatFinalDXDtls eg
-            on eg.FK_psPatRegisters = a.PK_psPatRegisters
-            WHERE a.pattrantype = 'O'
-            AND   (registrystatus <> 'D' and registrystatus <> 'X')
-            AND     dbo.udf_GetFullName(a.FK_emdPatients) like '%$val%'
-            AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
-            ORDER BY PatientName");
-
-        }else{
-                $data = DB::connection('bizbox_uk')->select("SELECT TOP $length PK_psPatRegisters,
-                CAST(a.registrydate as varchar(30)) as registrydate,
-                a.chiefcomplaint,
-                CAST(dischdate as varchar(30)) as dischdate,
-                a.registrystatus,
-                dbo.udf_GetFullName(a.FK_emdPatients) PatientName,
-                dbo.udf_GetPatID(a.FK_emdPatients) HospitalNo,
-                d.gender,
-                d.civilstatus,
-                CAST(d.birthdate as varchar(30)) as birthdate,
-                eg.FK_mscICD10Mstr as icd10Code, eg.description as icd10Description,
-                (select
-                    top 1
-                    cc.PK_emdDoctors
-                    from emdDoctors cc
-                    inner join psDctrLedgers dd
-                    on   dd.FK_emdDoctors = cc.PK_emdDoctors
-                    where dd.fk_emdConsultantTypes = 1002
-                    and   dd.FK_psPatRegisters  = a.PK_psPatRegisters) AS AttendingDoctor,
-                (select top 1 cc.PK_psDatacenter
-                    from emddoctors aa
-                        inner join psdctrledgers bb
-                        on aa.pk_emddoctors = bb.fk_emddoctors
-                        inner join psdatacenter cc
-                        on aa.pk_emddoctors = cc.pk_psdatacenter
-                        where bb.fk_pspatregisters = a.PK_psPatRegisters and bb.fk_emdconsultanttypes = 1002) as dr_id
-                FROM psPatRegisters a
-                left join psPersonaldata d
-                on d.PK_psPersonalData = a.FK_emdPatients
-                left join psPatFinalDXDtls eg
-                on eg.FK_psPatRegisters = a.PK_psPatRegisters
-                WHERE a.pattrantype = 'O'
-                AND   (registrystatus <> 'D' and registrystatus <> 'X')
-                AND     dbo.udf_GetFullName(a.FK_emdPatients) like '%$val%'
-                AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
-                ORDER BY PatientName 
-                ");
-
-            $count =  DB::connection('bizbox_uk')->select("SELECT  PK_psPatRegisters,
-            CAST(a.registrydate as varchar(30)) as registrydate,
-            CAST(dischdate as varchar(30)) as dischdate,
-            a.registrystatus,
-            dbo.udf_GetFullName(a.FK_emdPatients) PatientName,
-            dbo.udf_GetPatID(a.FK_emdPatients) HospitalNo,
-            d.gender,
-            d.civilstatus,
-            CAST(d.birthdate as varchar(30)) as birthdate,
-            eg.FK_mscICD10Mstr as icd10Code, eg.description as icd10Description,
-            (select
-                  top 1
-                  cc.PK_emdDoctors
-                from emdDoctors cc
-                  inner join psDctrLedgers dd
-                   on   dd.FK_emdDoctors = cc.PK_emdDoctors
-                where dd.fk_emdConsultantTypes = 1002
-                  and   dd.FK_psPatRegisters  = a.PK_psPatRegisters) AS AttendingDoctor,
-            (select top 1 cc.PK_psDatacenter
-                from emddoctors aa
-                    inner join psdctrledgers bb
-                    on aa.pk_emddoctors = bb.fk_emddoctors
-                    inner join psdatacenter cc
-                    on aa.pk_emddoctors = cc.pk_psdatacenter
-                    where bb.fk_pspatregisters = a.PK_psPatRegisters and bb.fk_emdconsultanttypes = 1002) as dr_id
-            FROM psPatRegisters a
-            left join psPersonaldata d
-            on d.PK_psPersonalData = a.FK_emdPatients
-            left join psPatFinalDXDtls eg
-            on eg.FK_psPatRegisters = a.PK_psPatRegisters
-            WHERE a.pattrantype = 'O'
-            AND   (registrystatus <> 'D' and registrystatus <> 'X')
-            AND     dbo.udf_GetFullName(a.FK_emdPatients) like '%$val%'
-            AND registrydate between cast(convert(char(30), getdate(), 112) + ' 00:00:00' as datetime) and cast(convert(char(30), getdate(), 112) + ' 23:59:59' as datetime)
-            ORDER BY PatientName");
-        } */
         $page = sizeof($count)/$length;
         $getDecimal =  explode(".",$page);
         $page_count = round(sizeof($count)/$length);
@@ -440,6 +300,7 @@ class PatientController extends Controller
             $diagnosis->height = $request->height;
             $diagnosis->chiefcomplaints = $request->chiefcomplaints;
             $diagnosis->pulse_rate = $request->pulse_rate;
+            $diagnosis->patientid = $request->patientid;
             $diagnosis->rr = $request->rr;
             $diagnosis->ps_patregisgter = $request->pspat;
             $diagnosis->inserted_initial_data_dt = date("Y-m-d H:i");
@@ -480,6 +341,7 @@ class PatientController extends Controller
             'history'=> $request->historyPe,
             'diagosis'=> $request->diagnosis,
             'pe'=> $request->pe,
+            'remarks'=> $request->remarks,
             'doctor'=>  $getUser->name,
         ]);
         return $request->pspat;

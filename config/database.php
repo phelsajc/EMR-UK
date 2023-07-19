@@ -113,6 +113,18 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'peds_uk' => array(
+            'driver'   => 'pgsql',
+            'host'     => '192.168.70.99',
+            //'database' => 'peds',
+            'database' => 'peds_uk',
+            'username' => 'postgres',
+            'password' => 'pgadmin888!?',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ),
+
         'bizbox' => [
             'driver' => 'sqlsrv',
             //'host' => env('DB_HOST_SQLSRV', '192.168.70.53'),
